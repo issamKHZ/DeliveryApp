@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "primeicons/primeicons.css";
+@import 'styles/variables.scss';
+@import 'styles/themes-overriding/buttons.scss';
+@import 'styles/themes-overriding/input.scss';
+@import 'styles/themes-overriding/card.scss';
+
+
+:root {
+  /* Typographie */
+  --font-family: 'Inter', sans-serif;
+
+  /* Titres */
+  --title-size: 24px;
+  --subtitle-size: 18px;
+  --text-size: 15px;
+  --small-text-size: 12px;
+
+  --text-weight: 300;
+}
+
+/* Reset / base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  color: $color-text !important;
+  font-weight: var(--text-weight) !important;
+  font-family: var(--font-family);
+  font-size: var(--text-size);
+  height: 100%;
+  line-height: 1.5;
+}
+
+/* Titres */
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: var(--title-size);
+}
+
+h2 {
+  font-size: var(--subtitle-size);
+}
+
+p {
+  font-size: var(--text-size);
+}
+
+/* Liens */
+a {  
+  color: $color-primary-dark;
+  // text-decoration: none;
+}
+
+.p-button {   
+  color: $color-surface;
+  background: $color-primary;
+}
+

@@ -1,0 +1,13 @@
+@import '../styles/variables.scss';
+
+.app-container {
+    background-color: $color-background;
+    height: 100vh;    
+    display: flex;
+    flex-direction: column;    
+    color: $color-text !important;
+}
+
+.white-background {
+    background-color: white;
+}

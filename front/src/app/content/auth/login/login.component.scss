@@ -1,0 +1,45 @@
+@import '../../../../styles/variables.scss';
+
+::ng-deep {
+    .login-card {
+        width: 100%;
+        padding: 2.5rem;
+        border-radius: 12px;
+    }
+    
+    
+    
+    .error {
+    color: red;
+    font-size: 0.875rem;
+    }        
+    
+    .w-full {
+    width: 100%;
+    }
+
+    .pwd-visibility{
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .pwd-field {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .form-group {
+        width: 400px;
+    }
+
+    .p-checkbox {
+        display: flex !important;
+    }
+
+    @media (max-width: 768px) {
+        .form-group {
+            width: 100%;
+        }
+    }
+    
+}

@@ -1,0 +1,5 @@
+@import '../variables.scss';
+
+.p-inputtext:enabled:focus {
+    border-color: $color-primary-hover !important;
+}

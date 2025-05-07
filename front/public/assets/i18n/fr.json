@@ -1,0 +1,37 @@
+{
+    "app": {
+        "name": "IGDelivery",
+        "auth": {
+            "login": {
+                "header": "Connexion",
+                "forms": {
+                    "ident": {
+                        "label": "Adresse mail",
+                        "placeholder": "Saisir ton email",
+                        "errors": {
+                            "email-required": "L'email est requis",
+                            "email-not-valid": "Format valid xxxx@xxx.xxx"
+                        }
+                    },
+                    "pwd": {
+                        "label": "Mot de passe",
+                        "placeholder": "Saisir ton mot de passe",
+                        "errors": {
+                            "password-required": "Le mot de passe est requis"                            
+                        }
+                    },
+                    "remember-me": "Souvenez de moi",
+                    "forget-pwd": "Mot de passe oublié"
+                },
+                "button": {
+                    "label": "Se connecter"
+                },
+                "question": {
+                    "no-account": "Vous n'avez pas de compte ?",
+                    "register": "s'inscrire",
+                    "ici": "ici"
+                }
+            }
+        }
+    }
+}

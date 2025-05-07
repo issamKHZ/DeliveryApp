@@ -1,0 +1,47 @@
+<p-card class="login-card">
+    <div class="flex justify-content-center mb-3">
+        <h1>{{'app.auth.login.header' | translate}}</h1>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="login()">
+    <div class="form-group">
+        <label for="email">{{"app.auth.login.forms.ident.label" | translate}}</label>
+        <input pInputText id="email" type="email" placeholder="{{'app.auth.login.forms.ident.placeholder' | translate}}" formControlName="email" class="w-full" />
+        <div *ngIf="form.controls['email'].invalid && form.controls['email'].touched" class="error">
+        <small *ngIf="form.controls['email'].errors?.['required']">{{'app.auth.login.forms.ident.errors.email-required' | translate}}</small>
+        <small *ngIf="form.controls['email'].errors?.['email']">{{'app.auth.login.forms.ident.errors.email-not-valid' | translate}}</small>
+        </div>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="password">{{"app.auth.login.forms.pwd.label" | translate}}</label>
+        <div class="flex">
+        <input pInputText id="password" [type]="passwordVisible ? 'text' : 'password'" placeholder="{{'app.auth.login.forms.pwd.placeholder' | translate}}" formControlName="password" class="pwd-field w-full" />
+        <button type="button" pButton icon="pi" [icon]="passwordVisible ? 'pi pi-eye-slash' : 'pi pi-eye'" (click)="togglePasswordVisibility()" class="pwd-visibility"></button>
+        </div>
+        <div *ngIf="form.controls['password'].invalid && form.controls['password'].touched" class="error">
+        <small>{{'app.login.page-login.errors.password-required' | translate}}</small>
+        </div>
+    </div>
+
+    <div class="flex align-items-center mt-3 remember-me">
+        <p-checkbox class="custom-checkbox" formControlName="remember" binary="true" class="mr-2" [dt]="tokensCheckboxPerso"></p-checkbox>
+        <label for="remember" class="flex align-items-center">{{"app.auth.login.forms.remember-me" | translate}}</label>
+    </div>
+
+    <div class="text-right mt-3">
+        <a routerLink="/forgot-password" class="font-medium text-blue-500">{{'app.auth.login.forms.forget-pwd' | translate}}</a>
+    </div>
+
+    <button pButton (click)="login()" type="submit" label="{{'app.auth.login.button.label' | translate}}" icon="pi pi-sign-in" class="w-full mt-4"></button>
+    </form>
+
+    <div class="text-center mt-3">
+    {{"app.auth.login.question.no-account" | translate}} <a routerLink="/register" class="font-medium text-blue-500">{{"app.auth.login.question.register" | translate}}</a> {{"app.auth.login.question.ici" | translate}}
+    </div>
+
+    <p-messages severity="error" *ngIf="showErrors">
+    <ng-template pTemplate>            
+        <div class="ml-2">{{"app.login.page-login.errors.bad-credentials" | translate}}</div>
+    </ng-template>
+    </p-messages>
+</p-card>
