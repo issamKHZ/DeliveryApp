@@ -4,6 +4,8 @@
 @import 'styles/themes-overriding/buttons.scss';
 @import 'styles/themes-overriding/input.scss';
 @import 'styles/themes-overriding/card.scss';
+@import 'styles/themes-overriding/select.scss';
+@import 'styles/themes-overriding//password.scss';
 
 
 :root {
@@ -14,9 +16,11 @@
   --title-size: 24px;
   --subtitle-size: 18px;
   --text-size: 15px;
+  --text-large-size: 17px;
   --small-text-size: 12px;
 
-  --text-weight: 300;
+  --text-weight: 300;  
+  
 }
 
 /* Reset / base */
@@ -63,3 +67,10 @@ a {
   background: $color-primary;
 }
 
+.dark-title {
+  color: $color-primary-dark !important;
+}
+
+.text-lg {
+  font-size: var(--text-large-size) !important;
+}

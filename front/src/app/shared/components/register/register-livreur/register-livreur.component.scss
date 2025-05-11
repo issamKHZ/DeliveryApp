@@ -1,0 +1,83 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+    .login-card {
+        width: 100%;
+        max-width: 700px;
+        padding: 2rem;
+    }
+
+    .error {
+        color: red;
+        font-size: 0.875rem;
+    }
+
+    .warning {
+        color: orange;
+        font-size: 0.875rem;
+    }
+
+    .flex {
+        display: flex;
+    }    
+
+    .min-h-screen {
+        min-height: 100vh;
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    .pwd-visibility {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .pwd-field {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .col-6 {
+        padding-left: 0;
+    }
+
+    .p-button {
+        background-color: #249b65;
+        border-color: #249b65;
+    }
+
+
+    .register-card .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .editFormStyle {
+        font-weight: bold;
+
+        .p-inputtext {
+            font-weight: bold;
+        }
+    }
+
+    .p-custom-select {
+        border-radius: 6px 0 0 6px !important;
+        width: 80px !important;
+        background-color: #f0fdff !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .p-custom-input .p-inputtext {
+        border-radius: 0 6px 6px 0 !important;
+    }
+}

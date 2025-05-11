@@ -7,7 +7,11 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -31,7 +35,8 @@
                 "input": "public"
               }
             ],
-            "styles": [              
+            "styles": [
+              "node_modules/intl-tel-input/build/css/intlTelInput.css",
               "node_modules/primeflex/primeflex.css",
               "src/styles.scss"
             ],

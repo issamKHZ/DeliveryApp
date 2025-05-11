@@ -6,7 +6,7 @@ import { AuthComponent } from "./content/auth/auth.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ButtonModule, AuthComponent],
+  imports: [RouterOutlet, ButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

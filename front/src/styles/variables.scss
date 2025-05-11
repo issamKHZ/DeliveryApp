@@ -4,7 +4,12 @@ $color-primary-hover: #02a3c4;
 $color-primary-dark: #0077B6;
 $color-primary-darker: #264653;
 $color-primary-light: #90E0EF;
-$color-background: rgba(246, 253, 255, 0.94);
+//linear-gradient(135deg, rgba(246, 253, 255, 0.94) 0%, rgba(213, 243, 252, 0.94) 100%)
+
+$color-button: linear-gradient(90deg, #00b4d8 0%, #009fc1 100%);
+
+$color-select-options: #00627A;
+
 
 $color-text: #1d3237;
 $color-text-secondary: #6C757D;
@@ -14,6 +19,11 @@ $color-success: #06D6A0;
 $color-error: #EF476F;
 $color-warning: #FFD166;
 
+// backgrounds
+$color-background: linear-gradient(135deg, rgba(246, 253, 255, 0.94) 0%, rgba(225, 243, 248, 0.94) 100%);
+$color-select-options-background: #D1F5FB;
+$color-input-background: rgb(251 253 253 / 94%);
+$color-card-background: rgb(245 253 255 / 94%);
 
 
 /* Titres */

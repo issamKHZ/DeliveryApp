@@ -1,5 +1,5 @@
-<p-card class="login-card">
-    <div class="flex justify-content-center mb-3">
+<p-card class="login-card" *ngIf="loginPanel else forgotPwdTemplate">
+    <div class="flex justify-content-center mb-4">
         <h1>{{'app.auth.login.header' | translate}}</h1>
     </div>
     <form [formGroup]="form" (ngSubmit)="login()">
@@ -8,7 +8,7 @@
         <input pInputText id="email" type="email" placeholder="{{'app.auth.login.forms.ident.placeholder' | translate}}" formControlName="email" class="w-full" />
         <div *ngIf="form.controls['email'].invalid && form.controls['email'].touched" class="error">
         <small *ngIf="form.controls['email'].errors?.['required']">{{'app.auth.login.forms.ident.errors.email-required' | translate}}</small>
-        <small *ngIf="form.controls['email'].errors?.['email']">{{'app.auth.login.forms.ident.errors.email-not-valid' | translate}}</small>
+        <small *ngIf="form.controls['email'].errors?.['customEmail']">{{'app.auth.login.forms.ident.errors.email-not-valid' | translate}}</small>
         </div>
     </div>
 
@@ -19,7 +19,7 @@
         <button type="button" pButton icon="pi" [icon]="passwordVisible ? 'pi pi-eye-slash' : 'pi pi-eye'" (click)="togglePasswordVisibility()" class="pwd-visibility"></button>
         </div>
         <div *ngIf="form.controls['password'].invalid && form.controls['password'].touched" class="error">
-        <small>{{'app.login.page-login.errors.password-required' | translate}}</small>
+        <small>{{'app.auth.login.forms.pwd.errors.password-required' | translate}}</small>
         </div>
     </div>
 
@@ -29,14 +29,16 @@
     </div>
 
     <div class="text-right mt-3">
-        <a routerLink="/forgot-password" class="font-medium text-blue-500">{{'app.auth.login.forms.forget-pwd' | translate}}</a>
+        <a (click)="toogleForgotPwd()" class="font-medium underline cursor-pointer text-blue-500">{{'app.auth.login.forms.forget-pwd' | translate}}</a>
     </div>
 
     <button pButton (click)="login()" type="submit" label="{{'app.auth.login.button.label' | translate}}" icon="pi pi-sign-in" class="w-full mt-4"></button>
     </form>
 
     <div class="text-center mt-3">
-    {{"app.auth.login.question.no-account" | translate}} <a routerLink="/register" class="font-medium text-blue-500">{{"app.auth.login.question.register" | translate}}</a> {{"app.auth.login.question.ici" | translate}}
+      {{"app.auth.login.question.no-account" | translate}}  
+      {{"app.auth.login.question.register" | translate}}
+      <a (click)="toogleToRegister()" class="font-medium underline cursor-pointer text-blue-500">{{"app.auth.login.question.ici" | translate}}</a>    
     </div>
 
     <p-messages severity="error" *ngIf="showErrors">
@@ -45,3 +47,43 @@
     </ng-template>
     </p-messages>
 </p-card>
+<ng-template #forgotPwdTemplate>
+    <p-card class="login-card">
+        <div class="flex flex-column align-items-center justify-content-center mb-4 text-center">
+          <h1 class="mb-3">{{'app.auth.forgot-pwd.header' | translate}}</h1>
+          <p style="white-space: normal; max-width: 400px; width: 100%; padding-bottom: 20px;">
+            {{'app.auth.forgot-pwd.description' | translate}}
+          </p>
+        </div>
+      
+        <form [formGroup]="formPwdRecovery" style="max-width: 400px; margin: auto;" (ngSubmit)="recover()">
+          <div class="form-group">
+            <p-floatlabel variant="on">
+                <input
+                    pInputText
+                    id="email"
+                    type="email"
+                    formControlName="email"                    
+                    class="w-full"
+                />    
+                <label for="email">{{'app.auth.forgot-pwd.form.mail.label' | translate}}</label>
+            </p-floatlabel>                    
+            <div *ngIf="formPwdRecovery.controls['email'].invalid && formPwdRecovery.controls['email'].touched" class="error">
+                <small *ngIf="formPwdRecovery.controls['email'].errors?.['required']">{{'app.auth.forgot-pwd.form.mail.errors.required' | translate}}</small>
+                <small *ngIf="formPwdRecovery.controls['email'].errors?.['customEmail']">{{'app.auth.forgot-pwd.form.mail.errors.invalid' | translate}}</small>
+            </div>            
+          </div>
+          <button
+            pButton
+            type="submit"
+            label="{{'app.auth.forgot-pwd.button.label' | translate}}"
+            icon="pi pi-envelope"
+            class="w-full mt-3"            
+          ></button>
+        </form>
+      
+        <div class="text-center mt-3">
+          <a (click)="toogleForgotPwd()" class="underline cursor-pointer text-blue-500">{{'app.auth.forgot-pwd.href' | translate}}</a>
+        </div>
+      </p-card>      
+</ng-template>

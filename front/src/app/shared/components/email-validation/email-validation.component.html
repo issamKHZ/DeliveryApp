@@ -1,0 +1,33 @@
+<div class="email-verification-container">
+  <div class="verification-card p-card">
+    <div class="p-d-flex p-jc-center p-mb-4 flex justify-content-center">
+      <i class="pi pi-envelope envelope" style="font-size: 3rem"></i>
+    </div>
+
+    <div class="envelope mt-1 mb-2">
+      <h1 class="text-center mb-3">{{'app.email-validation.title' | translate}}</h1>
+    </div>
+
+    <p class="text-center mb-5">
+      {{'app.email-validation.descriptif.1' | translate}}
+    </p>
+
+    <p class="text-center mb-5">
+      {{'app.email-validation.descriptif.2' | translate}}
+    </p>
+
+    <div class="flex justify-content-center">
+      <button
+        pButton
+        type="button"
+        icon="pi pi-send"
+        [disabled]="countdown > 0"
+        (click)="onButtonClick()"
+        class="p-button-raised custom-disabled"
+        [label]="countdown > 0 
+          ? ( 'app.email-validation.countdown.1' | translate ) + countdown + ( 'app.email-validation.countdown.2' | translate ) 
+          : ( 'app.email-validation.send-mail' | translate )"
+      ></button>
+    </div>
+  </div>
+</div>

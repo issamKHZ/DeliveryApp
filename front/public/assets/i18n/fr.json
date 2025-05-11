@@ -10,7 +10,7 @@
                         "placeholder": "Saisir ton email",
                         "errors": {
                             "email-required": "L'email est requis",
-                            "email-not-valid": "Format valid xxxx@xxx.xxx"
+                            "email-not-valid": "Format valide : xxxx@xxx.xxx"
                         }
                     },
                     "pwd": {
@@ -31,7 +31,195 @@
                     "register": "s'inscrire",
                     "ici": "ici"
                 }
+            },
+            "forgot-pwd": {
+                "header": "Réinitialiser votre mot de passe",
+                "description": "Si un compte est associé à cette adresse email, vous recevrez un lien de réinitialisation.",
+                "form": {
+                    "mail": {
+                        "label": "Adresse mail",
+                        "placeholder": "Entrez votre email",
+                        "errors": {
+                            "required": "L'email est requis",
+                            "invalid": "Format valide : xxxx@xxx.xxx"
+                        }                        
+                    }
+                },
+                "button": {
+                    "label": "Envoyer le lien"
+                },
+                "href": "Retour à la connexion"
+            },
+            "register": {
+                "register-options": {
+                    "header": "S'inscrire autant que",
+                    "profiles": {
+                        "entrep": "Propriétaire d'entreprise",
+                        "livreur": "Livreur"
+                    },
+                    "href": "Revenir au connexion"
+                },
+                "register-entreprise": {
+                    "header": "Inscription (Entreprise)",
+                    "form": {
+                        "name": {
+                            "label": "Nom d'entreprise",
+                            "placeholder": "Saisir le nom d'entreprise",
+                            "errors": {
+                                "required": "Le nom de l'entreprise est requis"
+                            }
+                        },
+                        "mail": {
+                            "label": "Adresse mail d'entreprise",
+                            "placeholder": "Saisir l'email",
+                            "errors": {
+                                "required": "L'email' est requis",
+                                "email-not-valid": "Format valide : xxxx@xxx.xxx"
+                            }
+                        },
+                        "pwd": {
+                            "label": "Mot de passe",
+                            "placeholder": "Saisir le mot de passe",
+                            "errors": {
+                                "required": "Le mot de passe est requis"
+                            }
+                        },
+                        "pwd-confirmation": {
+                            "label": "Confirmation",
+                            "placeholder": "Confirmer le mot de passe",
+                            "errors": {
+                                "required": "Veuillez confirmer le mot de passe",
+                                "not-same": "Le mot de passe n'est pas identique"
+                            }
+                        },
+                        "adresse": {
+                            "label": "Adresse principale d'entreprise",
+                            "placeholder": "Saisir l'adresse",
+                            "errors": {
+                                "required": "L'adresse est requis"
+                            }
+                        },
+                        "code-postal": {
+                            "label": "Code postal",
+                            "errors": {
+                                "required": "Le code postal est requis"
+                            }
+                        },
+                        "ville": {
+                            "label": "Ville",                            
+                            "errors": {
+                                "required": "La ville est requis"
+                            }
+                        },
+                        "phone": {
+                            "label": "N° Telephone",                            
+                            "errors": {
+                                "required": "Le N° de telephone est requis"
+                            },
+                            "tooltip": "Le N° de telephone du responsable ou de l'assistance"
+                        }
+                    },
+                    "button": {
+                        "label": "Inscrivez-vous!",
+                        "tooltip": "Veuillez complèter tous les champs"
+                    },
+                    "href":"Changer le profil"
+                },
+                "register-livreur": {
+                    "header": "Inscription (Livreur)",
+                    "form": {
+                        "name": {
+                            "label": "Prénom",
+                            "placeholder": "Saisir le prénom",
+                            "errors": {
+                                "required": "Le prénom est requis"
+                            }
+                        },
+                        "lastname": {
+                            "label": "Nom",
+                            "placeholder": "Saisir le nom",
+                            "errors": {
+                                "required": "Le nom est requis"
+                            }
+                        },
+                        "mail": {
+                            "label": "Adresse mail",
+                            "placeholder": "Saisir l'email",
+                            "errors": {
+                                "required": "L'email' est requis",
+                                "email-not-valid": "Format valide : xxxx@xxx.xxx"
+                            }
+                        },
+                        "pwd": {
+                            "label": "Mot de passe",
+                            "placeholder": "Saisir le mot de passe",
+                            "errors": {
+                                "required": "Le mot de passe est requis"
+                            }
+                        },
+                        "pwd-confirmation": {
+                            "label": "Confirmation",
+                            "placeholder": "Confirmer le mot de passe",
+                            "errors": {
+                                "required": "Veuillez confirmer le mot de passe",
+                                "not-same": "Le mot de passe n'est pas identique"
+                            }
+                        },
+                        "vehicle": {
+                            "label": "Type de vehicule",                            
+                            "errors": {
+                                "required": "Ce champs est requis"
+                            }
+                        },
+                        "age": {
+                            "label": "Âge",
+                            "errors": {
+                                "required": "L'age est requis"
+                            }
+                        },
+                        "phone": {
+                            "label": "N° Telephone",                            
+                            "errors": {
+                                "required": "Le N° de telephone est requis"
+                            }
+                        }
+                    },
+                    "button": {
+                        "label": "Inscrivez-vous!",
+                        "tooltip": "Veuillez complèter tous les champs"
+                    },
+                    "href":"Changer le profil"
+                },
+                "common": {
+                    "password": {
+                        "feedback": {
+                            "prompt": "Entrer un mot de passe",
+                            "weak": "faible",
+                            "medium": "moyen",
+                            "strong": "fort"
+                        },
+                        "conditions": {
+                            "1": "Au minimum 8 caractères",
+                            "2": "Au moins une lettre minuscule",
+                            "3": "Au moins une lettre majuscule",
+                            "4": "Au moins un chiffre",
+                            "5": "Au moins un caractère spécial"
+                        }
+                    }
+                }
             }
+        },
+        "email-validation": {
+            "title": "Vérifiez votre mail",
+            "descriptif": {
+                "1": "Veuillez vérifier votre adresse email en cliquant sur le lien que nous vous avons envoyé.",
+                "2": "Si vous n'avez pas reçu l'email, cliquez ci-dessous pour le renvoyer"
+            },
+            "countdown": {
+                "1": "Vous pouvez renvoyer le mail après (",
+                "2": ") s"
+            },
+            "send-mail": "Renvoyer l'email"
         }
     }
 }

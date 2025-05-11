@@ -1,0 +1,57 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+    .register-card {
+        width: 100%;
+        max-width: 700px;
+        padding: 2rem;        
+    }
+
+    .error {
+        color: red;
+        font-size: 0.875rem;
+    }
+
+    .warning {
+        color: orange;
+        font-size: 0.875rem;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .min-h-screen {
+        min-height: 100vh;
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    .pwd-visibility {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .pwd-field {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .col-6 {
+        padding-left: 0;
+    }
+    
+    .small-text {
+        font-size: $small-text-size;
+    }
+}

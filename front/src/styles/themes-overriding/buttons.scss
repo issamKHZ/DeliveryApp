@@ -1,7 +1,7 @@
 @import '../variables.scss';
 
 .p-button {   
-    color: $color-surface;
+    color: $color-surface !important;
     background: $color-primary !important;
     border-color: $color-primary !important;
 }

@@ -1,0 +1,17 @@
+<div class="settings-container">
+    <h2 class="dark-title">{{'app.auth.register.register-options.header' | translate }}</h2>
+    <ul class="settings-list text-lg">
+      <li (click)="registerAsEntreprise()">
+        {{'app.auth.register.register-options.profiles.entrep' | translate }}      
+        <i class="pi pi-chevron-right icon"></i>
+      </li>
+      <li (click)="registerAsLivreur()">
+        {{'app.auth.register.register-options.profiles.livreur' | translate }}
+        <i class="pi pi-chevron-right"></i>
+      </li>     
+    </ul>
+    <div class="mt-6 text-lg underline cursor-pointer text-blue-500">
+        <a (click)="toggleToLogin()">{{'app.auth.register.register-options.href' | translate }}</a>
+    </div>
+</div>
+  

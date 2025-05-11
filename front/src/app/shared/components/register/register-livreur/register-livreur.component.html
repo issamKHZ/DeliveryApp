@@ -1,0 +1,166 @@
+<p-card class="register-card">
+    <div class="flex justify-content-center mb-4">
+        <h1>{{'app.auth.register.register-livreur.header' | translate}}</h1>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="register()">
+        <div class="flex gap-2">
+            <div class="form-group col-6">
+                <label for="lname">{{"app.auth.register.register-livreur.form.name.label" | translate}}</label>
+                <input pInputText id="lname" type="text"
+                    placeholder="{{'app.auth.register.register-livreur.form.name.placeholder' | translate}}"
+                    formControlName="lname" class="w-full" />
+                <div *ngIf="form.controls['lname'].invalid && form.controls['lname'].touched" class="error">
+                    <small
+                        *ngIf="form.controls['lname'].errors?.['required']">{{'app.auth.register.register-livreur.form.name.errors.required'
+                        | translate}}</small>
+                </div>
+            </div>
+
+            <div class="form-group col-6">
+                <label for="llastname">{{"app.auth.register.register-livreur.form.lastname.label" | translate}}</label>
+                <input pInputText id="llastname" type="text"
+                    placeholder="{{'app.auth.register.register-livreur.form.lastname.placeholder' | translate}}"
+                    formControlName="llastname" class="w-full" />
+                <div *ngIf="form.controls['llastname'].invalid && form.controls['llastname'].dirty" class="error">
+                    <small
+                        *ngIf="form.controls['llastname'].errors?.['required']">{{'app.auth.register.register-livreur.form.lastname.errors.required'
+                        | translate}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="lemail">{{"app.auth.register.register-livreur.form.mail.label" | translate}}</label>
+            <input pInputText id="lemail" type="email"
+                placeholder="{{'app.auth.register.register-livreur.form.mail.placeholder' | translate}}"
+                formControlName="lemail" class="w-full" />
+            <div *ngIf="form.controls['lemail'].invalid && form.controls['lemail'].dirty" class="error">
+                <small
+                    *ngIf="form.controls['lemail'].errors?.['required']">{{'app.auth.register.register-livreur.form.mail.errors.required'
+                    | translate}}</small>
+                <small
+                    *ngIf="form.controls['lemail'].errors?.['email']">{{'app.auth.register.register-livreur.form.mail.errors.email-not-valid'
+                    | translate}}</small>
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <div class="form-group mt-3 col-6">
+                <label for="lpassword">{{"app.auth.register.register-livreur.form.pwd.label" | translate}}</label>
+                <div class="flex">
+                    <p-password autocomplete="new-password"
+                        [promptLabel]="'app.auth.register.common.password.feedback.prompt' | translate"
+                        [weakLabel]="'app.auth.register.common.password.feedback.weak' | translate"
+                        [mediumLabel]="'app.auth.register.common.password.feedback.medium' | translate"
+                        [strongLabel]="'app.auth.register.common.password.feedback.strong' | translate"
+                        [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                        placeholder="{{'app.auth.register.register-entreprise.form.pwd.placeholder' | translate}}"
+                        formControlName="lpassword" [feedback]="true" [toggleMask]="true" class="pwd-field w-full">
+                        <ng-template pTemplate="header">
+
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <p-divider />
+                            <ul class="pl-2 ml-2 my-0 small-text">
+                                <li>{{'app.auth.register.common.password.conditions.1' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.2' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.3' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.4' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.5' | translate}}</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                </div>
+                <div *ngIf="form.controls['lpassword'].invalid && form.controls['lpassword'].dirty" class="error">
+                    <small
+                        *ngIf="form.controls['lpassword'].errors?.['required']">{{'app.auth.register.register-livreur.form.pwd.errors.required'
+                        | translate}}</small>
+                </div>
+            </div>
+
+            <div class="form-group mt-3 mb-3 col-6">
+                <label for="lpasswordConf">{{"app.auth.register.register-livreur.form.pwd-confirmation.label" |
+                    translate}}</label>
+                <div class="flex">
+                    <p-password autocomplete="new-password" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                        placeholder="{{'app.auth.register.register-livreur.form.pwd-confirmation.placeholder' | translate}}"
+                        formControlName="lpasswordConf" [feedback]="false" [toggleMask]="true"
+                        class="pwd-field w-full" />
+                </div>
+                <div *ngIf="form.controls['lpasswordConf'].invalid && form.controls['lpasswordConf'].dirty"
+                    class="error">
+                    <small>{{'app.auth.register.register-livreur.form.pwd-confirmation.errors.required' |
+                        translate}}</small>
+                </div>
+                <div *ngIf="!form.controls['lpasswordConf'].invalid && !matchPwd() && (form.controls['lpasswordConf'].dirty || form.dirty)"
+                    class="warning">
+                    <small>{{'app.auth.register.register-livreur.form.pwd-confirmation.errors.not-same' |
+                        translate}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex ">
+            <div class="form-group mt-3 col-2">
+                <label for="lage">{{"app.auth.register.register-livreur.form.age.label" | translate}}</label>
+                <div class="flex">
+                    <p-inputnumber formControlName="lage" [showButtons]="true" [min]="18" class="w-full" />
+                </div>
+                <div *ngIf="form.controls['lage'].errors?.['required'] && form.controls['lage'].touched" class="error">
+                    <small>{{'app.auth.register.register-livreur.form.age.errors.required' | translate}}</small>
+                </div>
+            </div>
+
+            <div class="form-group mt-3 col-4">
+                <label for="lvehicle">{{"app.auth.register.register-livreur.form.vehicle.label" | translate}}</label>
+                <div class="flex">
+                    <p-select id="lvehicle" formControlName="lvehicle" [options]="vehicles" optionLabel="name"
+                        class="w-full md:w-56" />
+
+                </div>
+                <div *ngIf="form.controls['lvehicle'].invalid && form.controls['lvehicle'].dirty" class="error">
+                    <small>{{'app.auth.register.register-livreur.form.vehicle.errors.required' | translate}}</small>
+                </div>
+            </div>
+            <div class="form-group mt-3 col-6">
+                <label for="lphone">{{"app.auth.register.register-livreur.form.phone.label" | translate}}</label>
+                <p-inputgroup class="custom-placeholder">
+                    <p-inputgroup-addon class="flex gap-2">
+                        <img [src]="'https://flagcdn.com/w20/' + country?.flag" style="width: 18px" />
+                        {{country?.indicatif}}
+                    </p-inputgroup-addon>
+                    <input pInputText appDigitSpacerLimited formControlName="lphone"
+                        [placeholder]="country?.placeholder" />
+                </p-inputgroup>
+                <div *ngIf="form.controls['lphone'].invalid && form.controls['lphone'].dirty" class="error">
+                    <small>{{'app.auth.register.register-livreur.form.phone.errors.required' | translate}}</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex gap-2 ml-2 align-items-center">
+            <i (click)="toogleToChoices()" class="pi pi-angle-double-left text-blue-500"></i>
+            <a (click)="toogleToChoices()"
+                class="font-medium underline cursor-pointer text-blue-500">{{"app.auth.register.register-livreur.href" |
+                translate}}</a>
+        </div>
+
+        <button pButton type="submit" label="{{'app.auth.register.register-livreur.button.label' | translate}}"
+            class="w-full mt-4"></button>
+    </form>
+    <p-messages severity="success" *ngIf="showRegistration">
+        <ng-template pTemplate>
+            <div class="ml-2">{{'app.login.page-register.success.first' | translate}}
+                <a routerLink="/login" class="font-medium text-blue-500"
+                    style="cursor: pointer;">{{"app.login.button-login" | translate}}</a>
+            </div>
+        </ng-template>
+    </p-messages>
+    <p-messages severity="error" *ngIf="showErrors">
+        <ng-template pTemplate>
+            <div class="ml-2">{{error}}</div>
+        </ng-template>
+    </p-messages>
+
+</p-card>

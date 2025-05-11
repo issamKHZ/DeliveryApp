@@ -1,0 +1,20 @@
+@import '../variables.scss';
+
+.p-select {
+    line-height: normal !important;
+    background-color: $color-input-background !important;
+}
+
+.p-select:not(.p-disabled).p-focus {
+    border-color: $color-primary-hover !important;
+}
+
+.p-select-option.p-select-option-selected {
+    color: $color-select-options !important;
+    background-color: $color-select-options-background !important;
+
+    .p-focus {
+        color: $color-select-options !important;
+        background-color: $color-select-options-background !important;
+    }
+}

@@ -1,0 +1,173 @@
+<p-card class="register-card" @fadeInOut>
+    <div class="flex justify-content-center mb-4">
+        <h1>{{'app.auth.register.register-entreprise.header' | translate}}</h1>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="register()">
+        <div class="form-group">
+            <label for="ename">{{"app.auth.register.register-entreprise.form.name.label" | translate}}</label>
+            <input pInputText id="ename" type="text"
+                placeholder="{{'app.auth.register.register-entreprise.form.name.placeholder' | translate}}"
+                formControlName="ename" class="w-full" />
+            <div *ngIf="form.controls['ename'].invalid && form.controls['ename'].dirty" class="error">
+                <small
+                    *ngIf="form.controls['ename'].errors?.['required']">{{'app.auth.register.register-entreprise.form.name.errors.required'
+                    | translate}}</small>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="eemail">{{"app.auth.register.register-entreprise.form.mail.label" | translate}}</label>
+            <input pInputText id="eemail" type="email" autocomplete="off"
+                placeholder="{{'app.auth.register.register-entreprise.form.mail.placeholder' | translate}}"
+                formControlName="eemail" class="w-full" />
+            <div *ngIf="form.controls['eemail'].invalid && form.controls['eemail'].dirty" class="error">
+                <small
+                    *ngIf="form.controls['eemail'].errors?.['required']">{{'app.auth.register.register-entreprise.form.mail.errors.required'
+                    | translate}}</small>
+                <small
+                    *ngIf="form.controls['eemail'].errors?.['email']">{{'app.auth.register.register-entreprise.form.mail.errors.email-not-valid'
+                    | translate}}</small>
+            </div>
+        </div>
+
+        <div class="flex">
+            <div class="form-group mt-3 col-6">
+                <label for="epassword">{{"app.auth.register.register-entreprise.form.pwd.label" | translate}}</label>
+                <div class="flex">
+                    <p-password autocomplete="new-password"
+                        [promptLabel]="'app.auth.register.common.password.feedback.prompt' | translate"
+                        [weakLabel]="'app.auth.register.common.password.feedback.weak' | translate"
+                        [mediumLabel]="'app.auth.register.common.password.feedback.medium' | translate"
+                        [strongLabel]="'app.auth.register.common.password.feedback.strong' | translate"
+                        [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                        placeholder="{{'app.auth.register.register-entreprise.form.pwd.placeholder' | translate}}"
+                        formControlName="epassword" [feedback]="true" [toggleMask]="true" class="pwd-field w-full">
+                        <ng-template pTemplate="header">
+
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <p-divider />
+                            <ul class="pl-2 ml-2 my-0 small-text">
+                                <li>{{'app.auth.register.common.password.conditions.1' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.2' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.3' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.4' | translate}}</li>
+                                <li>{{'app.auth.register.common.password.conditions.5' | translate}}</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                </div>
+                <div *ngIf="form.controls['epassword'].invalid && form.controls['epassword'].dirty" class="error">
+                    <small
+                        *ngIf="form.controls['epassword'].errors?.['required']">{{'app.auth.register.register-entreprise.form.pwd.errors.required'
+                        | translate}}</small>
+                </div>
+            </div>
+
+            <div class="form-group mt-3 mb-3 col-6">
+                <label for="epasswordConf">{{"app.auth.register.register-entreprise.form.pwd-confirmation.label" |
+                    translate}}</label>
+                <div class="flex">
+                    <p-password autocomplete="new-password" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                        placeholder="{{'app.auth.register.register-entreprise.form.pwd-confirmation.placeholder' | translate}}"
+                        formControlName="epasswordConf" [feedback]="false" [toggleMask]="true"
+                        class="pwd-field w-full" />
+                </div>
+                <div *ngIf="form.controls['epasswordConf'].invalid && form.controls['epasswordConf'].dirty"
+                    class="error">
+                    <small>{{'app.auth.register.register-entreprise.form.pwd-confirmation.errors.required' |
+                        translate}}</small>
+                </div>
+                <div *ngIf="!form.controls['epasswordConf'].invalid && !matchPwd() && (form.controls['epasswordConf'].dirty || form.dirty)"
+                    class="warning">
+                    <small>{{'app.auth.register.register-entreprise.form.pwd-confirmation.errors.not-same' |
+                        translate}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="eadresse">{{"app.auth.register.register-entreprise.form.adresse.label" | translate}}</label>
+            <input pInputText id="eadresse" type="text"
+                placeholder="{{'app.auth.register.register-entreprise.form.adresse.placeholder' | translate}}"
+                formControlName="eadresse" class="w-full" />
+            <div *ngIf="form.controls['eadresse'].invalid && form.controls['eadresse'].dirty" class="error">
+                <small
+                    *ngIf="form.controls['eadresse'].errors?.['required']">{{'app.auth.register.register-entreprise.form.adresse.errors.required'
+                    | translate}}</small>
+            </div>
+        </div>
+
+        <div class="flex ">
+            <div class="form-group mt-3 col-3">
+                <label for="epostal">{{"app.auth.register.register-entreprise.form.code-postal.label" |
+                    translate}}</label>
+                <div class="flex">
+                    <p-inputNumber inputId="epostal" mode="decimal" formControlName="epostal" [useGrouping]="false">
+                    </p-inputNumber>
+
+                </div>
+                <div *ngIf="form.controls['epostal'].invalid && form.controls['epostal'].dirty" class="error">
+                    <small>{{'app.auth.register.register-entreprise.form.code-postal.errors.required' |
+                        translate}}</small>
+                </div>
+            </div>
+
+            <div class="form-group mt-3 col-3">
+                <label for="eville">{{"app.auth.register.register-entreprise.form.ville.label" | translate}}</label>
+                <div class="flex">
+                    <p-select id="eville" formControlName="eville" [options]="villes" class="w-full md:w-56" />
+                </div>
+                <div *ngIf="form.controls['eville'].invalid && form.controls['eville'].dirty" class="error">
+                    <small>{{'app.auth.register.register-entreprise.form.ville.errors.required' | translate}}</small>
+                </div>
+            </div>
+
+            <div class="form-group mt-3 col-6">
+                <label for="ephone" class="flex align-items-center gap-1">
+                    {{"app.auth.register.register-entreprise.form.phone.label" | translate}}
+                    <i class="pi pi-info-circle" 
+                    pTooltip="{{'app.auth.register.register-entreprise.form.phone.tooltip' | translate}}"
+                    tooltipPosition="right" ></i> 
+                </label>
+                <p-inputgroup class="custom-placeholder">
+                    <p-inputgroup-addon class="flex gap-2">
+                        <img [src]="'https://flagcdn.com/w20/' + country?.flag" style="width: 18px" />
+                        {{country?.indicatif}}
+                    </p-inputgroup-addon>
+                    <input pInputText appDigitSpacerLimited formControlName="ephone"
+                        [placeholder]="country?.placeholder" />
+                </p-inputgroup>
+                <div *ngIf="form.controls['ephone'].invalid && form.controls['ephone'].dirty" class="error">
+                    <small>{{'app.auth.register.register-entreprise.form.phone.errors.required' | translate}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-2 ml-2 align-items-center">
+            <i (click)="toogleToChoices()" class="pi pi-angle-double-left text-blue-500"></i>
+            <a (click)="toogleToChoices()"
+                class="font-medium underline cursor-pointer text-blue-500">{{"app.auth.register.register-entreprise.href"
+                | translate}}</a>
+        </div>
+
+
+
+        <button pButton type="submit" label="{{'app.auth.register.register-entreprise.button.label' | translate}}"
+            class="w-full mt-4"></button>
+    </form>
+    <p-messages severity="success" *ngIf="showRegistration">
+        <ng-template pTemplate>
+            <div class="ml-2">{{'app.login.page-register.success.first' | translate}}
+                <a routerLink="/login" class="font-medium text-blue-500"
+                    style="cursor: pointer;">{{"app.login.button-login" | translate}}</a>
+            </div>
+        </ng-template>
+    </p-messages>
+    <p-messages severity="error" *ngIf="showErrors">
+        <ng-template pTemplate>
+            <div class="ml-2">{{error}}</div>
+        </ng-template>
+    </p-messages>
+
+</p-card>

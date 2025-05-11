@@ -1,0 +1,24 @@
+<label for="lphone">{{"app.auth.register.register-livreur.form.phone.label" | translate}}</label>
+<div class="flex">
+    <p-select [options]="countries" [formControl]="indicatif" optionLabel="name" [filter]="true" filterBy="name"
+        placeholder="Select a Country" class="w-full p-custom-select md:w-56"
+        (onChange)="onCountryChange($event.value)">
+        <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center">
+                <img [src]="'https://flagcdn.com/w20/' + selectedOption.flag" style="width: 22px" />
+            </div>
+        </ng-template>
+        <ng-template let-country #item>
+            <div class="flex items-center gap-2">
+                <img [src]="'https://flagcdn.com/w20/' + country.flag" style="width: 18px" />
+                <div>{{ country.name }}</div>
+            </div>
+        </ng-template>
+    </p-select>
+
+    <p-inputMask *ngIf="countries.length > 0 && selectedCountry" [mask]="selectedCountry.mask" [formControl]="lphone"
+        [placeholder]="selectedCountry.placeholder" class="flex-grow-1 p-custom-input" />
+</div>
+<div *ngIf="lphone.invalid && lphone.dirty" class="error">
+    <small>{{'app.auth.register.register-livreur.form.phone.errors.required' | translate}}</small>
+</div>

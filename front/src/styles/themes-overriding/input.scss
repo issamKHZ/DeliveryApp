@@ -1,5 +1,35 @@
 @import '../variables.scss';
 
+input {
+    background-color: $color-input-background !important;
+}
+
 .p-inputtext:enabled:focus {
     border-color: $color-primary-hover !important;
+}
+
+.p-floatlabel:has(input:focus) label {
+    color: $color-primary-dark !important;
+}
+
+.p-inputtext.ng-invalid.ng-dirty {
+    border-color: #f87171 !important;
+}
+
+.p-inputnumber {
+    width: 100% !important;
+}
+
+.p-inputnumber-input {
+    width: 100% !important;
+}
+
+.p-inputgroupaddon {
+    padding: 0 0.8rem !important;
+}
+
+.custom-placeholder {
+    input::placeholder {
+        color: #a6b3c5e8 !important;
+    }
 }
