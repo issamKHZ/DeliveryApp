@@ -25,13 +25,13 @@
                     *ngIf="form.controls['eemail'].errors?.['required']">{{'app.auth.register.register-entreprise.form.mail.errors.required'
                     | translate}}</small>
                 <small
-                    *ngIf="form.controls['eemail'].errors?.['email']">{{'app.auth.register.register-entreprise.form.mail.errors.email-not-valid'
+                    *ngIf="form.controls['eemail'].errors?.['customEmail']">{{'app.auth.register.register-entreprise.form.mail.errors.email-not-valid'
                     | translate}}</small>
             </div>
         </div>
 
-        <div class="flex">
-            <div class="form-group mt-3 col-6">
+        <div class="grid">
+            <div class="form-group mt-3 col-12 md:col-6">
                 <label for="epassword">{{"app.auth.register.register-entreprise.form.pwd.label" | translate}}</label>
                 <div class="flex">
                     <p-password autocomplete="new-password"
@@ -42,9 +42,7 @@
                         [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
                         placeholder="{{'app.auth.register.register-entreprise.form.pwd.placeholder' | translate}}"
                         formControlName="epassword" [feedback]="true" [toggleMask]="true" class="pwd-field w-full">
-                        <ng-template pTemplate="header">
-
-                        </ng-template>
+                        <ng-template pTemplate="header"></ng-template>
                         <ng-template pTemplate="footer">
                             <p-divider />
                             <ul class="pl-2 ml-2 my-0 small-text">
@@ -58,13 +56,28 @@
                     </p-password>
                 </div>
                 <div *ngIf="form.controls['epassword'].invalid && form.controls['epassword'].dirty" class="error">
-                    <small
-                        *ngIf="form.controls['epassword'].errors?.['required']">{{'app.auth.register.register-entreprise.form.pwd.errors.required'
-                        | translate}}</small>
+                    <ng-container *ngIf="form.controls['epassword'] as epassword">
+                        <ng-container *ngIf="epassword.errors as errors">
+
+                            <small *ngIf="errors['required']">
+                                {{ 'app.auth.register.register-entreprise.form.pwd.errors.required' | translate }}
+                            </small>
+
+                            <small *ngIf="!errors['required'] && errors['tooShort']">
+                                {{ 'app.auth.register.register-entreprise.form.pwd.errors.short-pwd' | translate }}
+                            </small>
+
+                            <small *ngIf="!errors['required'] && !errors['tooShort'] && errors['weakPassword']">
+                                {{ 'app.auth.register.register-entreprise.form.pwd.errors.pwd-no-conform' | translate }}
+                            </small>
+
+                        </ng-container>
+                    </ng-container>
                 </div>
+
             </div>
 
-            <div class="form-group mt-3 mb-3 col-6">
+            <div class="form-group mt-3 mb-3 col-12 md:col-6">
                 <label for="epasswordConf">{{"app.auth.register.register-entreprise.form.pwd-confirmation.label" |
                     translate}}</label>
                 <div class="flex">
@@ -98,14 +111,13 @@
             </div>
         </div>
 
-        <div class="flex ">
-            <div class="form-group mt-3 col-3">
+        <div class="grid">
+            <div class="form-group mt-3 col-12 md:col-3">
                 <label for="epostal">{{"app.auth.register.register-entreprise.form.code-postal.label" |
                     translate}}</label>
                 <div class="flex">
                     <p-inputNumber inputId="epostal" mode="decimal" formControlName="epostal" [useGrouping]="false">
                     </p-inputNumber>
-
                 </div>
                 <div *ngIf="form.controls['epostal'].invalid && form.controls['epostal'].dirty" class="error">
                     <small>{{'app.auth.register.register-entreprise.form.code-postal.errors.required' |
@@ -113,22 +125,22 @@
                 </div>
             </div>
 
-            <div class="form-group mt-3 col-3">
+            <div class="form-group mt-3 col-12 md:col-3">
                 <label for="eville">{{"app.auth.register.register-entreprise.form.ville.label" | translate}}</label>
                 <div class="flex">
-                    <p-select id="eville" formControlName="eville" [options]="villes" class="w-full md:w-56" />
+                    <p-select id="eville" formControlName="eville" [options]="villes" class="w-full" [style]="{'width':'100%'}"></p-select>
                 </div>
                 <div *ngIf="form.controls['eville'].invalid && form.controls['eville'].dirty" class="error">
                     <small>{{'app.auth.register.register-entreprise.form.ville.errors.required' | translate}}</small>
                 </div>
             </div>
 
-            <div class="form-group mt-3 col-6">
+            <div class="form-group mt-3 col-12 md:col-6">
                 <label for="ephone" class="flex align-items-center gap-1">
                     {{"app.auth.register.register-entreprise.form.phone.label" | translate}}
-                    <i class="pi pi-info-circle" 
-                    pTooltip="{{'app.auth.register.register-entreprise.form.phone.tooltip' | translate}}"
-                    tooltipPosition="right" ></i> 
+                    <i class="pi pi-info-circle"
+                        pTooltip="{{'app.auth.register.register-entreprise.form.phone.tooltip' | translate}}"
+                        tooltipPosition="right"></i>
                 </label>
                 <p-inputgroup class="custom-placeholder">
                     <p-inputgroup-addon class="flex gap-2">
@@ -144,14 +156,12 @@
             </div>
         </div>
 
-        <div class="flex gap-2 ml-2 align-items-center">
-            <i (click)="toogleToChoices()" class="pi pi-angle-double-left text-blue-500"></i>
+        <div class="flex gap-2 ml-2 align-items-center mt-3">
+            <i (click)="toogleToChoices()" class="pi pi-angle-double-left text-blue-500 cursor-pointer"></i>
             <a (click)="toogleToChoices()"
                 class="font-medium underline cursor-pointer text-blue-500">{{"app.auth.register.register-entreprise.href"
                 | translate}}</a>
         </div>
-
-
 
         <button pButton type="submit" label="{{'app.auth.register.register-entreprise.button.label' | translate}}"
             class="w-full mt-4"></button>
@@ -169,5 +179,4 @@
             <div class="ml-2">{{error}}</div>
         </ng-template>
     </p-messages>
-
 </p-card>

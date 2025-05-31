@@ -11,14 +11,14 @@ export class LoginFormService {
 
   adaptFormToAuthUser(form: UntypedFormGroup) : AuthUser{
     return new AuthUser ({      
-      mail: form.get("email")?.value,
-      mdp: form.get("password")?.value
+      email: form.get("email")?.value,
+      password: form.get("password")?.value
     });
   }
 
   adaptFormToRecoveryMail(form: UntypedFormGroup) : AuthUser {
     return new AuthUser({
-      mail: form.get("email")?.value
+      email: form.get("email")?.value
     })
   }
 }

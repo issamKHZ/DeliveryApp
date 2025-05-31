@@ -1,0 +1,36 @@
+@import '../variables.scss';
+
+.p-menubar-expanded {
+  background: $color-header-background !important;
+  border-radius: 0 !important;
+  padding: 13px 0 !important;
+  border: none !important;
+
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 8px 12px rgba(0, 183, 255, 0.1) !important;  
+}
+
+.p-menubar-collapsed {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+
+  border-radius: 0 !important;
+  padding: 17px 0 !important;
+  border: none !important;
+
+  // backdrop-filter: blur(10px) !important;
+  // -webkit-backdrop-filter: blur(8px) !important;
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  // box-shadow: 0 8px 12px rgba(0, 183, 255, 0.1) !important;  
+}
+
+.p-menubar-item-link {
+    color: $color-primary-dark !important;
+}
+
+.p-menubar-item-icon {
+    color: $color-primary-dark !important;  
+}

@@ -1,11 +1,10 @@
+import { VehicleType } from "./enumerate/VehicleTypes";
+
 export class LivreurRegistration {    
-    name!: string;
-    lastname!: string;
-    email!: string;
-    password!: string;
-    vehicle!: string;
-    age!: number;
-    phone!: string;    
+    firstName: string;
+    lastName: string;
+    age: number;
+    vehicleType: VehicleType;
 
     public constructor(init?: Partial<LivreurRegistration>) {
         Object.assign(this, init);

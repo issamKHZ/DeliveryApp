@@ -6,19 +6,24 @@
         padding: 2.5rem;
         border-radius: 12px;
     }
-    
-    
-    
+
+
+
     .error {
-    color: red;
-    font-size: 0.875rem;
-    }        
-    
-    .w-full {
-    width: 100%;
+        color: red;
+        font-size: 0.875rem;
     }
 
-    .pwd-visibility{
+    .warning {
+        color: orange;
+        font-size: 0.875rem;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    .pwd-visibility {
         border-top-left-radius: 0 !important;
         border-bottom-left-radius: 0 !important;
     }
@@ -36,10 +41,29 @@
         display: flex !important;
     }
 
+    .p-message-error {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        outline-style: none !important;
+        color: $color-error !important;
+    }
+
+    .p-message-success { 
+        margin-top: 1rem;
+    }
+
+    .custom-input-border {
+        border-color: $color-error !important;
+    }
+
+    .custom-input-text {
+        color: $color-error !important;
+    }
+
     @media (max-width: 768px) {
         .form-group {
             width: 100%;
         }
     }
-    
+
 }

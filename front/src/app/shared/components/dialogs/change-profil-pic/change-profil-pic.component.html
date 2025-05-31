@@ -1,0 +1,31 @@
+<p-confirmDialog [style]="{width: '350px'}" [baseZIndex]="10000" key="closeConfirmation" (onHide)="handleDialogClose()">
+
+  <ng-template pTemplate="footer">
+    <div class="flex gap-1">
+      <button pButton class="p-button-success" [style]="{}" label="{{'app.common.buttons-label.yes' | translate }}"
+        (click)="onAccept()"></button>
+      <button pButton class="p-button-danger" [style]="{'background-color': '$color-error !important'}"
+        label="{{'app.common.buttons-label.no' | translate }}" (click)="onReject()"></button>
+      <!-- <button pButton class="p-button-text" label="{{'app.common.buttons-label.cancel' | translate }}"
+        (click)="onCancel()"></button> -->
+    </div>
+  </ng-template>
+</p-confirmDialog>
+
+
+<div class="change-pic-container">
+  <div class="image-div">
+    <div class="profile-image-container">
+      <p-avatar [image]="image" size="xlarge" shape="circle" class="profile-avatar"></p-avatar>
+    </div>
+  </div>
+  <div class="edit-message" [ngClass]="{ 'show mt-3 mb-4': showInfoMessage }">
+    <p-message severity="info">{{'app.profil.entreprise.general.form.tooltip.save' | translate}}</p-message>
+  </div>
+  <div class="buttons-container mt-2">
+    <button pButton class="edit-button" icon="pi pi-pencil" label="{{'app.common.buttons-label.edit' | translate }}"
+      (click)="editImage()"></button>
+    <button pButton class="delete-button p-button-danger" icon="pi pi-trash"
+      label="{{'app.common.buttons-label.delete' | translate }}" (click)="removeImage()"></button>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="side-bar-container h-full">
+    <div class="first-half">
+        <div class="sidebar-title">
+            <div class="entrep-name">
+                <h2> {{userName}} </h2>
+                <app-custom-tag [type]="tagSeverity.SUCCESS" [content]="'Actif'"></app-custom-tag>
+            </div>
+            <div class="type mt-2">
+                <h3>{{'app.profil.entreprise.side-bar.type' | translate}}</h3>
+            </div>
+        </div>
+        <p-divider [styleClass]="'top'"></p-divider>
+        <div class="tabs-menu mt-4">
+            <ul class="settings-list text-lg">
+                <li *ngFor="let tab of tabs">
+                    <div class="tab">
+                        <i class="mr-1" [ngClass]="tab.icon" style="font-size: 1rem;"></i>
+                        {{tab.label}}
+                    </div>
+                    <i class="pi pi-chevron-right icon" *ngIf="notifCount == 0 || (notifCount > 0 && tab.code != tabsCodes.NOTIF)"></i>
+                    <p-badge styleClass="custom-badge" [value]="notifCount" *ngIf="notifCount > 0 && tab.code == tabsCodes.NOTIF"/>                    
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="second-half">
+        <p-divider [styleClass]="'bottom'"></p-divider>
+        <div class="logout">
+            <button pButton pRipple icon="pi pi-sign-out" class="w-full logout-button" [label]="'Deconnexion'" (click)="logout()"></button>
+        </div>
+    </div>
+</div>

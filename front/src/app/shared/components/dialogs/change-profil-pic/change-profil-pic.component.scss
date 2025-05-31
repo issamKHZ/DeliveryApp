@@ -1,0 +1,112 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+
+    .change-pic-container {
+        width: 100%;
+        height: 100%;
+
+        .image-div {
+            display: flex;
+            justify-content: center;
+
+            .profile-image-container {
+                position: relative;
+                cursor: pointer;
+                border-radius: 50%;
+                width: 12rem;
+                height: 12rem;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+            }
+
+            .profile-avatar {
+                width: 12rem !important;
+                height: 12rem !important;
+
+                .p-avatar-image {
+                    object-fit: cover;
+                }
+            }
+
+            .p-avatar {
+                background-color: transparent !important;
+                border: 2px solid #d2dde4;
+                cursor: pointer;
+            }
+        }
+
+        .buttons-container {
+
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .edit-button,
+        .delete-button {
+            flex: 1;
+            max-width: 48%;
+        }
+
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+    }
+
+
+
+    .p-dialog-header {
+        padding: 0;
+    }
+
+    .p-dialog-close-button {
+        background: transparent !important;
+        border: transparent !important;
+        color: #989a9b !important;
+    }
+
+    .p-dialog-close-button:hover {
+        background: #e3e6e986 !important;
+        border: transparent !important;
+        color: #989a9b !important;
+    }
+
+    .edit-message {
+        display: flex;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .p-message {
+        width: fit-content !important;
+    }
+
+    .p-message-info {
+        background: #e6f4ff !important;
+        outline-color: #b3daff !important;
+        color: #003366 !important;
+
+        .p-message-text {
+            font-weight: normal !important;
+            font-size: 14px;
+        }
+    }
+
+    .edit-message.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

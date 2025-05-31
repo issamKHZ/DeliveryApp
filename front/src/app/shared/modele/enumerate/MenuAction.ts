@@ -1,0 +1,9 @@
+export enum MenuAction {
+    NEW_COMMAND = "NEW_COMMAND",
+    MY_COMMANDS = "MY_COMMANDS",
+    LIVREURS = "LIVREURS",
+    POSTULER = "POSTULER",
+    EN_COURS = "EN_COURS", 
+    DISCUSSION = "DISCUSSION",
+
+}

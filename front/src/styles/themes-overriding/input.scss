@@ -33,3 +33,17 @@ input {
         color: #a6b3c5e8 !important;
     }
 }
+
+.field-label {
+    font-size: var($text-size);
+    color: $color-primary-dark;
+    font-weight: 600;
+}
+
+.p-floatlabel label {
+    color: rgba(0, 0, 0, 0.658) !important;
+}
+
+.p-floatlabel:has(.ng-invalid.ng-dirty) label {
+    color: #dc2626 !important
+}

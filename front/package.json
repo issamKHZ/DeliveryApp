@@ -22,6 +22,7 @@
     "@ngx-translate/http-loader": "^16.0.1",
     "@primeng/themes": "^19.1.0",
     "intl-tel-input": "^25.3.1",
+    "jwt-decode": "^4.0.0",
     "libphonenumber-js": "^1.12.8",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",

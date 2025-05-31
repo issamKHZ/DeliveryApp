@@ -1,0 +1,109 @@
+<p-menubar [model]="isConnected ? items : []" class="custom-header" [styleClass]="expanded ? 'p-menubar-expanded':'p-menubar-collapsed'">
+
+  <!-- App Name  -->
+  <ng-template pTemplate="start">
+    <div class="logo ml-4 cursor-pointer">
+      <span class="init">{{'app.name-decomp.init' | translate}}</span> <span class="title">{{'app.name-decomp.label' |
+        translate}}</span>
+    </div>
+    <p-divider layout="vertical" />
+  </ng-template>
+
+   <ng-template let-item>
+    <a class="menuItemLink" [ngClass]="{'active-item': item === selectedMenuItem}">
+      <i [class]="item.icon"></i>
+      <span>{{ item.label }}</span>
+    </a>
+  </ng-template>
+
+
+  <ng-template pTemplate="end">
+    <div class="end-menu flex align-items-center mr-4">
+
+      <!-- Search bar -->
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input type="text" pInputText placeholder="{{'app.header.search-bar.label' | translate}}" />
+      </p-iconfield>
+
+
+      <p-menu #menu [model]="items" popup styleClass="!min-w-fit" />
+
+
+      <!--                   --------------------------                       -->
+      <!--                   --------------------------                       -->
+      <!--                   --------------------------                       -->
+      <!--                   --------------------------                       -->
+
+
+      <p-menu #notif [model]="fictifItems" [popup]="true" [styleClass]="'custom-pmenu'" (onShow)="adjustNotif()">
+        <ng-template pTemplate="popup">
+          <div *ngIf="notifications && notifications.length != 0" class="w-64 notification-popup-container pb-4">
+            <div class="notif-header pl-2 my-2">
+              <h4>
+                {{ (notificationsCount > 1 ? ('app.header.notification.header.firsts') :
+                ('app.header.notification.header.first')) | translate}}
+                <span class="blue">{{notificationsCount}}</span>
+                {{'app.header.notification.header.end' | translate}}
+              </h4>
+            </div>
+            <app-notifications [items]="notifications"></app-notifications>
+            <div class="notification-footer pt-2">
+              <a pRipple class="flex justify-content-center items-center cursor-pointer mt-1">
+                <span class="ssmall-text pr-1">{{'app.header.notification.footer' | translate}}</span>
+              </a>
+            </div>
+          </div>
+
+          <div *ngIf="!notifications || notifications.length === 0" class="empty-state">
+            <i class="pi pi-bell-slash blue" style="font-size: 2rem"></i>
+            <p class="mb-1 blue">{{'app.header.notification.no-notif.title' | translate}}</p>
+            <small>{{'app.header.notification.no-notif.context' | translate}}</small>
+          </div>
+        </ng-template>
+      </p-menu>
+
+      <!-- Icône de cloche -->
+      <p-overlaybadge [value]="notificationsCount" [badgeSize]="'small'" [badgeDisabled]="notificationsCount == 0" *ngIf="isConnected">
+        <i #bell (click)="notif.toggle($event)" *ngIf="!validationPages && !withSideBar"
+          class="pi pi-bell bell ml-4 text-2xl cursor-pointer"></i>
+      </p-overlaybadge>
+
+
+
+      <!--                   --------------------------                       -->
+      <!--                   --------------------------                       -->
+      <!--                   --------------------------                       -->
+      <!--                   --------------------------                       -->
+
+      <!-- User Profile  -->
+      <p-avatar #avatar pRipple *ngIf="!withSideBar" (click)="openProfile($event)" image="images/capgemini.jpg"
+        [label]="currentUser && !currentUser.img ? getUserInitials() : undefined" styleClass="ml-4" size="large"
+        shape="circle" />
+      <p-popover *ngIf="!validationPages" #profile (onShow)="adjsutPop()">
+        <div class="flex flex-col">
+          <div class="w-full">
+            <h2>
+              Issam El-Kharraz
+            </h2>
+            <span>
+              (Entreprise)
+            </span>
+            <p-divider *ngIf="!isValidationPhase"></p-divider>
+            <div class="extensions flex flex-column" *ngIf="!isValidationPhase">
+              <a *ngFor="let item of profileItems" pRipple class="flex items-center p-menu-item-link">
+                <span [class]="item.icon"></span>
+                <span class="ml-2">{{item.label}}</span>
+              </a>
+            </div>
+            <p-divider />
+            <a pRipple class="flex items-center p-menu-item-link" (click)="deconnexion()">
+              <span [ngClass]="[('app.header.profil-items.logout.icon' | translate), 'red-text']"></span>
+              <span class="ml-2 font-semibold red-text">{{'app.header.profil-items.logout.label' | translate}}</span>
+            </a>
+          </div>
+        </div>
+      </p-popover>
+    </div>
+  </ng-template>
+</p-menubar>

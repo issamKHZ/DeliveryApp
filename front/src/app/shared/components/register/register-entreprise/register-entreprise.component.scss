@@ -4,7 +4,11 @@
     .register-card {
         width: 100%;
         max-width: 700px;
-        padding: 2rem;        
+        padding: 1rem;
+        
+        @media (min-width: 768px) {
+            padding: 2rem;
+        }
     }
 
     .error {
@@ -19,6 +23,17 @@
 
     .flex {
         display: flex;
+        flex-wrap: wrap;
+    }
+
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -0.5rem;
+        
+        > div {
+            padding: 0 0.5rem;
+        }
     }
 
     .min-h-screen {
@@ -47,11 +62,112 @@
         border-bottom-right-radius: 0 !important;
     }
 
-    .col-6 {
-        padding-left: 0;
-    }
-    
     .small-text {
         font-size: $small-text-size;
+    }
+
+    .form-group {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    /* Responsive columns */
+    .col-12 {
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .md\:col-3 {
+            width: 25%;
+        }
+        .md\:col-6 {
+            width: 50%;
+        }
+    }
+}@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+    .register-card {
+        width: 100%;
+        max-width: 700px;
+        padding: 1rem;
+        
+        @media (min-width: 768px) {
+            padding: 2rem;
+        }
+    }
+
+    .error {
+        color: red;
+        font-size: 0.875rem;
+    }
+
+    .warning {
+        color: orange;
+        font-size: 0.875rem;
+    }
+
+    .flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -0.5rem;
+        
+        > div {
+            padding: 0 0.5rem;
+        }
+    }
+
+    .min-h-screen {
+        min-height: 100vh;
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    .pwd-visibility {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .pwd-field {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .small-text {
+        font-size: $small-text-size;
+    }
+
+    .form-group {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    /* Responsive columns */
+    .col-12 {
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .md\:col-3 {
+            width: 25%;
+        }
+        .md\:col-6 {
+            width: 50%;
+        }
     }
 }

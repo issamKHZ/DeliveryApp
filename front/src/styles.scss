@@ -6,6 +6,16 @@
 @import 'styles/themes-overriding/card.scss';
 @import 'styles/themes-overriding/select.scss';
 @import 'styles/themes-overriding//password.scss';
+@import 'styles/themes-overriding/toast.scss';
+@import 'styles/themes-overriding/menubar.scss';
+@import 'styles/themes-overriding/divider.scss';
+@import 'styles/themes-overriding/avatar.scss';
+@import 'styles/themes-overriding/popover.scss';
+@import 'styles/themes-overriding/scroller.scss';
+@import 'styles/themes-overriding/notification.scss';
+@import 'styles/themes-overriding/menu.scss';
+@import 'styles/themes-overriding/tag.scss';
+@import 'styles/themes-overriding/calendar.scss';
 
 
 :root {
@@ -18,9 +28,16 @@
   --text-size: 15px;
   --text-large-size: 17px;
   --small-text-size: 12px;
+  --to-small-text-size: 11px;
 
-  --text-weight: 300;  
-  
+  --text-weight: 300;    
+
+  /* Primeng */
+  --p-badge-primary-background: #00B4D8 !important;
+  --p-menubar-item-focus-background: #94edffd8 !important; 
+  --p-menubar-item-active-background: #98eeffd8 !important;
+  --p-menubar-submenu-icon-color: $color-primary-dark !important;
+  --p-menubar-submenu-icon-focus-color: $color-primary-dark !important;
 }
 
 /* Reset / base */
@@ -52,8 +69,29 @@ h2 {
   font-size: var(--subtitle-size);
 }
 
+h3 {
+  font-weight: normal;
+  font-size: var(--text-large-size);
+}
+
+h4 {
+  font-size: var(--text-size);
+}
+
 p {
   font-size: var(--text-size);
+}
+
+.ssmall-text {
+  font-size: 14px;
+}
+
+.small-text {
+  font-size: var(--small-text-size);
+}
+
+.to-small-text {
+  font-size: var(--to-small-text-size);
 }
 
 /* Liens */
@@ -73,4 +111,12 @@ a {
 
 .text-lg {
   font-size: var(--text-large-size) !important;
+}
+
+.red-text {
+  color: $color-error;
+}
+
+.h-full {
+  height: 100%;
 }

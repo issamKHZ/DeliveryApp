@@ -1,0 +1,23 @@
+@import '../variables.scss';
+
+.p-datepicker-day-selected {
+    color: #334155 !important;
+    background: #e7eaeed3 !important;
+}
+
+.p-button-text {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: black !important;
+}
+
+.p-button-text:hover {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: black !important;
+}
+
+.p-datepicker-year-selected {   
+    color: #334155 !important; 
+    background: #e7eaeed3 !important;
+}

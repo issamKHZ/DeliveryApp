@@ -1,0 +1,13 @@
+<!-- <p #ref
+   [ngStyle]="computedStyle()"
+   [ngClass]="{'ws-pl': whiteSpacePreLine}"
+   tooltipStyleClass="full-content"
+   class="{{styleClass}} {{contentClass()}}"
+   [pTooltip]="(overflow)?content:undefined"
+   [tooltipPosition]="tooltipPosition">
+  {{content}}
+</p> -->
+<p #ref [ngStyle]="computedStyle()" [ngClass]="{'ws-pl': whiteSpacePreLine}" class="{{styleClass}} {{contentClass()}}">
+    {{content}}
+</p>
+<p #mask class="{{maskClass()}}">{{content}}</p>

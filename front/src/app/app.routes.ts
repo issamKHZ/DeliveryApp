@@ -1,63 +1,140 @@
 import { Routes } from '@angular/router';
 import { RoutesEnum } from './shared/modele/enumerate/routes';
+import { ComponentsKeyEnum } from './shared/modele/enumerate/ComponentsKey';
+import { NoAuthGuard } from './shared/guards/no-auth.guard';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { HomeRedirectGuard } from './shared/guards/home-redirect.guard';
+
 
 const routesEndpoints = RoutesEnum;
+
+enum ComposedRoutes {
+    VALIDATION_EMAIL = "validation/mail",
+    PROFILE_ENTREPRISE = "profile/entreprise"
+}
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: routesEndpoints.TEST,
-        pathMatch: 'full'        
+        canActivate: [HomeRedirectGuard],
+        loadComponent: () =>
+            import('./content/profile/profile.component').then(m => m.ProfileComponent)
     },
 
     {
         path: routesEndpoints.AUTH,
         loadComponent: () =>
-            import('./content/auth/auth.component').then(m => m.AuthComponent),  
+            import('./content/auth/auth.component').then(m => m.AuthComponent),
+        canActivate: [NoAuthGuard],
         children: [
             {
-              path: routesEndpoints.LOGIN,
-              loadComponent: () =>
-                import('./content/auth/login/login.component').then(m => m.LoginComponent),   
-              data: {id: routesEndpoints.LOGIN}           
+                path: routesEndpoints.LOGIN,
+                loadComponent: () =>
+                    import('./content/auth/login/login.component').then(m => m.LoginComponent),
+                data: { id: routesEndpoints.LOGIN }
             },
             {
                 path: routesEndpoints.REGISTER,
                 loadComponent: () =>
-                    import('./content/auth/register/register.component').then(m => m.RegisterComponent),        
+                    import('./content/auth/register/register.component').then(m => m.RegisterComponent),
                 children: [
                     {
                         path: routesEndpoints.OPTIONS,
                         loadComponent: () =>
-                          import('./shared/components/register/register-options/register-options.component').then(m => m.RegisterOptionsComponent),                                      
+                            import('./shared/components/register/register-options/register-options.component').then(m => m.RegisterOptionsComponent),
                     },
                     {
                         path: routesEndpoints.ENTREPRISE,
                         loadComponent: () =>
-                          import('./shared/components/register/register-entreprise/register-entreprise.component').then(m => m.RegisterEntrepriseComponent),                                      
+                            import('./shared/components/register/register-entreprise/register-entreprise.component').then(m => m.RegisterEntrepriseComponent),
                     },
                     {
                         path: routesEndpoints.LIVREUR,
                         loadComponent: () =>
-                          import('./shared/components/register/register-livreur/register-livreur.component').then(m => m.RegisterLivreurComponent),                                      
+                            import('./shared/components/register/register-livreur/register-livreur.component').then(m => m.RegisterLivreurComponent),
                     },
                     { path: '', redirectTo: routesEndpoints.OPTIONS, pathMatch: 'full' }
-                ]      
+                ]
             },
             { path: '*', redirectTo: routesEndpoints.LOGIN, pathMatch: 'full' },
             { path: '', redirectTo: routesEndpoints.LOGIN, pathMatch: 'full' }
         ]
     },
+    {
+        path: ComposedRoutes.VALIDATION_EMAIL,
+        loadComponent: () =>
+            import('./shared/components/email-validation/email-validation.component').then(m => m.EmailValidationComponent),
+        canActivate: [NoAuthGuard]
+    },
+    {
+        path: routesEndpoints.PROFILE_ENTREPRISE,
+        loadComponent: () =>
+            import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: routesEndpoints.GENERAL,
+                loadComponent: () =>
+                    import('./shared/components/profiles/entreprise/general/general.component').then(m => m.GeneralComponent),
+            },
+            {
+                path: routesEndpoints.ADMINISTRAIF,
+                loadComponent: () =>
+                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+            },
+            {
+                path: routesEndpoints.SIEGES,
+                loadComponent: () =>
+                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+            },
+            {
+                path: routesEndpoints.STATISTICS,
+                loadComponent: () =>
+                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+            },
+            {
+                path: routesEndpoints.PREFERENCES,
+                loadComponent: () =>
+                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+            },
+            {
+                path: routesEndpoints.NOTIFICATIONS,
+                loadComponent: () =>
+                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+            },
+            {
+                path: routesEndpoints.SETTINGS,
+                loadComponent: () =>
+                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+            },
+            {
+                path: '**',
+                redirectTo: routesEndpoints.GENERAL,
+                pathMatch: 'full'
+            }
+        ],
+        data: { component: ComponentsKeyEnum.ENTREPRISE_PROFILE }
+    },
+    {
+        path: routesEndpoints.PROFILE_LIVREUR,
+        loadComponent: () =>
+            import('./content/profile/profil-livreur/profil-livreur.component').then(m => m.ProfilLivreurComponent),
+        canActivate: [AuthGuard],
+        children: [
+
+        ],
+        data: { component: ComponentsKeyEnum.LIVREUR_PROFILE }
+    },
 
     {
-        path: routesEndpoints.TEST,
+        path: routesEndpoints.ERROR,
         loadComponent: () =>
-                          import('./shared/components/email-validation/email-validation.component').then(m => m.EmailValidationComponent),                                      
+            import('./content/error/error.component').then(m => m.ErrorComponent),
     },
 
     {
         path: '**',
-        redirectTo: routesEndpoints.AUTH,
-        pathMatch: 'full'  
+        redirectTo: routesEndpoints.ERROR,
+        pathMatch: 'full'
     },
 ];

@@ -1,5 +1,12 @@
+<app-spinner></app-spinner>
 <div>
-  <div class="router">          
-    <router-outlet></router-outlet>   
-  </div>    
+  <div class="app-container">
+    <app-header [expanded]="true" *ngIf="displayHeader()"></app-header>
+    <div class="router">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
+<p-toast [hideTransitionOptions]="'100ms'" [baseZIndex]="9999" [showTransitionOptions]="'100ms'"
+           position="bottom-left"
+           styleClass="ui-toast-dark"></p-toast>

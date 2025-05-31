@@ -1,0 +1,39 @@
+@import '../../../../styles/variables.scss';
+
+::ng-deep {
+    .profil-entrep-layout {
+        display: flex;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .profil-entrep-sidebar {
+        width: 20%;
+        min-width: 20%;
+        background: $color-sidebar-background;
+        border-right: 1px solid #ccc;
+        padding: 1rem;
+    }
+
+    .profil-entrep-main {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    // .profil-entrep-header {
+    //     height: 70px;
+    //     background-color: #ffffff;
+    //     border-bottom: 2px solid #ccc;
+    //     display: flex;
+    //     align-items: center;
+    //     padding: 0 1rem;
+    // }
+
+    .profil-entrep-content {
+        flex-grow: 1;
+        padding: 1.5rem;        
+        overflow-y: auto;
+    }
+}

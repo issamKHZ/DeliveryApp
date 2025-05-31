@@ -2,7 +2,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -20,9 +20,13 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { vehicles } from '../../../constants/vehicles';
-import { CustomPhoneInputComponent } from "../../utils/custom-phone-input/custom-phone-input.component";
-import { Subject, takeUntil } from 'rxjs';
 import { DigitSpacerLimitedDirective } from '../../../directives/digit-spacer-limited.directive';
+import { RegisterLivreurService } from '../../../services/register-livreur.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { MessageService } from 'primeng/api';
+import { CommonService } from '../../../utils/common.service';
+import { LoadingService } from '../../utils/spinner/loading.service';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-register-livreur',
@@ -44,11 +48,19 @@ import { DigitSpacerLimitedDirective } from '../../../directives/digit-spacer-li
     InputMaskModule,
     InputGroupModule,
     InputGroupAddonModule,
-    DigitSpacerLimitedDirective
+    DigitSpacerLimitedDirective,    
     // CustomPhoneInputComponent
   ],
   templateUrl: './register-livreur.component.html',
-  styleUrl: './register-livreur.component.scss'
+  styleUrl: './register-livreur.component.scss',
+  animations: [
+      trigger('fadeInOut', [
+        transition(':enter', [
+          style({ opacity: 0, transform: 'translateY(20px)' }),
+          animate('1000ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        ])
+      ])
+    ]
 })
 export class RegisterLivreurComponent implements OnInit, OnDestroy {
 
@@ -70,13 +82,21 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
 
   routeEnum = RoutesEnum;
 
-  readonly route = '/' + this.routeEnum.AUTH + '/' + this.routeEnum.REGISTER + '/' + this.routeEnum.OPTIONS;
+  optionsRoute: string;
+  emailValidationRoute: string;
 
 
   constructor(private fb: UntypedFormBuilder,
     private router: Router,
-    private registerFormService: RegisterFormService) {
-
+    private registerFormService: RegisterFormService,
+    private registerService: RegisterLivreurService,
+    private translate: TranslateService,
+    private message: MessageService,
+    private commonService: CommonService,
+    private spinner: LoadingService
+  ) {
+    this.optionsRoute = this.commonService.composeRoute([this.routeEnum.AUTH, this.routeEnum.REGISTER, this.routeEnum.OPTIONS]);
+    this.emailValidationRoute = this.commonService.composeRoute([this.routeEnum.VALIDATION, this.routeEnum.MAIL]);
   }
 
 
@@ -96,7 +116,7 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
   }
 
   toogleToChoices() {
-    this.router.navigate([this.route]);
+    this.router.navigate([this.optionsRoute]);
   }
 
   onCountryChange(country: Country) {
@@ -111,11 +131,40 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
     return this.form.get(field) as UntypedFormControl;
   }
 
+
   register() {
-    if (this.form.valid) {
+    if (this.form.valid && this.matchPwd()) {
+      this.spinner.show();
       let livreur = this.registerFormService.adaptFormToModelLivreur(this.form);
+      this.registerService.register(livreur).subscribe({
+        next: (response) => {
+          console.log(response);
+          
+          sessionStorage.setItem('mail', response.email);
+          this.router.navigate([this.emailValidationRoute]);
+          this.spinner.hide();
+          this.message.add({
+            severity: 'info', summary: this.translate.instant('app.auth.register.register-entreprise.messages.info.summary'),
+            detail: this.translate.instant('app.auth.register.register-entreprise.messages.info.detail'), life: 5000
+          });
+        },
+        error: (error) => {                       
+          this.spinner.hide();
+          if (error.status == HttpStatusCode.Conflict && error.error == "Email") {
+            this.message.add({
+              severity: 'error', summary: this.translate.instant('app.auth.register.register-entreprise.messages.email-error.summary'),
+              detail: this.translate.instant('app.auth.register.register-entreprise.messages.email-error.detail'), life: 5000
+            });
+          } else if (error.status == HttpStatusCode.Conflict && error.error == "PhoneNumber") {
+            this.message.add({
+              severity: 'error', summary: this.translate.instant('app.auth.register.register-entreprise.messages.phone-error.summary'),
+              detail: this.translate.instant('app.auth.register.register-entreprise.messages.phone-error.detail'), life: 5000
+            });
+          }
+        }
+      });
     } else {
-      this.registerFormService.markAllFieldsAsDirty(this.form);
+      this.commonService.markAllFieldsAsDirty(this.form);
       this.form.markAllAsTouched();
     }
   }

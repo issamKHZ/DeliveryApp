@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+
+.p-tag {
+    border-radius: 9px !important;
+}
+
+.tag-success {
+    background: $color-tag-success-background !important;
+    color: $color-tag-success !important;    
+    border: 1px solid $color-tag-success-border !important;
+}
+
+.tag-danger {
+    background: $color-tag-danger-background !important;
+    color: $color-tag-danger !important; 
+    border: 1px solid $color-tag-danger-border !important;   
+}
+
+.tag-info {
+    background: $color-tag-info-background !important;
+    color: $color-tag-info !important;    
+    border: 1px solid $color-tag-info-border !important;
+}
+
+.tag-warn {
+    background: $color-tag-warn-background !important;
+    color: $color-tag-warn !important;    
+    border: 1px solid $color-tag-warn-border !important;
+}

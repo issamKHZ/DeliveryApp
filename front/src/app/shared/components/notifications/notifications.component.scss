@@ -1,0 +1,33 @@
+// ::ng-deep {
+//     .p-scroller-viewport {
+//         flex: none;
+//     }
+
+//     .custom {
+//         background-color: gray !important;
+//     }
+// }
+
+::ng-deep {
+    .notification-scroll-container {
+        height: 200px;
+        overflow-y: auto;
+        overscroll-behavior-y: contain;       
+    }
+
+    // .notification-scroll-container::-webkit-scrollbar {
+    //     width: 6px;
+    //     /* Largeur de la scrollbar */
+    // }
+
+    // .notification-scroll-container::-webkit-scrollbar-thumb {
+    //     background-color: rgba(0, 0, 0, 0.2);
+    //     border-radius: 3px;
+    // }
+
+    .notification-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;        
+    }
+}

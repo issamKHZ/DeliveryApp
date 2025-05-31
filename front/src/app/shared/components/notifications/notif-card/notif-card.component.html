@@ -1,0 +1,14 @@
+<div class="notif-container py-1" (click)="readNotif($event)" 
+    [ngClass]="{ 'lu': notif.readed, 'non-lu': !notif.readed}"
+    [ngStyle]="{ '--notif-color': notif.color }"
+>
+    <div class="title" >
+        <span>{{notif.title}}</span>
+    </div>
+
+    <div class="message">
+        <app-large-content-field styleClass="to-small-text" content="{{notif.subject}}"></app-large-content-field>
+    </div>
+</div>
+
+<!-- [ngStyle]="{ 'border-left': notif.style }" -->

@@ -1,0 +1,27 @@
+<div class="error-container">
+  <div class="error-card p-card">
+    <div class="p-d-flex p-jc-center p-mb-4 flex justify-content-center">
+      <i class="pi pi-exclamation-triangle icon" style="font-size: 3rem"></i>
+    </div>
+
+    <div class="icon mt-1 mb-2">
+      <h1 class="text-center mb-3">{{'app.error.title' | translate}}</h1>
+    </div>
+
+    <div class="text-center">
+      {{'app.error.descriptif.1' | translate}}
+    </div>
+
+    <div class="text-center mb-5">
+      {{isConnected
+      ? ( 'app.error.descriptif.2.after-login' | translate )
+      : ( 'app.error.descriptif.2.before-login' | translate )}}
+    </div>
+
+    <div class="flex justify-content-center">
+      <button pButton type="button" (click)="onButtonClick()" class="p-button-raised custom-disabled" [label]="isConnected 
+          ? ( 'app.error.button.after-login' | translate )
+          : ( 'app.error.button.before-login' | translate )"></button>
+    </div>
+  </div>
+</div>

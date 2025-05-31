@@ -1,0 +1,80 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+    .side-bar-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .first-half {
+
+            .sidebar-title {
+
+                .entrep-name {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 0.5rem;
+                }
+            }
+
+            .tabs-menu {
+                .settings-list {
+                    list-style: none;
+                    color: $color-primary-darker;
+                    padding: 0;
+                }
+
+                .settings-list li {
+                    padding: 1rem;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    transition: background 0.2s ease-in-out;
+
+                    .tab {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: calc(90% - 1.5rem);
+                    }
+
+                    .custom-badge {
+                        color: white !important;
+                        background-color: $color-primary-darker !important;
+                    }
+
+                }
+
+                .settings-list li:hover {
+                    background: $color-item-selected;
+                    border-radius: 10px;
+                }
+            }
+        }
+
+        .second-half {
+            .logout {
+                .logout-button {
+                    background-color: $color-primary-darker !important;
+                    border-color: $color-primary-darker !important;
+                    color: white;
+
+                    // box-shadow: rgba(3, 149, 233, 0.685) 0px 8px 24px, rgba(3, 149, 233, 0.685) 0px 16px 56px, rgba(3, 149, 233, 0.932) 0px 24px 80px;
+                    box-shadow: rgba(1, 50, 77, 0.096) 0px 19px 38px, rgba(1, 50, 77, 0.096) 0px 15px 12px;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .entrep-name {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+    }
+}

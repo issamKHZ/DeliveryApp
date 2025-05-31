@@ -2,35 +2,85 @@
 $color-primary: #00B4D8;
 $color-primary-hover: #02a3c4;
 $color-primary-dark: #0077B6;
-$color-primary-darker: #264653;
+$color-primary-darker: #09445f;
 $color-primary-light: #90E0EF;
 //linear-gradient(135deg, rgba(246, 253, 255, 0.94) 0%, rgba(213, 243, 252, 0.94) 100%)
 
 $color-button: linear-gradient(90deg, #00b4d8 0%, #009fc1 100%);
+$color-button-text: #F8F9FA;
 
 $color-select-options: #00627A;
 
 
 $color-text: #1d3237;
 $color-text-secondary: #6C757D;
-$color-surface: #F8F9FA;
+$color-surface: #fcfeffd7;
 
-$color-success: #06D6A0;
-$color-error: #EF476F;
+$color-success: #10b956;
+$color-error: #e73131;
 $color-warning: #FFD166;
 
 // backgrounds
-$color-background: linear-gradient(135deg, rgba(246, 253, 255, 0.94) 0%, rgba(225, 243, 248, 0.94) 100%);
+$color-background: linear-gradient(135deg, rgba(247, 252, 253, 0.94) 0%, rgba(239, 248, 250, 0.94) 100%);
+$color-header-background: linear-gradient(135deg, rgba(226, 249, 255, 0.94) 0%, rgba(183, 235, 250, 0.94) 100%);
 $color-select-options-background: #D1F5FB;
 $color-input-background: rgb(251 253 253 / 94%);
-$color-card-background: rgb(245 253 255 / 94%);
+$color-card-background: rgba(245, 253, 255, 0.94);
+$color-card-app-background: rgba(253, 255, 255, 0.94);
+$color-toast-background: #2E3237;
+
+// avatar
+$color-avatar-text: #edf4ff;
+$color-avatar-background: #429ac7;
+
+//notification
+$color-notif-lu: #FAFAFA;
+$color-notif-non-lu: #edf7fd;
+
+// others
+$color-divider: #529ebd;
+
+
+// error 
+$color-error-primary: #811433;
+$color-error-hover-primary: #811433da;
+
+
+// Tags colors 
+/* backgrounds */
+$color-tag-success-background: #dcfce791;
+$color-tag-danger-background: #fee2e2ba;
+$color-tag-warn-background: #ffedd5d4;
+$color-tag-info-background: #e0f2fe;
+
+/* color */
+$color-tag-success: #23a754;
+$color-tag-danger: #e31a1a;
+$color-tag-warn: #e9571b;
+$color-tag-info: #0079bb;
+
+/* color */
+$color-tag-success-border: #5ecc86d0;
+$color-tag-danger-border: #ff9f9fd8;
+$color-tag-warn-border: #f79872de;
+$color-tag-info-border: #5ab0dfcc;
+
+// side-bar
+$color-sidebar-background: linear-gradient(to bottom, rgba(152, 238, 255, 0.8470588235), #068cd4);
+$color-item-selected: #effbfd63;
+
+
 
 
 /* Titres */
 $title-size: 24px;
 $subtitle-size: 18px;
-$text-size: 14px;
+$text-size: 16px;
+$text-large-size: 17px;
 $small-text-size: 12px;
 
 /*weight*/
 $weight-text: 200;
+
+
+$font-family: 'Inter', sans-serif;

@@ -1,4 +1,4 @@
-<p-card class="register-card">
+<p-card class="register-card" @fadeInOut>
     <div class="flex justify-content-center mb-4">
         <h1>{{'app.auth.register.register-livreur.header' | translate}}</h1>
     </div>
@@ -39,7 +39,7 @@
                     *ngIf="form.controls['lemail'].errors?.['required']">{{'app.auth.register.register-livreur.form.mail.errors.required'
                     | translate}}</small>
                 <small
-                    *ngIf="form.controls['lemail'].errors?.['email']">{{'app.auth.register.register-livreur.form.mail.errors.email-not-valid'
+                    *ngIf="form.controls['lemail'].errors?.['customEmail']">{{'app.auth.register.register-livreur.form.mail.errors.email-not-valid'
                     | translate}}</small>
             </div>
         </div>
@@ -72,10 +72,24 @@
                     </p-password>
                 </div>
                 <div *ngIf="form.controls['lpassword'].invalid && form.controls['lpassword'].dirty" class="error">
-                    <small
-                        *ngIf="form.controls['lpassword'].errors?.['required']">{{'app.auth.register.register-livreur.form.pwd.errors.required'
-                        | translate}}</small>
-                </div>
+                    <ng-container *ngIf="form.controls['lpassword'] as epassword">
+                        <ng-container *ngIf="epassword.errors as errors">
+
+                            <small *ngIf="errors['required']">
+                                {{ 'app.auth.register.register-entreprise.form.pwd.errors.required' | translate }}
+                            </small>
+
+                            <small *ngIf="!errors['required'] && errors['tooShort']">
+                                {{ 'app.auth.register.register-entreprise.form.pwd.errors.short-pwd' | translate }}
+                            </small>
+
+                            <small *ngIf="!errors['required'] && !errors['tooShort'] && errors['weakPassword']">
+                                {{ 'app.auth.register.register-entreprise.form.pwd.errors.pwd-no-conform' | translate }}
+                            </small>
+
+                        </ng-container>
+                    </ng-container>
+                </div>                
             </div>
 
             <div class="form-group mt-3 mb-3 col-6">

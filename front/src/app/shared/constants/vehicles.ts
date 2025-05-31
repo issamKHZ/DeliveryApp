@@ -1,17 +1,22 @@
 export const vehicles: any[] = [
     {
-        name: "Vélo"
+        name: "Vélo",
+        code: "Velo"
     },
     {
-        name: "Moto"
+        name: "Moto",
+        code: "Moto"
     },
     {
-        name: "Voiture"
+        name: "Voiture",
+        code: "Voiture"
     },
     {
-        name: "Camionnette"
+        name: "Camionnette",
+        code :"Camionnette"
     },
     {
-        name: "Camion"
+        name: "Camion",
+        code: "Camion"
     }
 ];

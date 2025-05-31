@@ -6,6 +6,8 @@ import { InputNumber } from 'primeng/inputnumber';
   selector: '[appDigitSpacerLimited]',
   standalone: true
 })
+
+/* Une directive pour formater les numero de telephone de tel façon 06 24 78 35 11 */
 export class DigitSpacerLimitedDirective {
   @Output() valueChanged = new EventEmitter<any>();
   private isProcessing = false;

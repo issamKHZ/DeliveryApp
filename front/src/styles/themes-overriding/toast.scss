@@ -1,0 +1,55 @@
+@import '../variables.scss';
+
+body .ui-toast-dark {
+
+    .p-button {
+        border-color: transparent !important;
+        background-color: transparent !important;
+    }
+
+    .p-button:hover {
+        background-color: #6969697d !important;
+    }
+
+    .p-toast-message {
+        background-color: $color-toast-background !important;
+        border-color: $color-toast-background !important;
+    }
+
+    .p-toast-summary {
+        white-space: pre-line;
+    }
+
+    .p-toast-detail {
+        white-space: pre-line;
+        color: rgba(255, 255, 255, 0.74);
+    }
+
+    .p-toast-message-content {
+        color: white;
+
+        .p-toast-message-icon {
+            display: none;
+        }
+
+        .p-toast-icon-close-icon {
+            color: gray;
+        }
+    }
+
+    .p-toast-message-error {
+        border-left: 0.35rem solid $color-error !important; 
+    }
+
+    .p-toast-message-warn {
+        border-left: 0.35rem solid $color-warning !important; 
+    }
+
+    .p-toast-message-info {
+        border-left: 0.35rem solid $color-primary !important; 
+    }
+
+    .p-toast-message-success {
+        border-left: 0.35rem solid $color-success !important; 
+    }
+}

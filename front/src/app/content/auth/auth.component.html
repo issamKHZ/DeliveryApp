@@ -2,14 +2,14 @@
   <div class="left-side" *ngIf="!isRegisterPage" @fadeInOut>
     <div class="image-overlay">
       <div class="app-name mt-4">
-        <span class="init">IG</span> <span class="title">Delivery</span>
+        <span class="init">{{'app.name-decomp.init' | translate}}</span> <span class="title">{{'app.name-decomp.label' | translate}}</span>
       </div>
     </div>
   </div>
 
   <div class="right-side full-width" [class.full-screen]="isRegisterPage" @fadeInOut>  
     <div class="app-name app-name-right mt-2" *ngIf="isRegisterPage">      
-      <span class="init">IG</span> <span class="title">Delivery</span>
+      <span class="init">{{'app.name-decomp.init' | translate}}</span> <span class="title">{{'app.name-decomp.label' | translate}}</span>
     </div>
     <router-outlet></router-outlet>
   </div>

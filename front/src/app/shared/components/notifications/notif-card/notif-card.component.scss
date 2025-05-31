@@ -1,0 +1,46 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+
+
+
+
+    .notif-container {
+        position: relative;
+        padding-left: 1rem;
+        border: 0.1rem solid #c5cfd9;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+
+        .title {
+            font-size: 14px;
+            padding-left: 0.3rem;
+        }
+
+        .message {
+            padding-left: 0.6rem;
+            font-size: 11px;
+        }
+    }
+
+    .notif-container::before {
+        content: '';
+        position: absolute;
+        top: 0.3rem;
+        left: 0.3rem;
+        width: 0.5rem;
+        height: calc(100% - 0.5rem);
+        border-radius: 5px;
+        background-color: var(--notif-color);
+    }
+
+    .lu {
+        background-color: $color-notif-lu;
+    }
+
+    .non-lu {
+        background-color: $color-notif-non-lu;
+        font-weight: bold;
+    }
+}

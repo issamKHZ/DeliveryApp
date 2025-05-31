@@ -1,6 +1,6 @@
 export class AuthUser {    
-    mail!: string;
-    mdp!: string;
+    email!: string;
+    password!: string;
 
     public constructor(init?: Partial<AuthUser>) {
         Object.assign(this, init);

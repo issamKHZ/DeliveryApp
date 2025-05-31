@@ -1,0 +1,13 @@
+@import '../variables.scss';
+
+.p-divider-vertical:before {    
+    border-inline-start-color: $color-divider !important;
+}
+
+.top:before {
+    border-block-start: 1px solid $color-primary !important;
+}
+
+.bottom:before {
+    border-block-start: 1px solid $color-primary-dark !important;
+}

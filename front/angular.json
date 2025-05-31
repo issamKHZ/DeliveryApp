@@ -12,6 +12,9 @@
         },
         "@schematics/angular:service": {
           "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -47,8 +50,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",

@@ -3,10 +3,10 @@
 ::ng-deep {
   .auth-container {
     display: flex;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     font-family: sans-serif;
-    background: $color-background;
+    background: rgba(233, 249, 253, 0.94);
     transition: all 0.5s ease;
   }
 
@@ -48,12 +48,12 @@
 
   .right-side {
     width: 50%;
-    background: $color-background;
+    background: rgba(233, 249, 253, 0.94);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    transition: all 0.8s ease;
+    transition: all 0.8s ease;    
   }
 
   .auth-container.register-mode .right-side {
@@ -98,7 +98,11 @@
     }
   }
 
-  @media (max-width: 768px) {
+  .p-card {
+    background-color: rgba(241, 251, 253, 0.94) !important;
+  }
+
+  @media (max-width: 1000px) {
     .auth-container {
       flex-direction: column;
     }

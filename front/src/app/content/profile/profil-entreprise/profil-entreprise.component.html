@@ -1,0 +1,14 @@
+<div class="profil-entrep-layout">
+    <div class="profil-entrep-sidebar">
+        <app-side-bar [component]="component"></app-side-bar>
+    </div>
+
+    <div class="profil-entrep-main">
+        <div class="profil-entrep-header">
+            <app-header [expanded]="false" [withSideBar]="true"></app-header>
+        </div>
+        <div class="profil-entrep-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

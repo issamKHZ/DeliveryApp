@@ -1,11 +1,64 @@
 @import '../variables.scss';
 
-.p-button {   
-    color: $color-surface !important;
+.p-button {
+    color: $color-button-text !important;
     background: $color-primary !important;
     border-color: $color-primary !important;
+    font-size: 15px !important;
+    font-weight: normal !important;
+    font-family: $font-family !important;
+}
+
+.p-button-label {
+    font-weight: normal !important;
 }
 
 .p-button:hover {
     background-color: $color-primary-hover !important;
+}
+
+.p-button:focus-visible {
+    outline-color: $color-primary !important;
+}
+
+.p-button-danger {
+    background-color: $color-error !important;
+    border-color: $color-error !important;
+}
+
+.p-button-danger:hover {
+    background-color: $color-error !important;
+    border-color: $color-error !important;
+}
+
+.p-button-text {
+    background-color: #879399 !important;
+    border-color: #879399 !important;
+}
+
+.p-button-text:hover {
+    background-color: #879399 !important;
+    border-color: #879399 !important;
+}
+
+.p-button-success {
+    background-color: $color-success !important;
+    border-color: $color-success !important;
+}
+
+.p-button-success:hover {
+    background-color: $color-success !important;
+    border-color: $color-success !important;
+}
+
+.cold-button {
+    background-color: #ffffff !important;
+    border-color: #d2d7e0 !important;
+    color: #808891 !important;
+}
+
+.cold-button:hover {
+    background-color: #f3faff5d !important;
+    border-color: #d2d7e0 !important;
+    color: #00B4D8 !important;
 }

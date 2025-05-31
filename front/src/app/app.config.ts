@@ -7,6 +7,9 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { Tooltip, TooltipModule } from 'primeng/tooltip';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -30,13 +33,16 @@ export const appConfig: ApplicationConfig = {
         },
       })
     ),
+    providePrimeNG({
+      ripple: true,
+    }),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeTranslations,
       deps: [TranslateService],
       multi: true
     },
-    provideAnimations(), 
+    provideAnimations(),  // NÉCESSAIRE POUR LES EFFETS    
     //provideHttpClient(withInterceptors([TokenInterceptor, authInterceptor])),
     providePrimeNG({ 
       theme: {
@@ -47,7 +53,13 @@ export const appConfig: ApplicationConfig = {
             cssLayer: false
           }
       }                
-    })]
+    }),
+    importProvidersFrom(TooltipModule),
+    MessageService,
+    DialogService,
+    Tooltip,
+    ConfirmationService
+  ]
 };
 
 

@@ -9,3 +9,26 @@ export function customEmailValidator(control: AbstractControl): ValidationErrors
   
     return emailRegex.test(control.value) ? null : { customEmail: true };
 }
+
+export function minLengthPasswordValidator(control: AbstractControl): ValidationErrors | null {
+  const value: string = control.value || '';
+
+  if (value.length < 8) {
+    return { tooShort: true };
+  }
+
+  return null;
+}
+
+export function complexityPasswordValidator(control: AbstractControl): ValidationErrors | null {
+  const value: string = control.value || '';
+
+  const hasUpperCase = /[A-Z]/.test(value);
+  const hasNumber = /\d/.test(value);
+
+  if (!hasUpperCase || !hasNumber) {
+    return { weakPassword: true };
+  }
+
+  return null;
+}

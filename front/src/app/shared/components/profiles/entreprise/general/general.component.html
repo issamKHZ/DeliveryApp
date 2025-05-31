@@ -1,0 +1,101 @@
+<div class="general-content">
+    <div class="first-half">
+        <div class="card-pic-div">
+            <p-card [styleClass]="'card-pic'">
+                <div class="profile-card">
+                    <div class="profile-image-container" (click)="pic_overlay.click()">
+                        <p-avatar [image]="user.img || 'images/default-entreprise.png'" size="xlarge" shape="circle"
+                            class="profile-avatar">
+                        </p-avatar>
+
+                        <div #pic_overlay class="image-change-overlay" (click)="onUpload()">
+                            <i class="pi pi-camera"></i>
+                            <span>{{user.img ? "Changer l'image" : "Ajouter"}}</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-id flex px-2 py-1 mb-1">
+                        <h4>
+                            {{'app.profil.entreprise.general.form.keys.id' | translate}}
+                        </h4>
+                        <span>
+                            {{user.ID}}
+                        </span>
+                    </div>
+
+                    <div class="account-status">
+                        <app-custom-tag [type]="tag.SUCCESS" [content]="'Actif'"></app-custom-tag>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+        <div class="card-infos-div">
+            <p-card [styleClass]="'card-infos'">
+                <div>
+                    <div *ngFor="let field of filterFields(personelFieldGroup.IDENT)" class="ident-feild">
+                        <span class="field-label mb-2">
+                            {{field.label}}
+                        </span>
+
+                        <div class="input flex mb-3">
+                            <div class="value pl-2 col-10">
+                                <ng-container *ngIf="field.editMode; else readonlyField">
+                                    <ng-container *ngIf="field.code === personelFieldsEnum.DOC">
+                                        <p-datePicker [formControl]="field.control" dateFormat="dd/mm/yy"
+                                            styleClass="w-full" [showIcon]="true">
+                                        </p-datePicker>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="field.code !== personelFieldsEnum.DOC">
+                                        <input pInputText [formControl]="field.control" fluid [pAutoFocus]="true" />
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #readonlyField>
+                                    <input pInputText [formControl]="field.control" fluid readonly />
+                                </ng-template>
+
+                            </div>
+                            <div class="button flex col-2">
+                                <button *ngIf="field.code != personelFieldsEnum.TYPE" pButton
+                                    (click)="toggleEdit(field.code)"
+                                    [icon]="field.editMode ? 'pi pi-check' : 'pi pi-pencil'"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </div>
+    <div class="second-half">
+        <p-card [styleClass]="'p-card-body-second-half'">
+            <div class="contact-content">
+                <div *ngFor="let field of filterFields(personelFieldGroup.CONTACT)" class="flex grid">
+                    <span class="field-label col-3">
+                        {{field.label}}
+                    </span>
+
+                    <div class="value col-8">
+                        <ng-container *ngIf="field.editMode; else readonlyField">
+                            <input pInputText [formControl]="field.control" fluid [pAutoFocus]="true" />
+                        </ng-container>
+                        <ng-template #readonlyField>
+                            <input pInputText [formControl]="field.control" fluid readonly />
+                        </ng-template>
+                    </div>
+                    <div class="value flex col-1">
+                        <button *ngIf="field.code != personelFieldsEnum.TYPE" pButton
+                            [icon]="field.editMode ? 'pi pi-check' : 'pi pi-pencil'"
+                            (click)="toggleEdit(field.code)"></button>
+                    </div>
+
+                </div>
+            </div>
+        </p-card>
+    </div>
+    <div class="edit-div" *ngIf="editMode" @fadeInOut>
+        <button class="cold-button" pButton [icon]="'pi pi-undo'"
+            (click)="reset()">{{'app.profil.entreprise.general.form.buttons.reset' | translate}}</button>
+        <button pButton [icon]="'pi pi-check'">{{'app.profil.entreprise.general.form.buttons.edit' |
+            translate}}</button>
+    </div>
+</div>
