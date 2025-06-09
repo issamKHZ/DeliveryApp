@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ComponentsKeyEnum } from '../modele/enumerate/ComponentsKey';
 import { MenuItem } from 'primeng/api';
+import { EntrepSideBar } from '../modele/enumerate/EntrepSideBar';
+import { LivreurSideBar } from '../modele/enumerate/LivreurSideBar';
+import { ProfileTabs } from '../modele/profileTabs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,7 @@ export class ComponentRoutageService {
   private _component = new BehaviorSubject<ComponentsKeyEnum | null>(null);
   currentComponent$ = this._component.asObservable();
 
-  private _profilTabs = new BehaviorSubject<ComponentsKeyEnum | null>(null);
+  private _profilTabs = new BehaviorSubject<EntrepSideBar | LivreurSideBar | null>(null);
   currentTab$ = this._profilTabs.asObservable();
 
   constructor() { }
@@ -20,7 +23,7 @@ export class ComponentRoutageService {
     this._component.next(key);
   }
 
-  selectTab(key: ComponentsKeyEnum): void {
+  selectTab(key: EntrepSideBar | LivreurSideBar): void {
     this._profilTabs.next(key);
   }
 
@@ -45,21 +48,17 @@ export class ComponentRoutageService {
       }
       if (item.items) this.markActive(item.items, selectedComponent);
     }
-    console.log(items);
     
   }
 
-  markTabActive(items: MenuItem[], selectedTab: ComponentsKeyEnum) {
+  markTabActive(items: ProfileTabs[], selectedTab: EntrepSideBar | LivreurSideBar) {
     for (let item of items) {
-      if ((item as any).component === selectedTab) {
-        (item as any).styleClass = 'active-item';
+      if (item.code === selectedTab) {
+        (item as any).isActive = true;
       } else {
-        (item as any).styleClass = '';
-      }
-      if (item.items) this.markTabActive(item.items, selectedTab);
-    }
-    console.log(items);
-    
+        (item as any).isActive = false;
+      }      
+    }    
   }
 
 

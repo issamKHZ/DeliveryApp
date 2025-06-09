@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthUser } from '../modele/AuthUser';
-import { AuthService } from './auth.service';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, map, catchError, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { Observable, map, catchError, throwError } from 'rxjs';
 export class LoginService {
 
 
-  readonly API_URL = 'http://localhost:5269';
+  readonly API_URL = environment.apiUrl;
   readonly LOGIN_ENDPOINT = '/api/Authentication/login';
   readonly SEND_RECOVER_ENDPOINT = '/api/Authentication/send-recover';
   readonly RESET_ENDPOINT = '/api/Authentication/reset-password';

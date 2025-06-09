@@ -15,6 +15,13 @@
                     align-items: center;
                     justify-content: space-between;
                     gap: 0.5rem;
+
+                    h2 {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: calc(90% - 1.5rem);
+                    }
                 }
             }
 
@@ -34,10 +41,12 @@
                     transition: background 0.2s ease-in-out;
 
                     .tab {
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        max-width: calc(90% - 1.5rem);
+                        // white-space: nowrap;
+                        // overflow: hidden;
+                        // text-overflow: ellipsis;
+                        // max-width: calc(90% - 1.5rem);
+                        display: flex;
+                        align-items: center;
                     }
 
                     .custom-badge {
@@ -47,9 +56,21 @@
 
                 }
 
+                .custom-tab {
+                    color: $color-primary-darker;
+                    font-size: large;
+                }
+
                 .settings-list li:hover {
+                    background: #effbfd2d;
+                    border-radius: 10px;
+                }
+
+                .active-tab {
                     background: $color-item-selected;
                     border-radius: 10px;
+                    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+                    transform: translateY(-1px);
                 }
             }
         }

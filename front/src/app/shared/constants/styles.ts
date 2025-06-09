@@ -16,5 +16,7 @@ export class Style {
         // État hover + coché
         checkedHoverBackground: '#009ec2',
         checkedHoverBorderColor: '#009ec2',
+
+        // appPrimaryDarker: '#09445f',
     };
 }

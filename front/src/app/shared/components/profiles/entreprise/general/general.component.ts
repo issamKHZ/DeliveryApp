@@ -22,6 +22,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DatePickerModule } from 'primeng/datepicker';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { LoadingService } from '../../../utils/spinner/loading.service';
+import { EntrepSideBar } from '../../../../modele/enumerate/EntrepSideBar';
 
 export enum PersonelFieldsEnum {
   NAME = "Nom d'entreprise",
@@ -121,6 +122,7 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
   }
 
   ngOnInit(): void {
+    this.routageService.selectTab(EntrepSideBar.GENERAL);
     this.spinner.hide();
     this.initialImage = this.user.img;
     this.routageService.selectComponent(this.component.ENTREPRISE_PROFILE);
@@ -171,10 +173,10 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
       this.register(
         this.openImageService.ref.onClose.pipe(
           take(1)
-        ).subscribe((result) => {
+        ).subscribe((result) => {      
           if (result?.saved) {
             if (result.emptyImage) {
-              this.user.img == null;
+              this.user.img = null;              
             } else {
               this.user.img = result.image;
             }

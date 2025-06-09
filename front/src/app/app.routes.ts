@@ -18,7 +18,7 @@ export const routes: Routes = [
         path: '',
         canActivate: [HomeRedirectGuard],
         loadComponent: () =>
-            import('./content/profile/profile.component').then(m => m.ProfileComponent)
+            import('./shared/components/utils/empty/empty.component').then(m => m.EmptyComponent)
     },
 
     {
@@ -80,32 +80,32 @@ export const routes: Routes = [
             {
                 path: routesEndpoints.ADMINISTRAIF,
                 loadComponent: () =>
-                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+                    import('./shared/components/profiles/entreprise/info-administratif/info-administratif.component').then(m => m.InfoAdministratifComponent),
             },
             {
                 path: routesEndpoints.SIEGES,
                 loadComponent: () =>
-                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+                    import('./shared/components/profiles/entreprise/sites-coordinates/sites-coordinates.component').then(m => m.SitesCoordinatesComponent),
             },
             {
                 path: routesEndpoints.STATISTICS,
                 loadComponent: () =>
-                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+                    import('./shared/components/profiles/entreprise/statistics-histo/statistics-histo.component').then(m => m.StatisticsHistoComponent),
             },
             {
                 path: routesEndpoints.PREFERENCES,
                 loadComponent: () =>
-                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+                    import('./shared/components/profiles/entreprise/preferencies/preferencies.component').then(m => m.PreferenciesComponent),
             },
             {
                 path: routesEndpoints.NOTIFICATIONS,
                 loadComponent: () =>
-                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+                    import('./shared/components/profiles/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent),
             },
             {
                 path: routesEndpoints.SETTINGS,
                 loadComponent: () =>
-                    import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
+                    import('./shared/components/profiles/entreprise/settings/settings.component').then(m => m.SettingsComponent),
             },
             {
                 path: '**',

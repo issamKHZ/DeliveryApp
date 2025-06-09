@@ -41,6 +41,7 @@ export class EmailValidationComponent extends SubscriptionManager implements OnI
     private route: ActivatedRoute,
     private emailValidationService: EmailValidationService,
     private spinner: LoadingService,
+    private auth: AuthService,
     private message: MessageService,
     private translate: TranslateService,
     private router: Router,
@@ -51,7 +52,7 @@ export class EmailValidationComponent extends SubscriptionManager implements OnI
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.userMail = sessionStorage.getItem('mail');
+      this.userMail = this.auth.getValidationMail();
 
       this.token = params['token'];
 

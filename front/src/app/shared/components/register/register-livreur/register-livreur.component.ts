@@ -27,6 +27,7 @@ import { MessageService } from 'primeng/api';
 import { CommonService } from '../../../utils/common.service';
 import { LoadingService } from '../../utils/spinner/loading.service';
 import { HttpStatusCode } from '@angular/common/http';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register-livreur',
@@ -93,7 +94,8 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private message: MessageService,
     private commonService: CommonService,
-    private spinner: LoadingService
+    private spinner: LoadingService,
+    private auth: AuthService
   ) {
     this.optionsRoute = this.commonService.composeRoute([this.routeEnum.AUTH, this.routeEnum.REGISTER, this.routeEnum.OPTIONS]);
     this.emailValidationRoute = this.commonService.composeRoute([this.routeEnum.VALIDATION, this.routeEnum.MAIL]);
@@ -140,7 +142,7 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
         next: (response) => {
           console.log(response);
           
-          sessionStorage.setItem('mail', response.email);
+          this.auth.saveMail(response.email);
           this.router.navigate([this.emailValidationRoute]);
           this.spinner.hide();
           this.message.add({

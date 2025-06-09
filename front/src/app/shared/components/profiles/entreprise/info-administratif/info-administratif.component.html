@@ -1,0 +1,152 @@
+<p-confirmDialog [style]="{width: '350px'}" [baseZIndex]="10000" key="closeConfirmation">
+
+</p-confirmDialog>
+
+
+<div #infoAdministContainer class="info-administ-container">
+    <div class="title pl-4 flex gap-2">
+        <i class="pi pi-building-columns" style="font-size: 1.6rem"></i>
+        <span class="profile-section-title">{{'app.profil.entreprise.administratif.title' | translate}}</span>
+    </div>
+
+    <form [formGroup]="form" class="content">
+
+        <div class="edit-btn flex gap-2 mb-2">
+            <button pButton (click)="toggleEdit()"
+                [icon]="editMode ? 'pi pi-check' : 'pi pi-pencil'">
+                {{ (editMode ? 'app.profil.entreprise.administratif.buttons.validate' :
+                'app.profil.entreprise.administratif.buttons.edit' )| translate }}
+            </button>
+            <button pButton *ngIf="editMode" class="cold-button"
+            (click)="cancelEdit()"
+                icon='pi pi-times'>                
+                {{'app.common.buttons-label.cancel' | translate }}
+            </button>
+        </div>
+        <div class="section reponsable-file-card grid m-0">
+            <div class="responsable-name col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.administratif.form.responsable.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="responsable" fluid
+                    placeholder="{{'app.profil.entreprise.administratif.form.responsable.placeholder' | translate}}" />
+            </div>
+
+            <div class="justificatif-upload col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.administratif.form.justificatif.label' | translate}}
+                </span>
+
+                <div class="custom-upload-container mt-2">
+
+                    <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.jpg,.png"
+                        style="display: none;">
+
+                    <div *ngIf="!selectedFileName" class="upload-state-empty">
+                        <button pButton type="button" class="upload-button" (click)="fileInput.click()"
+                            [disabled]="!editMode">
+                            <i class="pi pi-cloud-upload"></i>
+                            <span>{{'app.profil.entreprise.administratif.form.justificatif.button.label' | translate }}</span>
+                        </button>
+                        <small class="file-size-warning">{{'app.profil.entreprise.administratif.form.justificatif.button.warning' | translate }}</small>
+                    </div>
+
+                    <div *ngIf="selectedFileName" class="upload-state-filled">
+                        <div class="file-display">
+                            <i [ngClass]="fileIconClass"></i>
+                            <a href="#" class="file-name" (click)="previewFile($event)">{{selectedFileName}}</a>
+                        </div>
+                        <div class="file-actions">
+                            <button pButton type="button" icon="pi pi-pencil"
+                                class="p-button-rounded p-button-text edit-button" (click)="fileInput.click()"
+                                [disabled]="!editMode"></button>
+                            <button pButton type="button" icon="pi pi-trash"
+                                class="p-button-rounded p-button-text delete-button" (click)="removeFile()"
+                                [disabled]="!editMode"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="email col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.administratif.form.email.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="remail" fluid
+                    placeholder="{{'app.profil.entreprise.administratif.form.email.placeholder' | translate}}" />
+            </div>
+            <div class="phone col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.administratif.form.phone.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="rphone" fluid
+                    placeholder="{{'app.profil.entreprise.administratif.form.phone.placeholder' | translate}}" />
+            </div>
+        </div>
+        <div class="section reponsable-adresse-card grid m-0">
+            <div class="adresse col-12">
+                <span class="field-label">
+                    {{'app.profil.entreprise.administratif.form.adresse.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="eadresse" fluid
+                    placeholder="{{'app.profil.entreprise.administratif.form.adresse.placeholder' | translate}}" />
+            </div>
+            <div class="complement col-12 grid">
+                <div class="postal col-4">
+                    <span class="field-label">
+                        {{'app.profil.entreprise.administratif.form.code-postal.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="epostal" fluid
+                        placeholder="{{'app.profil.entreprise.administratif.form.code-postal.placeholder' | translate}}" />
+                </div>
+                <div class="city col-4">
+                    <span class="field-label">
+                        {{'app.profil.entreprise.administratif.form.city.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="ecity" fluid
+                        placeholder="{{'app.profil.entreprise.administratif.form.city.placeholder' | translate}}" />
+                </div>
+                <div class="country col-4 pr-0">
+                    <span class="field-label">
+                        {{'app.profil.entreprise.administratif.form.country.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="ecountry" fluid
+                        placeholder="{{'app.profil.entreprise.administratif.form.country.placeholder' | translate}}" />
+                </div>
+            </div>
+        </div>
+        <div class="section siret-secteur-card grid m-0">
+            <div class="siret col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.administratif.form.siret.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="siret" fluid
+                    placeholder="{{'app.profil.entreprise.administratif.form.siret.placeholder' | translate}}" />
+            </div>
+            <div class="secteur col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.administratif.form.secteur.label' | translate}}
+                </span>
+                <p-multiselect class="mt-2 profil-disabled-select" [options]="secteursList" formControlName="secteur"
+                    optionLabel="label" display="chip"
+                    placeholder="{{'app.profil.entreprise.administratif.form.secteur.placeholder' | translate}}"
+                    [maxSelectedLabels]="3" styleClass="w-full md:w-80" />
+
+            </div>
+        </div>
+
+        <p-panel class="desc-card"
+            header="{{'app.profil.entreprise.administratif.form.description.label' | translate }}" [toggleable]="true"
+            [collapsed]="true" (collapsedChange)="scrollDown()">
+            <div class="m-0">
+                <p-editor formControlName="description" [style]="{ height: '200px' }" [readonly]="editorDisabled"
+                    [styleClass]="editorDisabled ? 'editor-disabled' : ''" />
+            </div>
+        </p-panel>
+
+
+
+    </form>
+
+</div>

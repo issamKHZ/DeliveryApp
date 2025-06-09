@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { Observable, map, catchError, throwError } from 'rxjs';
 import { RegistrationInfos } from '../modele/RegistrationInfos';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmailValidationService {
 
-  private readonly API_URL = 'http://localhost:5269';
+  private readonly API_URL = environment.apiUrl;
   private readonly EMAIL_VALIDATION_ENDPOINT = '/api/Authentication/email-validation';
   private readonly SEND_EMAIL_VALIDATION_ENDPOINT = '/api/Authentication/email-validation';
 

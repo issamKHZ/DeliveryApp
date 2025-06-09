@@ -1,7 +1,11 @@
 <div class="general-content">
+    <div class="title pl-4 flex gap-2">
+        <i class="pi pi-list" style="font-size: 1.6rem"></i>
+        <span class="profile-section-title">{{'app.profil.entreprise.general.title' | translate}}</span>
+    </div>
     <div class="first-half">
         <div class="card-pic-div">
-            <p-card [styleClass]="'card-pic'">
+            <p-card [styleClass]="'card-pic p-dynamic-card'">
                 <div class="profile-card">
                     <div class="profile-image-container" (click)="pic_overlay.click()">
                         <p-avatar [image]="user.img || 'images/default-entreprise.png'" size="xlarge" shape="circle"
@@ -24,13 +28,13 @@
                     </div>
 
                     <div class="account-status">
-                        <app-custom-tag [type]="tag.SUCCESS" [content]="'Actif'"></app-custom-tag>
+                        <app-custom-tag [type]="user.status.severity" [content]="user.status.content"></app-custom-tag>
                     </div>
                 </div>
             </p-card>
         </div>
         <div class="card-infos-div">
-            <p-card [styleClass]="'card-infos'">
+            <p-card [styleClass]="'card-infos p-dynamic-card'">
                 <div>
                     <div *ngFor="let field of filterFields(personelFieldGroup.IDENT)" class="ident-feild">
                         <span class="field-label mb-2">
@@ -51,7 +55,7 @@
                                     </ng-container>
                                 </ng-container>
                                 <ng-template #readonlyField>
-                                    <input pInputText [formControl]="field.control" fluid readonly />
+                                    <input pInputText [formControl]="field.control" fluid readonly class="profil-readonly-input"/>
                                 </ng-template>
 
                             </div>
@@ -67,7 +71,7 @@
         </div>
     </div>
     <div class="second-half">
-        <p-card [styleClass]="'p-card-body-second-half'">
+        <p-card [styleClass]="'p-card-body-second-half p-dynamic-card'">
             <div class="contact-content">
                 <div *ngFor="let field of filterFields(personelFieldGroup.CONTACT)" class="flex grid">
                     <span class="field-label col-3">
@@ -79,7 +83,7 @@
                             <input pInputText [formControl]="field.control" fluid [pAutoFocus]="true" />
                         </ng-container>
                         <ng-template #readonlyField>
-                            <input pInputText [formControl]="field.control" fluid readonly />
+                            <input pInputText [formControl]="field.control" fluid readonly class="profil-readonly-input"/>
                         </ng-template>
                     </div>
                     <div class="value flex col-1">

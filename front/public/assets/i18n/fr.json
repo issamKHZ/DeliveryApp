@@ -378,6 +378,7 @@
                     }
                 },
                 "general": {
+                    "title": "Informations générales",
                     "form": {
                         "keys": {
                             "id": "ID :",
@@ -395,6 +396,98 @@
                         "tooltip": {
                             "save": "Quittez le panel pour enregistrer l'image"
                         }
+                    },
+                    "image-dialog": {
+                        "confirmDialog": {
+                            "message": "Voulez vous enregistrer les modifications ?"
+                        }
+                    }
+                },
+                "administratif": {
+                    "title": "Informations Administratifs",
+                    "form": {
+                        "responsable": {
+                            "label": "Le nom de responsable",
+                            "placeholder": "Entrez le nom"
+                        },
+                        "justificatif": {
+                            "label": "Justificatif de domiciliation",
+                            "button": {
+                                "label": "Joindre un fichier",
+                                "warning":"Taille maximale : 5MB (PDF, JPG, PNG)"
+                            }
+                        },
+                        "email": {
+                            "label": "L'email du reponsable",
+                            "placeholder": "Saisir l'email du responsable"
+                        },
+                        "phone": {
+                            "label": "Le N° Telephone du responsable",
+                            "placeholder": "Entrer le N° Telephone"
+                        },
+                        "adresse": {
+                            "label": "L'adresse du sitre principale",
+                            "placeholder": "Entrez l'adresse"
+                        },
+                        "code-postal": {
+                            "label": "Code postale",
+                            "placeholder": "Entrez le code"
+                        },
+                        "city": {
+                            "label": "Commune",
+                            "placeholder": "Entrez la commune"
+                        },
+                        "country": {
+                            "label": "Pays",
+                            "placeholder": "Entrez le pays"
+                        },
+                        "siret": {
+                            "label": "Le N° de SIRET",
+                            "placeholder": "Entrez le numéro"
+                        },
+                        "secteur": {
+                            "label": "Secteur d'activité",
+                            "placeholder": "Choisissez le(s) secteur(s) d'activité"
+                        },
+                        "description": {
+                            "label": "Notices des modes de livraison"
+                        }
+                    },
+                    "buttons": {
+                        "edit": "Modifier",
+                        "validate": "Enregistrer"
+                    },
+                    "confirmDialog": {
+                        "message": "Voulez vous enregistrer les modifications ?"
+                    }
+                },
+                "sieges": {
+                    "title": "Coordonnées des sièges"
+                },
+                "notifications": {
+                    "title": "Notifications"
+                },
+                "statistics": {
+                    "title": "Historiques et statistiques"
+                },
+                "preferences": {
+                    "title": "Préférences"
+                },
+                "parametres": {
+                    "title": "Paramètres"
+                }
+            },
+            "livreur": {
+                "side-bar": {
+                    "type": "(Livreur)",
+                    "tabs": {
+                        "perso": "Informations personnelles",
+                        "dispo": "Disponibilité",
+                        "eval": "Evaluations et commentaires",
+                        "statistics": "Statistiques",
+                        "historics": "Historiques",
+                        "notif": "Notifications",
+                        "settings": "Paramètres et préférences"
                     }
                 }
             }

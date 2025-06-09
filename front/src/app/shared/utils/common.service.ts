@@ -39,4 +39,17 @@ export class CommonService {
     });
   }
 
+  findScrollableParent(element: HTMLElement): HTMLElement | Window {
+    let current = element.parentElement;
+
+    while (current) {
+      const style = window.getComputedStyle(current);
+      if (style.overflowY === 'auto' || style.overflowY === 'scroll') {
+        return current;
+      }
+      current = current.parentElement;
+    }
+
+    return window;
+  }
 }

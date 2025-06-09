@@ -1,0 +1,16 @@
+@import '../../../../../../styles/variables.scss';
+
+::ng-deep {
+    .epreferences-container {
+        height: 100%;
+
+        .title {
+            margin-bottom: 0.5rem;
+            align-items: center;
+
+            i {
+                color: $color-primary-darker;
+            }
+        }
+    }
+}

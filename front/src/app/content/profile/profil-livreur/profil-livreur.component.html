@@ -1,1 +1,14 @@
-<p>profil-livreur works!</p>
+<div class="profil-livreur-layout">
+    <div class="profil-livreur-sidebar">
+        <app-side-bar [component]="component"></app-side-bar>
+    </div>
+
+    <div class="profil-livreur-main">
+        <div class="profil-livreur-header">
+            <app-header [expanded]="false" [withSideBar]="true"></app-header>
+        </div>
+        <div class="profil-livreur-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

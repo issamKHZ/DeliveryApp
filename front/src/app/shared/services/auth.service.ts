@@ -10,14 +10,15 @@ import { RoutesEnum } from '../modele/enumerate/routes';
 import { UserRoles } from '../modele/enumerate/userRoles';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly SESSION_USER_KEY = 'token';
+  private readonly COOKIE_USER_KEY = 'token';
+  private readonly COOKIE_MAIL_KEY = 'mail';
 
   private _showErrors = new BehaviorSubject<boolean | null>(null);
   showErrors$ = this._showErrors.asObservable();
@@ -31,11 +32,12 @@ export class AuthService {
     private commonService: CommonService,
     private translate: TranslateService,
     private message: MessageService,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) { }
 
   login(user: AuthUser): void {
-    this.spinner.show
+    this.spinner.show();
     this.loginService.login(user).subscribe({
       next: (response) => {
         this.spinner.hide();
@@ -43,7 +45,6 @@ export class AuthService {
           this.saveToken(response.token);
           this.removeMail();
           this._showErrors.next(false);
-
           this.goToProfile();
         }
       },
@@ -52,13 +53,16 @@ export class AuthService {
         if (error.error == "credentials") {
           this._showErrors.next(true);
         } else if (error.error == "user not validated") {
-          sessionStorage.setItem('mail', user.email);
-          this.router.navigate([this.commonService.composeRoute([RoutesEnum.VALIDATION, RoutesEnum.MAIL])])
+          // mail cookie = 30 min d'expiration
+          const expires = new Date();
+          expires.setMinutes(expires.getMinutes() + 30);
+          this.cookieService.set(this.COOKIE_MAIL_KEY, user.email, expires, '/', '', true, "Strict");
+
+          this.router.navigate([this.commonService.composeRoute([RoutesEnum.VALIDATION, RoutesEnum.MAIL])]);
         }
       }
-    })
+    });
   }
-
 
   sendRecoverPwd(mail: any) {
     this.loginService.sendRecoverPwd(mail).subscribe({
@@ -74,7 +78,7 @@ export class AuthService {
           detail: this.translate.instant('app.auth.login.messages.reset-pwd-email.detail'), life: 5000
         });
       }
-    })
+    });
   }
 
   resetPassword(token: string, password: string) {
@@ -92,13 +96,23 @@ export class AuthService {
     });
   }
 
-
   saveToken(token: string) {
-    sessionStorage.setItem(this.SESSION_USER_KEY, token);
+    // Décode le JWT pour récupérer exp
+    const decoded: any = jwtDecode(token);
+
+    if (decoded.exp) {
+      // exp est en secondes (UTC)
+      const expires = new Date(decoded.exp * 1000);
+      this.cookieService.set(this.COOKIE_USER_KEY, token, expires, '/', '', true, "Strict");
+    } else {
+      // S'il n'y a pas exp (rare), fallback à 1 jour
+      this.cookieService.set(this.COOKIE_USER_KEY, token, 1, '/', '', true, "Strict");
+    }
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem(this.SESSION_USER_KEY);
+    const token = this.cookieService.get(this.COOKIE_USER_KEY);
+    return token || null;
   }
 
   getUserRole(): string | null {
@@ -118,7 +132,7 @@ export class AuthService {
       if (decoded.exp && decoded.exp > currentTime) {
         return true;
       } else {
-        sessionStorage.clear();
+        this.logout();
         return false;
       }
     } catch (e) {
@@ -127,12 +141,21 @@ export class AuthService {
   }
 
   logout() {
-    sessionStorage.clear();
-    this.router.navigate([RoutesEnum.AUTH])
+    this.cookieService.delete(this.COOKIE_USER_KEY, '/');
+    this.cookieService.delete(this.COOKIE_MAIL_KEY, '/');
+    this.router.navigate([RoutesEnum.AUTH]);
+  }
+
+
+  saveMail(mail: string) {
+    const expires = new Date();
+    expires.setMinutes(expires.getMinutes() + 30);
+    this.cookieService.set(this.COOKIE_MAIL_KEY, mail, expires, '/', '', true, "Strict");
   }
 
   getValidationMail(): string | null {
-    return sessionStorage.getItem('mail');
+    const mail = this.cookieService.get(this.COOKIE_MAIL_KEY);
+    return mail || null;
   }
 
   isValidationPhase(): boolean {
@@ -141,7 +164,7 @@ export class AuthService {
   }
 
   removeMail(): void {
-    sessionStorage.removeItem('mail');
+    this.cookieService.delete(this.COOKIE_MAIL_KEY, '/');
   }
 
   goToProfile(): void {

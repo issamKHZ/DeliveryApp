@@ -2,6 +2,7 @@
 $color-primary: #00B4D8;
 $color-primary-hover: #02a3c4;
 $color-primary-dark: #0077B6;
+$color-primary-mid-darker: rgb(2, 86, 124);
 $color-primary-darker: #09445f;
 $color-primary-light: #90E0EF;
 //linear-gradient(135deg, rgba(246, 253, 255, 0.94) 0%, rgba(213, 243, 252, 0.94) 100%)
@@ -15,6 +16,7 @@ $color-select-options: #00627A;
 $color-text: #1d3237;
 $color-text-secondary: #6C757D;
 $color-surface: #fcfeffd7;
+$color-disabled-surface: #cbd5e1;
 
 $color-success: #10b956;
 $color-error: #e73131;
@@ -51,22 +53,26 @@ $color-error-hover-primary: #811433da;
 $color-tag-success-background: #dcfce791;
 $color-tag-danger-background: #fee2e2ba;
 $color-tag-warn-background: #ffedd5d4;
-$color-tag-info-background: #e0f2fe;
+$color-tag-info-background: #e0f2feb2;
 
 /* color */
 $color-tag-success: #23a754;
 $color-tag-danger: #e31a1a;
 $color-tag-warn: #e9571b;
-$color-tag-info: #0079bb;
+$color-tag-info: #0079bbce;
 
-/* color */
+/* border-color */
 $color-tag-success-border: #5ecc86d0;
 $color-tag-danger-border: #ff9f9fd8;
 $color-tag-warn-border: #f79872de;
 $color-tag-info-border: #5ab0dfcc;
 
+
+
+
 // side-bar
 $color-sidebar-background: linear-gradient(to bottom, rgba(152, 238, 255, 0.8470588235), #068cd4);
+//linear-gradient(to bottom, rgb(197 245 255 / 85%), #30b7ff)
 $color-item-selected: #effbfd63;
 
 

@@ -47,3 +47,36 @@ input {
 .p-floatlabel:has(.ng-invalid.ng-dirty) label {
     color: #dc2626 !important
 }
+
+.p-checkbox-checked .p-checkbox-box {
+    border-color: $color-primary !important;
+    background: $color-primary !important;
+}
+
+
+// profile inputs
+//
+.profil-readonly-input {
+    background-color: rgba(199, 199, 199, 0.18) !important;
+    cursor: default;
+    border-color: $color-disabled-surface !important;
+    color: #334155 !important;
+}
+
+.profil-disabled-input:disabled {
+    opacity: 1 !important;
+    color: #334155 !important;
+    background-color: rgba(199, 199, 199, 0.18) !important;
+    border-color: $color-disabled-surface !important;
+}
+
+.profil-readonly-input:enabled:focus {
+    border-color: $color-disabled-surface !important;
+}
+
+.p-multiselect.p-disabled {    
+    .p-chip {
+        background-color: #b2c1d17a !important;
+    }
+}
+//

@@ -1,0 +1,30 @@
+@import '../../../../styles/variables.scss';
+
+::ng-deep {
+    .profil-livreur-layout {
+        display: flex;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .profil-livreur-sidebar {
+        width: 20%;
+        min-width: 20%;
+        background: $color-sidebar-background;
+        border-right: 1px solid #ccc;
+        padding: 1rem;
+    }
+
+    .profil-livreur-main {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .profil-livreur-content {
+        flex-grow: 1;
+        padding: 1.5rem;        
+        overflow-y: auto;
+    }
+}

@@ -16,6 +16,7 @@
 @import 'styles/themes-overriding/menu.scss';
 @import 'styles/themes-overriding/tag.scss';
 @import 'styles/themes-overriding/calendar.scss';
+@import 'styles/themes-overriding/dialogs.scss';
 
 
 :root {
@@ -23,7 +24,7 @@
   --font-family: 'Inter', sans-serif;
 
   /* Titres */
-  --title-size: 24px;
+  --title-size: 1.6rem;
   --subtitle-size: 18px;
   --text-size: 15px;
   --text-large-size: 17px;
@@ -38,6 +39,7 @@
   --p-menubar-item-active-background: #98eeffd8 !important;
   --p-menubar-submenu-icon-color: $color-primary-dark !important;
   --p-menubar-submenu-icon-focus-color: $color-primary-dark !important;
+  
 }
 
 /* Reset / base */
@@ -80,6 +82,12 @@ h4 {
 
 p {
   font-size: var(--text-size);
+}
+
+.profile-section-title {
+  font-size: var(--title-size);
+  color: $color-primary-mid-darker;
+  font-weight: 600;  
 }
 
 .ssmall-text {

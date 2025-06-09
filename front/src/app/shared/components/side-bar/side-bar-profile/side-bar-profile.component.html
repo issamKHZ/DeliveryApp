@@ -1,0 +1,42 @@
+<div class="side-bar-container h-full">
+    <div class="first-half">
+        <div class="sidebar-title">
+            <div class="entrep-name">
+                <h2> {{userName}} </h2>
+                <app-custom-tag [type]="accountStatus.severity" [content]="'Actif'"></app-custom-tag>
+            </div>
+            <div class="type mt-2">
+                <h3>{{role}}</h3>
+            </div>
+        </div>
+        <p-divider [styleClass]="'top'"></p-divider>
+        <div class="tabs-menu mt-4">
+            <ul class="settings-list text-lg" *ngIf="tabs?.length > 0">
+                <li *ngFor="let tab of tabs" [ngClass]="{ 'active-tab': isTabActive(tab) }" (click)="selectTab(tab)">
+                    <div class="tab">
+                        <i class="mr-2" [ngClass]="tab.icon" style="font-size: 1rem;"></i>
+                        <app-large-content-field [styleClass]="'custom-tab'" [content]="tab.label || ''"
+                            tooltipPosition="right">
+                        </app-large-content-field>
+                    </div>
+
+                    <ng-container *ngIf="tab.isnotif; else chevronIcon">
+                        <p-badge styleClass="custom-badge" [value]="notifCount"></p-badge>
+                    </ng-container>
+
+                    <ng-template #chevronIcon>
+                        <i class="pi pi-chevron-right icon"></i>
+                    </ng-template>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="second-half">
+        <p-divider [styleClass]="'bottom'"></p-divider>
+        <div class="logout">
+            <button pButton pRipple icon="pi pi-sign-out" class="w-full logout-button" [label]="'Deconnexion'"
+                (click)="logout()"></button>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-import { EntrepriseRegistration } from "./entrepriseRegistration";
+import { EntrepriseRegistration } from "./entreprise/entrepriseRegistration";
 import { LivreurRegistration } from "./livreurRegistration";
 import { UserRegistration } from "./UserRegistration";
 

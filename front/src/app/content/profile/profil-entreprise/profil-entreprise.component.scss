@@ -22,18 +22,10 @@
         flex-grow: 1;
     }
 
-    // .profil-entrep-header {
-    //     height: 70px;
-    //     background-color: #ffffff;
-    //     border-bottom: 2px solid #ccc;
-    //     display: flex;
-    //     align-items: center;
-    //     padding: 0 1rem;
-    // }
-
     .profil-entrep-content {
         flex-grow: 1;
-        padding: 1.5rem;        
+        padding: 1.5rem;
         overflow-y: auto;
+        scroll-behavior: smooth;
     }
 }

@@ -2,14 +2,22 @@ import { Injectable } from '@angular/core';
 import { PersonalInfosField, PersonelFieldGroup, PersonelFieldsEnum } from '../../../components/profiles/entreprise/general/general.component';
 import { PersonelInfosEntreprise } from '../../../modele/entreprise/PersonelInfosEntreprise';
 import { TranslateService } from '@ngx-translate/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, UntypedFormGroup } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { AdminInfoEntreprise } from '../../../modele/entreprise/AdminInfoEntreprise';
+import { secteursList } from '../../../constants/secteurs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfilEntrepCommonService {
 
-  constructor(private translate: TranslateService) { }
+  private _scroll = new BehaviorSubject<any | null>(null);
+  scroll$ = this._scroll.asObservable();
+
+  constructor(private translate: TranslateService,
+    private fb: FormBuilder
+  ) { }
 
   adaptPersonalInfoToForm(infos: PersonelInfosEntreprise): PersonalInfosField[] {
     const fieldConfigs: {
@@ -18,7 +26,7 @@ export class ProfilEntrepCommonService {
       code: PersonelFieldsEnum;
       group: PersonelFieldGroup;
     }[] = [
-        { key: 'name', label: this.translate.instant('app.profil.entreprise.general.form.keys.name'), code: PersonelFieldsEnum.NAME, group: PersonelFieldGroup.IDENT },        
+        { key: 'name', label: this.translate.instant('app.profil.entreprise.general.form.keys.name'), code: PersonelFieldsEnum.NAME, group: PersonelFieldGroup.IDENT },
         { key: 'doc', label: this.translate.instant('app.profil.entreprise.general.form.keys.doc'), code: PersonelFieldsEnum.DOC, group: PersonelFieldGroup.IDENT },
         { key: 'Type', label: this.translate.instant('app.profil.entreprise.general.form.keys.type'), code: PersonelFieldsEnum.TYPE, group: PersonelFieldGroup.IDENT },
         { key: 'mail', label: this.translate.instant('app.profil.entreprise.general.form.keys.mail'), code: PersonelFieldsEnum.MAIL, group: PersonelFieldGroup.CONTACT },
@@ -44,10 +52,58 @@ export class ProfilEntrepCommonService {
     });
   }
 
-   /**
-   * Convertit une string ISO en Date
-   * Si invalide ou null, retourne null
-   */
+  adaptAdministratifInfoToForm(infos: AdminInfoEntreprise): UntypedFormGroup {
+    return this.fb.group({
+      responsable: [infos.responsableName],
+      remail: [infos.responsableEmail],
+      rphone: [infos.responsablePhone],
+      eadresse: [infos.adress],
+      epostal: [infos.postalCode],
+      ecity: [infos.city],
+      ecountry: [infos.country],
+      justificatif: [infos.justificatifDomicil],
+      siret: [infos.siretNumber],
+      secteur: new FormControl<{ label: string, code: string }[] | null>(this.getSectorsByCodes(infos.activitySector)),
+      description: [infos.description]
+    }, {
+      updateOn: 'submit'
+    });
+  }
+
+  adaptFormToAdministratifInfo(form: UntypedFormGroup): AdminInfoEntreprise {
+    return new AdminInfoEntreprise({
+      responsableName: form.get('responsable')?.value,
+      responsableEmail: form.get('remail')?.value,
+      responsablePhone: form.get('rphone')?.value,
+      adress: form.get('eadresse')?.value,
+      postalCode: form.get('epostal')?.value,
+      city: form.get('ecity')?.value,
+      country: form.get('ecountry')?.value,
+      siretNumber: form.get('siret')?.value,
+      activitySector: form.get('secteur')?.value,
+      description: form.get('description')?.value,
+      justificatifDomicil: form.get('justificatif')?.value,
+    });
+  }
+
+  getSectorsByCodes(codes: string[]): { label: string, code: string }[] {
+    const secteursConst = secteursList;
+    let secteurs = [];
+
+    secteurs = codes.map(code => {
+      return {
+        label: secteursConst.find(s => s.code == code).label,
+        code: code
+      }
+    })
+
+    return secteurs;
+  }
+
+  /**
+  * Convertit une string ISO en Date
+  * Si invalide ou null, retourne null
+  */
   fromISOToDate(isoString: string | null | undefined): Date | null {
     if (!isoString) return null;
     const date = new Date(isoString);
@@ -91,4 +147,18 @@ export class ProfilEntrepCommonService {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
+
+  autoScroll(bool: boolean): void {
+    this._scroll.next(bool);
+  }
+
+  extractFilenameFromUrl(fileUrl: string | ArrayBuffer): string {
+  if (typeof fileUrl === 'string') {
+    const match = fileUrl.match(/\/([^\/?#]+)(?:\?|#|$)/);
+    return match ? match[1] : null;
+  }
+
+  return null;
+}
+
 }

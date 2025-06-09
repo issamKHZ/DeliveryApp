@@ -3,6 +3,14 @@
 .p-card {
     color: $color-text !important;
     font-weight: $weight-text !important; 
-    box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1),0 1px 2px -1px rgba(0,0,0,0.1) !important; 
+    box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1),0 1px 2px -1px rgba(0,0,0,0.1) !important; 
     background: $color-card-app-background !important;
+}
+
+.p-dynamic-card {
+    transition: box-shadow 0.3s ease !important;
+}
+ 
+.p-dynamic-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12) !important;
 }

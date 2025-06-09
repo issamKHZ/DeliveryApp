@@ -26,6 +26,7 @@ import { MessageService } from 'primeng/api';
 import { CommonService } from '../../../utils/common.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { LoadingService } from '../../utils/spinner/loading.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register-entreprise',
@@ -88,7 +89,8 @@ export class RegisterEntrepriseComponent implements OnInit {
     private message: MessageService,
     private translate: TranslateService,
     private commonService: CommonService,
-    private spinner: LoadingService
+    private spinner: LoadingService,
+    private auth: AuthService
   ) {
     this.optionsRoute = this.commonService.composeRoute([this.routes.AUTH, this.routes.REGISTER, this.routes.OPTIONS]);
     this.emailValidationRoute = this.commonService.composeRoute([this.routes.VALIDATION, this.routes.MAIL]);
@@ -116,7 +118,7 @@ export class RegisterEntrepriseComponent implements OnInit {
       let entreprise = this.registerFormService.adaptFormToModelEntreprise(this.form);
       this.registerEntrepriseService.register(entreprise).subscribe({
         next: (response) => {
-          sessionStorage.setItem('mail', response.email);
+          this.auth.saveMail(response.email);
           this.router.navigate([this.emailValidationRoute]);
           this.spinner.hide();
           this.message.add({

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { EntrepriseRegistration } from '../modele/entrepriseRegistration';
+import { EntrepriseRegistration } from '../modele/entreprise/entrepriseRegistration';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RegistrationInfos } from '../modele/RegistrationInfos';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterEntrepriseService {
 
-  readonly API_URL = 'http://localhost:5269';
+  readonly API_URL = environment.apiUrl;
   readonly REGISTER_ENTREPRISE_ENDPOINT = '/api/Authentication/register';
 
   constructor(private httpClient: HttpClient) { }

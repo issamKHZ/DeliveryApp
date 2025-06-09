@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TooltipModule } from 'primeng/tooltip';
 import { Message } from 'primeng/message';
 
@@ -28,7 +28,7 @@ import { Message } from 'primeng/message';
 })
 export class ChangeProfilPicComponent {
 
-  
+
   readonly defaultImage = 'images/default-entreprise.png';
   image: string;
   emptyImage: boolean;
@@ -41,6 +41,7 @@ export class ChangeProfilPicComponent {
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
+    private translate: TranslateService,
     private confirmationService: ConfirmationService
   ) {
     this.image = this.config.data?.image;
@@ -61,29 +62,27 @@ export class ChangeProfilPicComponent {
 
   private showCloseConfirmation(): void {
     this.confirmationService.confirm({
-      message: 'Voulez vous enregistrer les modifications ?',
+      message: this.translate.instant('app.profil.entreprise.general.image-dialog.confirmDialog.message'),
       icon: 'pi pi-exclamation-triangle',
       closeOnEscape: false,
-      dismissableMask: false,            
+      dismissableMask: false,
       key: 'closeConfirmation',
     });
 
 
   }
+  // handleDialogClose() {
+  //   console.log('enter');
+  // }
 
-  handleDialogClose() {
-    console.log('enter');
-
-  }
-  
-  onAccept(): void {    
+  onAccept(): void {
     this.ref.close({ saved: true, image: this.image, forceClose: true, emptyImage: this.emptyImage });
   }
 
-  onReject(): void {      
+  onReject(): void {
     this.ref.close({ saved: false, forceClose: true });
   }
-    
+
 
   // onCancel(): void {
   //   this.confirmationService.close();

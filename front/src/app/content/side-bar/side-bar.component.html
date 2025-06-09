@@ -1,8 +1,9 @@
 <div [ngSwitch]="component" class="side-bar-component h-full">
-    <ng-container *ngSwitchCase="componentKeys.ENTREPRISE_PROFILE">
-        <app-side-bar-entreprise></app-side-bar-entreprise>
-    </ng-container>
-    <ng-container *ngSwitchCase="componentKeys.LIVREUR_PROFILE">
-        <app-side-bar-livreur></app-side-bar-livreur>
-    </ng-container>
+    <app-side-bar-profile 
+        [userName]="'test test ccccccccccccccccccccccccccccccccccccccccccccccccccccccc'" 
+        [notifCount]="86" 
+        [role]="role" 
+        [accountStatus]="accountStatus"
+        [tabs]="tabs">
+    </app-side-bar-profile>
 </div>

@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { LivreurRegistration } from '../modele/livreurRegistration';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { RegistrationInfos } from '../modele/RegistrationInfos';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterLivreurService {
 
-  readonly API_URL = 'http://localhost:5269';
+  readonly API_URL = environment.apiUrl;
   readonly REGISTER_LIVREUR_ENDPOINT = '/api/Authentication/register';
 
   constructor(private httpClient: HttpClient) { }

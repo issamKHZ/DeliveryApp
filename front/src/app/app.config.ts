@@ -10,6 +10,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Tooltip, TooltipModule } from 'primeng/tooltip';
+import { CookieService } from 'ngx-cookie-service';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -42,8 +43,7 @@ export const appConfig: ApplicationConfig = {
       deps: [TranslateService],
       multi: true
     },
-    provideAnimations(),  // NÉCESSAIRE POUR LES EFFETS    
-    //provideHttpClient(withInterceptors([TokenInterceptor, authInterceptor])),
+    provideAnimations(), 
     providePrimeNG({ 
       theme: {
           preset: Aura,
@@ -58,6 +58,7 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     DialogService,
     Tooltip,
+    CookieService,    
     ConfirmationService
   ]
 };

@@ -3,6 +3,7 @@
 .p-select {
     line-height: normal !important;
     background-color: $color-input-background !important;
+    width: 100% !important;
 }
 
 .p-select:not(.p-disabled).p-focus {
@@ -17,4 +18,27 @@
         color: $color-select-options !important;
         background-color: $color-select-options-background !important;
     }
+}
+
+.p-multiselect {
+    width: 100% !important;
+
+    .p-chip {
+        background-color: #beeaff;
+    }
+}
+
+.p-multiselect:not(.p-disabled).p-focus {
+    border-color: $color-primary !important;
+}
+
+.p-multiselect {
+    height: 35px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.p-multiselect-label {
+    line-height: 1;
+    padding: 0;
 }
