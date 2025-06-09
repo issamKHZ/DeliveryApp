@@ -5,6 +5,69 @@
     .info-administ-container {
         height: 100%;
 
+
+        @media (max-width: 1199.98px) {
+            .content {
+                margin: 0 5%;
+                padding: 1.5rem 1rem 3rem 1rem;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .content {
+                margin: 0;
+                padding: 1rem;
+
+                .section {
+
+                    &.reponsable-file-card,
+                    &.reponsable-adresse-card,
+                    &.siret-secteur-card {
+                        >div {
+                            width: 100% !important;
+                            padding-right: 0 !important;
+                            margin-bottom: 1rem;
+                        }
+                    }
+
+                    .complement>div {
+                        width: 100% !important;
+                        padding-right: 0 !important;
+                        margin-bottom: 1rem;
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .content {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                .section {
+                    flex-direction: column;
+
+                    .justificatif-upload,
+                    .responsable-name,
+                    .email,
+                    .phone,
+                    .siret,
+                    .secteur {
+                        width: 100% !important;
+                    }
+
+                    .complement {
+                        >div {
+                            width: 100% !important;
+                        }
+                    }
+                }
+
+                .p-multiselect {
+                    width: 100% !important;
+                }
+            }
+        }
+
         .title {
             margin-bottom: 0.5rem;
             align-items: center;
@@ -36,7 +99,7 @@
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
             }
 
-            
+
             .justificatif-upload {
                 .custom-upload-container {
                     display: flex;
@@ -48,8 +111,8 @@
                             background-color: rgba(231, 231, 231, 0.71) !important;
                             border: 1px solid #ced4da !important;
                             border-bottom: 2px solid $color-primary-dark !important;
-                            color: #495057 !important;              
-                            border-radius: 4 !important;                              
+                            color: #495057 !important;
+                            border-radius: 4 !important;
                             padding: 0.5rem 4rem 0.5rem 0.7rem !important;
 
                             &:hover {
@@ -57,9 +120,9 @@
                             }
 
                             &:disabled {
-                                background-color: #e9ecef !important;                                
+                                background-color: #e9ecef !important;
                             }
-                            
+
                         }
 
                         .file-size-warning {
@@ -72,7 +135,7 @@
 
                     .upload-state-filled {
                         display: flex;
-                        align-items: center;                        
+                        align-items: center;
 
                         .file-display {
                             display: flex;

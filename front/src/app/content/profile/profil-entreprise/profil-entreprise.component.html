@@ -1,14 +1,16 @@
-<div class="profil-entrep-layout">
-    <div class="profil-entrep-sidebar">
-        <app-side-bar [component]="component"></app-side-bar>
+<div class="profil-entrep-layout" (document:click)="onGlobalClick($event)">
+  <div #sidebar class="profil-entrep-sidebar" [class.responsive-open]="isSidebarVisible">
+    <app-side-bar [component]="component" (closeSidebar)="isSidebarVisible = false"></app-side-bar>
+  </div>
+
+  <div class="profil-entrep-main">
+    <div class="profil-entrep-header">
+      <button #hamburgerBtn class="hamburger-btn" (click)="toggleSidebar()">☰</button>
+      <app-header [expanded]="false" [withSideBar]="true"></app-header>
     </div>
 
-    <div class="profil-entrep-main">
-        <div class="profil-entrep-header">
-            <app-header [expanded]="false" [withSideBar]="true"></app-header>
-        </div>
-        <div class="profil-entrep-content" #container>
-            <router-outlet></router-outlet>
-        </div>
+    <div class="profil-entrep-content" #container>
+      <router-outlet></router-outlet>
     </div>
+  </div>
 </div>

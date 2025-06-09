@@ -17,6 +17,7 @@ import { SubscriptionManager } from '../../../../utils/subscription-manager';
 import { ComponentRoutageService } from '../../../../services/component-routage.service';
 import { EntrepSideBar } from '../../../../modele/enumerate/EntrepSideBar';
 import { ProfileEntrepriseService } from '../../../../services/profile/entreprise/profile-entreprise.service';
+import { LoadingService } from '../../../utils/spinner/loading.service';
 
 @Component({
   selector: 'app-info-administratif',
@@ -67,12 +68,12 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
     private translate: TranslateService,
     private commonService: ProfilEntrepCommonService,
     private routageService: ComponentRoutageService,
-    private ProfileService: ProfileEntrepriseService,
+    private spinner: LoadingService,
     private confirmationService: ConfirmationService) {
     super();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.routageService.selectTab(EntrepSideBar.ADMIN);
     this.initForm();
     this.editorDisabled = true;

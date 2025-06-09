@@ -1,4 +1,4 @@
-import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AvatarModule } from 'primeng/avatar';
@@ -17,6 +17,8 @@ import { Style } from '../../../constants/styles';
 import { ComponentRoutageService } from '../../../services/component-routage.service';
 import { SubscriptionManager } from '../../../utils/subscription-manager';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../utils/spinner/loading.service';
+import { ProfilEntrepCommonService } from '../../../services/profile/entreprise/pEntrepCommon.service';
 
 @Component({
   selector: 'app-side-bar-profile',
@@ -50,7 +52,9 @@ export class SideBarProfileComponent extends SubscriptionManager implements OnIn
 
   constructor(private authService: AuthService,
     private router: Router,
+    private spinner: LoadingService,
     private cdRef: ChangeDetectorRef,
+    private commonService: ProfilEntrepCommonService,
     private routageService: ComponentRoutageService) {
     super();
   }
@@ -79,8 +83,9 @@ export class SideBarProfileComponent extends SubscriptionManager implements OnIn
     return (tab as any).isActive;
   }
 
-  selectTab(tab: ProfileTabs) {
-    this.router.navigate([tab.route]);
+  selectTab(tab: ProfileTabs) {    
+    this.router.navigate([tab.route]);    
+    this.commonService.toggleSideBar(false);
     this.routageService.markTabActive(this.tabs, tab.code);
   }
 

@@ -15,6 +15,9 @@ export class ProfilEntrepCommonService {
   private _scroll = new BehaviorSubject<any | null>(null);
   scroll$ = this._scroll.asObservable();
 
+  private _showSideBar = new BehaviorSubject<any | null>(null);
+  showSideBar$ = this._showSideBar.asObservable();
+
   constructor(private translate: TranslateService,
     private fb: FormBuilder
   ) { }
@@ -150,6 +153,10 @@ export class ProfilEntrepCommonService {
 
   autoScroll(bool: boolean): void {
     this._scroll.next(bool);
+  }
+
+  toggleSideBar(bool: boolean): void {
+    this._showSideBar.next(bool);
   }
 
   extractFilenameFromUrl(fileUrl: string | ArrayBuffer): string {

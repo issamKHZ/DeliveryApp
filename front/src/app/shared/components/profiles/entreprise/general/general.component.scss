@@ -1,5 +1,7 @@
 @import '../../../../../../styles/variables.scss';
 
+@import '../../../../../../styles/variables.scss';
+
 ::ng-deep {
     .general-content {
         height: 100%;
@@ -29,7 +31,6 @@
 
                 .card-pic {
                     height: 100%;
-
                 }
             }
 
@@ -66,23 +67,91 @@
                 border-color: #d2d7e0 !important;
                 color: #00B4D8 !important;
             }
+        }
 
-            // .reset-button {
-            //     background-color: #ffffff !important;
-            //     border-color: #d2d7e0 !important;
-            //     color: #00B4D8 !important;
-            // }
+        /* Responsive adaptations */
+        @media (max-width: 1199.98px) {
+            .first-half,
+            .second-half,
+            .edit-div {
+                width: 80%;
+            }
+        }
 
-            // .reset-button:hover {
-            //     background-color: #f3faff5d !important;
-            //     border-color: #d2d7e0 !important;
-            //     color: #00B4D8 !important;
-            // }
+        @media (max-width: 991.98px) {
+            .first-half {
+                flex-direction: column;
+                width: 90%;
+                gap: 2rem;
+                margin-bottom: 2rem;
+
+                .card-pic-div,
+                .card-infos-div {
+                    width: 100%;
+                }
+            }
+
+            .second-half,
+            .edit-div {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .title {
+                padding-bottom: 1.5rem;
+            }
+
+            .first-half,
+            .second-half,
+            .edit-div {
+                width: 100%;
+            }
+
+            .second-half {
+                .contact-content {
+                    .flex.grid {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                        
+                        .field-label {
+                            width: 100% !important;
+                            padding-bottom: 0.5rem;
+                        }
+
+                        .value {
+                            width: 100% !important;
+                        }
+                    }
+                }
+            }
+
+            .edit-div {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .profile-image-container {
+                width: 8rem;
+                height: 8rem;
+            }
+
+            .profile-avatar {
+                width: 8rem !important;
+                height: 8rem !important;
+            }
         }
     }
 
+    /* Styles fixes qui ne changent pas */
     .p-card-body-second-half {
         padding-left: 40px !important;
+        
+        @media (max-width: 767.98px) {
+            padding-left: 1.5rem !important;
+        }
     }
 
     .profile-card {
@@ -143,7 +212,6 @@
         }
     }
 
-
     .profile-name {
         margin: 0;
         font-weight: 500;
@@ -164,5 +232,4 @@
         border: 2px solid #d2dde4;
         cursor: pointer;
     }
-
 }
