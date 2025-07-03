@@ -7,7 +7,7 @@ import { EditorModule } from 'primeng/editor';
 import { ProfilEntrepCommonService } from '../../../../services/profile/entreprise/pEntrepCommon.service';
 import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { secteursList } from '../../../../constants/secteurs';
+import { secteursList } from '../../../../constants/entrepConstants';
 import { AdminInfoEntreprise } from '../../../../modele/entreprise/AdminInfoEntreprise';
 import { FileSelectEvent, FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
 import { CommonModule, NgIf } from '@angular/common';

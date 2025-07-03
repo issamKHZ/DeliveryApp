@@ -137,7 +137,7 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
   register() {
     if (this.form.valid && this.matchPwd()) {
       this.spinner.show();
-      let livreur = this.registerFormService.adaptFormToModelLivreur(this.form);
+      let livreur = this.registerFormService.adaptFormToModelLivreur(this.form, this.country);
       this.registerService.register(livreur).subscribe({
         next: (response) => {
           console.log(response);

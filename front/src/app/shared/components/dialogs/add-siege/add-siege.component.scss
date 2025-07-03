@@ -1,0 +1,41 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+    .p-dialog-header {
+        padding: 1.25rem !important;
+    }
+
+    .add-siege-container {
+        .content {
+            .error {
+                color: red;
+                font-size: 0.875rem;
+            }
+
+            .toggle {
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .submit-div {
+                display: flex;
+                justify-content: end;
+            }
+
+            .custom-error {
+                display: flex;
+                color: $color-error;
+
+            }
+        }
+
+        @media (max-width: 991.98px) {
+
+            .content {
+                >div {
+                    width: 100% !important;                  
+                }
+            }
+        }
+    }
+}

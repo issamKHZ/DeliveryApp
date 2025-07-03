@@ -4,6 +4,7 @@ input {
     background-color: $color-input-background !important;
 }
 
+
 .p-inputtext:enabled:focus {
     border-color: $color-primary-hover !important;
 }
@@ -74,9 +75,10 @@ input {
     border-color: $color-disabled-surface !important;
 }
 
-.p-multiselect.p-disabled {    
+.p-multiselect.p-disabled {
     .p-chip {
         background-color: #b2c1d17a !important;
     }
 }
+
 //

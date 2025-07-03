@@ -1,0 +1,138 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+  .speed-dial-container {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .speed-dial {
+    position: relative;
+    display: flex
+  }
+
+  .speed-dial-button-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .speed-dial-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2rem;
+    border-radius: 1rem;
+    color: rgba(255, 255, 255, 0.8705882353);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .speed-dial-button-init {
+    background-color: $color-primary;
+    border: 1px solid $color-primary;
+  }
+
+  .speed-dial-icon {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+  }
+
+  .pi-times {
+    transform: rotate(180deg);
+  }
+
+
+  .speed-dial-list {
+    position: absolute;
+    display: flex;
+    z-index: 99;
+  }
+
+  .speed-dial-linear {
+    flex-direction: column;
+  }
+
+  .speed-dial-linear.speed-dial-up {
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .speed-dial-linear.speed-dial-down {
+    top: 100%;
+    left: 0;
+    margin-top: 0.5rem;
+  }
+
+  .speed-dial-linear.speed-dial-left {
+    right: 100%;
+    top: 0;
+    margin-right: 0.5rem;
+    flex-direction: row;
+  }
+
+  .speed-dial-linear.speed-dial-right {
+    left: 100%;
+    top: 0;
+    margin-left: 1rem;
+    flex-direction: row;
+  }
+
+  .speed-dial-circle,
+  .speed-dial-semi-circle,
+  .speed-dial-quarter-circle {
+    flex-wrap: wrap;
+  }
+
+  .speed-dial-item {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+  }
+
+  .speed-dial-action {
+    border-radius: 18px !important;
+    background-color: #f3faff5d !important;
+    border-color: #d2d7e0 !important;
+    color: #00B4D8 !important;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .speed-dial-action-down {
+    border-radius: 18px !important;
+    background-color: #f5f9fc !important;
+    border-color: #d2d7e0 !important;
+    color: #00B4D8 !important;
+  }
+
+  .speed-dial-action:hover {
+    background-color: $color-primary-hover !important;
+    border-color: $color-primary-hover !important;
+    color: $color-surface !important;
+  }
+  
+  .speed-dial-action-down:hover {
+    border-radius: 18px !important;
+    background-color: #f5f9fcd2 !important;
+    border-color: #d2d7e0 !important;
+    color: #00B4D8 !important;
+  }
+
+  .speed-dial-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+  }
+
+  .speed-dial-content {
+    margin-left: 2rem;
+  }
+}

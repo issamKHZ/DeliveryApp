@@ -1,0 +1,76 @@
+<div class="add-siege-container">
+    <form [formGroup]="form" class="content" (submit)="saveSiege()">
+        <div class="custom-error w-full ml-2 mb-2" *ngIf="showErrors">
+            <div>{{'app.profil.entreprise.sieges.dialog.form.errors.message' | translate}}</div>
+        </div>
+        <div class="grid m-0">
+
+            <div class="col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.sieges.dialog.form.labels.type' | translate}}
+                </span>
+                <p-select formControlName="type" [options]="siegeTypes"
+                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.type' | translate}}"
+                    optionLabel="label" [styleClass]="'mt-2 w-full'">
+                </p-select>
+            </div>
+
+            <div class="col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.sieges.dialog.form.labels.dispo' | translate}}
+                </span>
+                <p-select formControlName="dispo" [options]="disponibilities"
+                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.dispo' | translate}}"
+                    optionLabel="label" [styleClass]="'mt-2 w-full'">
+                </p-select>
+            </div>
+
+            <div class="col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.sieges.dialog.form.labels.adresse' | translate}}
+                </span>
+                <input class="mt-2" pInputText formControlName="adresse" fluid
+                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.adresse' | translate}}" />
+            </div>
+
+            <div class="col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.sieges.dialog.form.labels.country' | translate}}
+                </span>
+                <input class="mt-2" pInputText formControlName="country" fluid
+                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.country' | translate}}" />
+            </div>
+
+            <div class="col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.sieges.dialog.form.labels.email' | translate}}
+                </span>
+                <input class="mt-2" pInputText formControlName="email" fluid
+                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.email' | translate}}" />
+                <div *ngIf="form.controls['email'].invalid && form.controls['email'].dirty" class="error">
+                    <small *ngIf="form.controls['email'].errors?.['customEmail']">
+                        {{'app.profil.entreprise.sieges.dialog.form.errors.email' | translate}}
+                    </small>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <span class="field-label">
+                    {{'app.profil.entreprise.sieges.dialog.form.labels.phone' | translate}}
+                </span>
+                <input class="mt-2" pInputText formControlName="phone" fluid
+                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.phone' | translate}}" />
+            </div>
+
+            <div class="toggle col-12 mt-2">
+                <p-toggleswitch styleClass="siege-table" formControlName="dest" />
+                <span>{{destChoice}}</span>
+            </div>
+        </div>
+
+        <div class="submit-div">
+            <p-button type="submit" styleClass="mt-3 mr-2" icon="pi pi-save"
+                label="{{'app.common.buttons-label.submit' | translate}}"></p-button>
+        </div>
+    </form>
+</div>

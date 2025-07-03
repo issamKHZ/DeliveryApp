@@ -3,4 +3,47 @@
         <i class="pi pi-bell" style="font-size: 1.6rem"></i>
         <span class="profile-section-title">{{'app.profil.entreprise.notifications.title' | translate}}</span>
     </div>
+    <div class="notifications-panel">
+        <div class="actions-header">
+            <ng-container *ngIf="!selectionMode">
+                <div class="options">
+                    <button pButton pRipple class="cold-button" label="Selectionner"></button>
+                    <button pButton pRipple [class]="sortClass" label="Trier par date" [icon]="sortIcon" iconPos="right"
+                        (click)="sortNotifs()"></button>
+                    <div class="ml-2">
+                        <form class="filter" [formGroup]="filterForm">
+                            <span class="header-color">Filtrer par : </span>
+                            <p-select formControlName="type" [options]="typeOptions" [showClear]="true"
+                                placeholder="{{'app.profil.entreprise.sieges.table.content.filters.type' | translate}}"
+                                optionLabel="label" optionValue="code" [styleClass]="'w-select-full'" appendTo="body">
+                            </p-select>
+                            <p-datePicker formControlName="date" dateFormat="dd/mm/yy"
+                                [style]="{ 'max-width': '170px' }" [showIcon]="true">
+                            </p-datePicker>
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="search">
+                    <p-iconfield>
+                        <p-inputicon styleClass="pi pi-search" />
+                        <input type="text" pInputText placeholder="{{'app.header.search-bar.label' | translate}}" />
+                    </p-iconfield>
+                </div>
+
+            </ng-container>
+        </div>
+
+        <div class="messages-display">
+            <p-splitter [panelSizes]="[40, 60]" [style]="{ height: '100%' }" styleClass="mb-8">
+                <ng-template pTemplate>
+                    <div>Panel 1</div>
+                </ng-template>
+                <ng-template pTemplate>
+                    <div>Panel 2</div>
+                </ng-template>
+            </p-splitter>
+        </div>
+    </div>
 </div>

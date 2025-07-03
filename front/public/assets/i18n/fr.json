@@ -414,7 +414,7 @@
                             "label": "Justificatif de domiciliation",
                             "button": {
                                 "label": "Joindre un fichier",
-                                "warning":"Taille maximale : 5MB (PDF, JPG, PNG)"
+                                "warning": "Taille maximale : 5MB (PDF, JPG, PNG)"
                             }
                         },
                         "email": {
@@ -462,7 +462,91 @@
                     }
                 },
                 "sieges": {
-                    "title": "Coordonnées des sièges"
+                    "title": "Coordonnées des sièges",
+                    "actions": {
+                        "add": {
+                            "label": "Ajouter",
+                            "tooltip": "Ajouter un siege"
+                        },
+                        "edit": {
+                            "label": "Modifier",
+                            "tooltip": "Modifier un siege"
+                        },
+                        "delete": {
+                            "label": "Supprimer",
+                            "tooltip": "Supprimer un siege"
+                        },
+                        "export": {
+                            "label": "Exporter",
+                            "tooltip": "Télécharger un siege"
+                        }
+                    },
+                    "table": {
+                        "header": {
+                            "clear": "Effacer",
+                            "search": "Rechercher un siege",
+                            "caption": {
+                                "delete": "Choisir un ou plusieurs sieges, puis cliquez sur le bouton supprimer",
+                                "edit": "Choisir les sieges à modifer un par un, puis cliquez sur le bouton Enregistrer"
+                            }
+                        },
+                        "content": {
+                            "header": {
+                                "type": "Type",
+                                "adresse": "Adresse",
+                                "country": "Ville/Pays",
+                                "dispo": "Disponibilité",
+                                "email": "Email",
+                                "phone": "N° Telephone",
+                                "dest": "Fournisseur/Destinataire"
+                            },
+                            "filters": {
+                                "type": "Saisir type",
+                                "adresse": "Saisir adresse",
+                                "country": "Saisir localisation",
+                                "dispo": "Saisir disponibilité",
+                                "email": "Saisir email",
+                                "phone": "Saisir N° Telephone",
+                                "dest": "Fournisseur ou Destinataire ?"
+                            },
+                            "values": {
+                                "fournisseur": "Fournisseur",
+                                "destinataire": "Destinataire"
+                            }
+                        },
+                        "nosites": "Aucun Siege n'est enregistré"
+                    },
+                    "dialog": {
+                        "header": "Ajouter un nouveau siege",
+                        "form": {
+                            "labels": {
+                                "type": "Type de siege",
+                                "adresse": "Adresse",
+                                "country": "Ville/Pays",
+                                "dispo": "Disponibilité",
+                                "email": "Email",
+                                "phone": "N° Telephone",
+                                "dest": "Fournisseur/Destinataire"
+                            },
+                            "placeholders": {
+                                "type": "Saisir type",
+                                "adresse": "Saisir adresse",
+                                "country": "Saisir localisation",
+                                "dispo": "Saisir disponibilité",
+                                "email": "Saisir email",
+                                "phone": "Saisir N° Telephone",
+                                "dest": "Fournisseur ou Destinataire ?"
+                            },
+                            "errors": {
+                                "message": "Tous les champs sont requis",
+                                "email": "Format valide : xxxx@xxx.xxx"
+                            }
+                        },
+                        "dest-choices": {
+                            "fournisseur": "Fournisseur",
+                            "dest": "Destinatiare"
+                        }
+                    }
                 },
                 "notifications": {
                     "title": "Notifications"
@@ -498,7 +582,8 @@
                 "no": "Non",
                 "cancel": "Annuler",
                 "edit": "Modifier",
-                "delete": "Supprimer"
+                "delete": "Supprimer",
+                "submit": "Enregistrer"
             }
         }
     }

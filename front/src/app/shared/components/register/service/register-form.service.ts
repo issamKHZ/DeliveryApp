@@ -12,13 +12,13 @@ export class RegisterFormService {
 
   constructor(private fb: FormBuilder) { }
 
-  adaptFormToModelLivreur(form: UntypedFormGroup): RegistrationInfos {
+  adaptFormToModelLivreur(form: UntypedFormGroup, country: Country): RegistrationInfos {
     return new RegistrationInfos({
       user: {
         name: form.get('lname')?.value + form.get('llastname')?.value,
         email: form.get('lemail')?.value,
         password: form.get('lpassword')?.value,
-        phoneNumber: form.get('lphone')?.value,
+        phoneNumber: country?.indicatif + ' ' + form.get('lphone')?.value,
         role: UserRoles.LIVREUR
       },
       entreprise: null,
@@ -31,13 +31,14 @@ export class RegisterFormService {
     });
   }
 
-  adaptFormToModelEntreprise(form: UntypedFormGroup): RegistrationInfos {
+  adaptFormToModelEntreprise(form: UntypedFormGroup, country: Country): RegistrationInfos {
+    console.log(country);    
     return new RegistrationInfos({
       user: {
         name: form.get('ename')?.value,
         email: form.get('eemail')?.value,
         password: form.get('epassword')?.value,
-        phoneNumber: form.get('ephone')?.value,
+        phoneNumber: country?.indicatif + ' ' + form.get('ephone')?.value,
         role: UserRoles.ENTREPRISE
       },
       entreprise: {

@@ -1,6 +1,269 @@
 <div class="sieges-container">
-    <div class="title pl-4 flex gap-2">
+    <div class="title pl-4 mb-6 flex gap-2">
         <i class="pi pi-map-marker" style="font-size: 1.6rem"></i>
         <span class="profile-section-title">{{'app.profil.entreprise.sieges.title' | translate}}</span>
+    </div>
+    <div class="content">
+        <div class="sites-table">
+            <p-table #dt1 [value]="sieges" dataKey="id" editMode="row" [rows]="5" [rowsPerPageOptions]="[5, 10, 15]"
+                [paginator]="true"
+                [globalFilterFields]="['type.label', 'adresse', 'villePays', 'status.label', 'email', 'phone']"
+                stripedRows (sortFunction)="customSort($event)" [scrollable]="true" [customSort]="true"
+                [rowHover]="true" [(selection)]="selectedSieges">
+                <ng-template pTemplate="caption">
+                    <div class="flex mb-2">
+                        <p-button styleClass="cold-button" class="mr-4"
+                            label="{{'app.profil.entreprise.sieges.table.header.clear' | translate}}" [outlined]="true"
+                            icon="pi pi-filter-slash" (click)="clear(dt1)" />
+
+                        <app-speed-dial [items]="actions" [direction]="isMobile ? 'down' : 'right'" [radius]="20"
+                            [visible]="visible" (visibleChange)="visible = $event"
+                            (onItemClick)="onItemClick($event)"
+                            ></app-speed-dial>
+
+                        <p-iconfield iconPosition="left" class="ml-auto">
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+                            <input pInputText type="text" (input)="onFilterGlobal($event)"
+                                [(ngModel)]="globalFilterValue"
+                                placeholder="{{'app.profil.entreprise.sieges.table.header.search' | translate}}" />
+                        </p-iconfield>
+                    </div>
+                    <div *ngIf="deleteMode || editMode" class="pt-2 table-caption gap-2">
+                        <i class="pi pi-thumbtack"></i>
+                        <h3 *ngIf="deleteMode">{{'app.profil.entreprise.sieges.table.header.caption.delete' |
+                            translate}}</h3>
+                        <h3 *ngIf="editMode">{{'app.profil.entreprise.sieges.table.header.caption.edit' | translate}}
+                        </h3>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr class="p-header-line">
+                        <th *ngIf="deleteMode">
+                            <p-tableHeaderCheckbox />
+                        </th>
+                        <th *ngIf="editMode">
+                        </th>
+                        <th pSortableColumn="type">
+                            {{'app.profil.entreprise.sieges.table.content.header.type' | translate}} <p-sortIcon
+                                field="type" /></th>
+                        <th pSortableColumn="adresse">
+                            {{'app.profil.entreprise.sieges.table.content.header.adresse' | translate}} <p-sortIcon
+                                field="adresse" /></th>
+                        <th pSortableColumn="villePays">
+                            {{'app.profil.entreprise.sieges.table.content.header.country' | translate}} <p-sortIcon
+                                field="villePays" /></th>
+                        <th pSortableColumn="status">
+                            {{'app.profil.entreprise.sieges.table.content.header.dispo' | translate}} <p-sortIcon
+                                field="status" /></th>
+                        <th pSortableColumn="email">
+                            {{'app.profil.entreprise.sieges.table.content.header.email' | translate}} <p-sortIcon
+                                field="email" /></th>
+                        <th pSortableColumn="phone">
+                            {{'app.profil.entreprise.sieges.table.content.header.phone' | translate}} <p-sortIcon
+                                field="phone" /></th>
+                        <th>{{'app.profil.entreprise.sieges.table.content.header.dest' | translate}}
+                        </th>
+                        <th *ngIf="editMode">
+                        </th>
+                    </tr>
+                    <tr [formGroup]="filterForm">
+                        <th *ngIf="deleteMode"></th>
+                        <th *ngIf="editMode"></th>
+                        <th>
+                            <p-columnFilter field="type" matchMode="equals" [showMenu]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-select formControlName="filter_type" [options]="typesOptions" [showClear]="true"
+                                        placeholder="{{'app.profil.entreprise.sieges.table.content.filters.type' | translate}}"
+                                        optionLabel="label" optionValue="code" [styleClass]="'w-select-full'"
+                                        appendTo="body">
+                                    </p-select>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+
+                        <th>
+                            <p-columnFilter type="text" field="adresse"
+                                placeholder="{{'app.profil.entreprise.sieges.table.content.filters.adresse' | translate}}"
+                                [showMenu]="false" matchMode="contains">
+                                <input pInputText type="text" formControlName="filter_adresse">
+                            </p-columnFilter>
+                        </th>
+
+                        <th>
+                            <p-columnFilter type="text" field="villePays"
+                                placeholder="{{'app.profil.entreprise.sieges.table.content.filters.country' | translate}}"
+                                [showMenu]="false" matchMode="contains">
+                                <input pInputText type="text" formControlName="filter_villePays">
+                            </p-columnFilter>
+                        </th>
+
+                        <th>
+                            <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-select formControlName="filter_status" [options]="statusOptions"
+                                        [showClear]="true"
+                                        placeholder="{{'app.profil.entreprise.sieges.table.content.filters.dispo' | translate}}"
+                                        optionLabel="label" optionValue="code" [styleClass]="'w-select-full'"
+                                        appendTo="body">
+                                    </p-select>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+
+                        <th>
+                            <p-columnFilter type="text" field="email"
+                                placeholder="{{'app.profil.entreprise.sieges.table.content.filters.email' | translate}}"
+                                [showMenu]="false" matchMode="contains">
+                                <input pInputText type="text" formControlName="filter_email">
+                            </p-columnFilter>
+                        </th>
+
+                        <th>
+                            <p-columnFilter type="text" field="phone"
+                                placeholder="{{'app.profil.entreprise.sieges.table.content.filters.phone' | translate}}"
+                                [showMenu]="false" matchMode="contains">
+                                <input pInputText appDigitSpacerLimited formControlName="filter_phone">
+                            </p-columnFilter>
+                        </th>
+
+                        <th class="custom-t-th">
+                            <div class="custom-toggle-th" *ngIf="toggleFilterDisabled">
+                                <p-toggleswitch styleClass="filterInitilizer" formControlName="toggleInit"
+                                    (onChange)="detectToggleFilter()" />
+                            </div>
+
+                            <p-columnFilter *ngIf="!toggleFilterDisabled" class="custom-toggle-th" type="boolean"
+                                field="isDest" [showMenu]="false" [showClearButton]="false">
+                                <ng-template class="template-center" pTemplate="filter" let-value
+                                    let-filter="filterCallback">
+                                    <p-toggleswitch styleClass="siege-table" formControlName="filter_fournisseur"
+                                        (onChange)="applyFilters()" />
+                                </ng-template>
+                            </p-columnFilter>
+                            <i *ngIf="!toggleFilterDisabled" class="pi pi-filter-slash"
+                                (click)="clearToggleFilter()"></i>
+                        </th>
+
+                        <th *ngIf="editMode"></th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-siege>
+                    <tr>
+                        <td *ngIf="deleteMode">
+                            <p-tableCheckbox [value]="siege" />
+                        </td>
+
+                        <td *ngIf="editMode">
+                            <!-- <p-tableRadioButton [value]="siege" (onChange)="onRowSelect(siege)" /> -->
+                            <p-radioButton name="siegeSelection" [value]="siege.editing" [(ngModel)]="siege.editStorage"
+                                (onClick)="onRowSelect(siege)">
+                            </p-radioButton>
+                        </td>
+
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewType">
+                                <p-select [options]="typesOptions" [(ngModel)]="siege.type" optionLabel="label"
+                                    [style]="{'width':'100%'}" [styleClass]="'w-select-full'" appendTo="body">
+                                </p-select>
+                            </ng-container>
+                            <ng-template #viewType>
+                                <app-large-content-field [content]="siege.type.label"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Adresse -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewAdresse">
+                                <input pInputText type="text" [(ngModel)]="siege.adresse" style="width: 100%" />
+                            </ng-container>
+                            <ng-template #viewAdresse>
+                                <app-large-content-field [content]="siege.adresse"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Ville/Pays -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewVillePays">
+                                <input pInputText type="text" [(ngModel)]="siege.villePays" style="width: 100%" />
+                            </ng-container>
+                            <ng-template #viewVillePays>
+                                <app-large-content-field [content]="siege.villePays"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Statut -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewStatus">
+                                <p-select [options]="statusOptions" [(ngModel)]="siege.status" optionLabel="label"
+                                    [style]="{'width':'100%'}" [styleClass]="'w-select-full'" appendTo="body">
+                                </p-select>
+                            </ng-container>
+                            <ng-template #viewStatus>
+                                <app-custom-tag [content]="siege.status.label"
+                                    [type]="getSeverity(siege.status.code)"></app-custom-tag>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Email -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewEmail">
+                                <input pInputText type="email" [(ngModel)]="siege.email" style="width: 100%" />
+                            </ng-container>
+                            <ng-template #viewEmail>
+                                <app-large-content-field [content]="siege.email"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Téléphone -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewPhone">
+                                <input pInputText type="tel" [(ngModel)]="siege.phone" appDigitSpacerLimited
+                                    style="width: 100%" />
+                            </ng-container>
+                            <ng-template #viewPhone>
+                                <app-large-content-field [content]="siege.phone"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Destinataire/Fournisseur -->
+                        <td style="text-align: center">
+                            <ng-container *ngIf="siege.editing; else viewDest">
+                                <p-toggleswitch styleClass="siege-table" [(ngModel)]="siege.isDest" />
+                            </ng-container>
+                            <ng-template #viewDest>
+                                <i class="pi" [ngClass]="{
+                    'pi-truck text-blue-500': siege.isDest,
+                    'pi-box text-orange-500': !siege.isDest
+                }"></i>
+                                <span class="ml-2">{{getDestMotif(siege.isDest)}}</span>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Actions (mode édition) -->
+                        <!-- <td *ngIf="editMode" style="text-align: center">
+                                <ng-container *ngIf="siege.editing">
+                                    <button pButton icon="pi pi-check" class="p-button-success p-button-sm mr-2"
+                                        (click)="saveRowEdit(siege)" [disabled]="true"></button>
+                                    <button pButton icon="pi pi-times" class="p-button-danger p-button-sm"
+                                        (click)="cancelRowEdit(siege)"></button>
+                                </ng-container>
+                            </td> -->
+
+                        <td *ngIf="editMode">
+                            <i pRipple *ngIf="siege.editing" class="pi pi-check custom-check-button" (click)="saveRowEdit()"></i>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">{{'app.profil.entreprise.sieges.table.nosites' | translate}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
     </div>
 </div>

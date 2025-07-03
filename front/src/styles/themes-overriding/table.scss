@@ -1,0 +1,25 @@
+@import '../variables.scss';
+
+.p-datatable table {    
+    .p-header-line {
+        background-color: $color-primary-hover !important;
+
+        th {
+            background: transparent !important;
+            color: #ffffffde;
+        }
+    }
+}
+
+.p-datatable-header {
+    background: transparent !important;
+}
+
+.p-datatable-thead > tr > th.p-datatable-column-sorted {
+    color: #000000 !important;
+}
+
+.p-paginator-page.p-paginator-page-selected {
+    background-color: #00b4d825 !important;
+    color: $color-primary !important;
+}

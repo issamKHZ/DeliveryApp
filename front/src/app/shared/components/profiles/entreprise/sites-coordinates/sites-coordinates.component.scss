@@ -12,5 +12,76 @@
                 color: $color-primary-darker;
             }
         }
+
+        .content {
+            .p-datatable {
+                overflow: visible !important;
+            }
+
+            .p-datatable-wrapper {
+                overflow: visible !important;
+            }
+
+            .table-caption {
+                color: $color-warning;
+                display: flex;
+                align-items: center;
+            }
+
+            .sites-table {
+                .p-select {
+                    z-index: 1000 !important;
+
+                    .p-select-panel {
+                        z-index: 1100 !important;
+                    }
+                }
+
+                .custom-bool-th {
+                    .p-datatable-inline-filter {
+                        justify-content: center;
+                    }
+                }
+
+                .custom-t-th {
+
+                    // display: flex;
+                    text-align: center;
+                    .custom-toggle-th {
+                        display: flex;
+                        justify-content: center;
+                        align-items: normal;
+                        padding-top: 5px;
+
+                        .template-center {
+                            display: flex;
+                        }
+
+                        .p-datatable-inline-filter {
+                            justify-content: center;
+                            align-items: normal;
+                            padding-top: 5px;
+                        }
+                    }
+
+                }
+
+                .custom-check-button {
+                    cursor: pointer;
+                }
+
+            }
+
+            .p-datatable-header {
+                padding-left: 0 !important;
+            }
+
+            .p-inputtext {
+                width: 100%;
+            }
+
+        }
+
+
     }
 }

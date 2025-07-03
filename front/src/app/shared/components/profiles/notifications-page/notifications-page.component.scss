@@ -3,6 +3,8 @@
 ::ng-deep {
     .notifications-container {
         height: 100%;
+        display: flex;
+        flex-direction: column;
 
         .title {
             margin-bottom: 0.5rem;
@@ -10,6 +12,51 @@
 
             i {
                 color: $color-primary-darker;
+            }
+        }
+
+        .notifications-panel {
+            // border: 1px solid red;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            padding: 0 10rem;
+
+            .actions-header {
+                border: 1px solid rgb(217, 229, 236);
+                border-radius: 8px;
+                box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                background-color: #eaf5ffa9;
+                height: 8%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 1rem;
+
+                .options {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    .filter {
+                        display: flex;
+                        gap: 0.5rem;
+                        align-items: center;
+                        .header-color {
+                            color: #5f666e;
+                        }
+                    }
+                }
+            }
+
+            .messages-display {
+                border: 1px solid rgb(217, 229, 236);
+                border-radius: 8px;
+                box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                height: 80%;
             }
         }
     }

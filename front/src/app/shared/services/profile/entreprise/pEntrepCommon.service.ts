@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormControl, UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { AdminInfoEntreprise } from '../../../modele/entreprise/AdminInfoEntreprise';
-import { secteursList } from '../../../constants/secteurs';
+import { secteursList } from '../../../constants/entrepConstants';
 
 @Injectable({
   providedIn: 'root'

@@ -57,7 +57,7 @@
     color: #808891 !important;
 }
 
-.cold-button:hover {
+.cold-button:hover, .cold-button-focus, .cold-button-focus:hover {
     background-color: #f3faff5d !important;
     border-color: #d2d7e0 !important;
     color: #00B4D8 !important;

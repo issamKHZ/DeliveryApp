@@ -52,4 +52,11 @@ export class CommonService {
 
     return window;
   }
+
+  hasRequiredError(form: UntypedFormGroup): boolean {
+    return Object.keys(form.controls).some(key => {
+      const control = form.get(key);
+      return control?.errors?.['required'] && control.touched;
+    });
+  }
 }

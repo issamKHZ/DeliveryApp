@@ -1,0 +1,41 @@
+<div class="speed-dial-container" [ngClass]="{'speed-dial-mask-visible': mask && visible}">
+  <div *ngIf="mask" class="speed-dial-mask" [ngStyle]="maskStyle" (click)="toggleVisibility()"></div>
+
+  <div class="speed-dial">
+    <div class="speed-dial-button-container">
+      <button         
+        class="speed-dial-button px-2" 
+        [ngClass]="buttonClassName" 
+        [ngStyle]="buttonStyle"
+        (click)="buttonClick($event)"
+        pRipple>
+        <span class="speed-dial-icon" [ngClass]="buttonLabelClass">{{buttonLabel}}</span>
+      </button>
+    </div>
+
+    <div *ngIf="middleState === SpeedDialStates.ALLACTIONS" class="speed-dial-list"
+      [ngClass]="['speed-dial-' + type, 'speed-dial-' + direction]">
+      <div *ngFor="let item of items; let i = index" class="speed-dial-item" [ngStyle]="getItemStyle(i)"
+        (click)="itemClick(item, $event)" pTooltip="{{item.tooltip}}" tooltipPosition="bottom">
+        <button pButton pRipple [label]="item.label" [icon]="item.icon" [ngClass]="{
+            'speed-dial-action': (direction == 'right'),
+            'speed-dial-action-down': (direction == 'down')
+        }"></button>
+      </div>
+    </div>
+
+    <div *ngIf="middleState === SpeedDialStates.ACTIONCHOOSED " class="speed-dial-content">
+      <!-- <ng-container *ngTemplateOutlet="selectedActionContent"></ng-container> -->
+      <div *ngIf="selectedAction.code == SpeedDialActionEnum.ADD">
+        <button pButton pRipple (click)="clickAfterChoseAction($event)" [label]="selectedAction.label" [icon]="selectedAction.icon" class="speed-dial-action"></button>
+      </div>
+      <div *ngIf="selectedAction.code == SpeedDialActionEnum.DELETE">
+        <button pButton pRipple (click)="clickAfterChoseAction($event)" [label]="selectedAction.label" [icon]="selectedAction.icon" class="speed-dial-action"></button>
+      </div>
+      <div *ngIf="selectedAction.code == SpeedDialActionEnum.EDIT">
+        <button pButton pRipple (click)="clickAfterChoseAction($event, 'reset')" [label]="'Rénitialiser la ligne'" [icon]="'pi pi-history'" class="speed-dial-action mr-2"></button>
+        <button pButton pRipple (click)="clickAfterChoseAction($event, 'save')" [label]="'Enregistrer'" [icon]="'pi pi-save'" class="speed-dial-action"></button>
+      </div>
+    </div>
+  </div>
+</div>

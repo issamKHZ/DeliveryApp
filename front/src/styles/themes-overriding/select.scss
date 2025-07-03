@@ -3,7 +3,13 @@
 .p-select {
     line-height: normal !important;
     background-color: $color-input-background !important;
-    width: 100% !important;
+    // width: 100% !important;
+    // max-width: 150px !important;
+}
+
+.w-select-full {
+    // width: 100% !important;
+     max-width: 150px !important;
 }
 
 .p-select:not(.p-disabled).p-focus {

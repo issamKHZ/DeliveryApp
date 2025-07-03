@@ -1,22 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "primeicons/primeicons.css";
 @import 'styles/variables.scss';
-@import 'styles/themes-overriding/buttons.scss';
-@import 'styles/themes-overriding/input.scss';
-@import 'styles/themes-overriding/card.scss';
-@import 'styles/themes-overriding/select.scss';
-@import 'styles/themes-overriding//password.scss';
-@import 'styles/themes-overriding/toast.scss';
-@import 'styles/themes-overriding/menubar.scss';
-@import 'styles/themes-overriding/divider.scss';
-@import 'styles/themes-overriding/avatar.scss';
-@import 'styles/themes-overriding/popover.scss';
-@import 'styles/themes-overriding/scroller.scss';
-@import 'styles/themes-overriding/notification.scss';
-@import 'styles/themes-overriding/menu.scss';
-@import 'styles/themes-overriding/tag.scss';
-@import 'styles/themes-overriding/calendar.scss';
-@import 'styles/themes-overriding/dialogs.scss';
+@import 'styles/styles-overrinding.scss';
 
 
 :root {
@@ -26,20 +11,23 @@
   /* Titres */
   --title-size: 1.6rem;
   --subtitle-size: 18px;
-  --text-size: 15px;
+  --text-size: 16px;
   --text-large-size: 17px;
   --small-text-size: 12px;
   --to-small-text-size: 11px;
 
-  --text-weight: 300;    
+  --text-weight: 300;
 
   /* Primeng */
   --p-badge-primary-background: #00B4D8 !important;
-  --p-menubar-item-focus-background: #94edffd8 !important; 
+  --p-menubar-item-focus-background: #94edffd8 !important;
   --p-menubar-item-active-background: #98eeffd8 !important;
   --p-menubar-submenu-icon-color: $color-primary-dark !important;
   --p-menubar-submenu-icon-focus-color: $color-primary-dark !important;
-  
+  --p-datatable-body-cell-padding: 0.35rem 0.75rem !important;
+  --p-datatable-header-cell-padding: 0.5rem 0.75rem !important;
+  --p-tooltip-background: #09445fbe !important;
+  // --p-tooltip-color: rgb(2, 86, 124) !important;
 }
 
 /* Reset / base */
@@ -49,7 +37,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   color: $color-text !important;
   font-weight: var(--text-weight) !important;
   font-family: var(--font-family);
@@ -59,7 +48,11 @@ html, body {
 }
 
 /* Titres */
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-weight: 600;
 }
 
@@ -87,7 +80,7 @@ p {
 .profile-section-title {
   font-size: var(--title-size);
   color: $color-primary-mid-darker;
-  font-weight: 600;  
+  font-weight: 600;
 }
 
 .ssmall-text {
@@ -103,12 +96,12 @@ p {
 }
 
 /* Liens */
-a {  
+a {
   color: $color-primary-dark;
   // text-decoration: none;
 }
 
-.p-button {   
+.p-button {
   color: $color-surface;
   background: $color-primary;
 }

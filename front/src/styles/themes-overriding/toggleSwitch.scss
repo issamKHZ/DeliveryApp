@@ -1,0 +1,26 @@
+@import '../variables.scss';
+
+.siege-table {
+    .p-toggleswitch-slider {
+        background: #f97316 !important;
+    }
+
+    &.p-toggleswitch-checked {
+        .p-toggleswitch-slider {
+            background: #3b82f6 !important;
+        }
+    }
+}
+
+.filterInitilizer {
+    &.p-toggleswitch-checked {
+        .p-toggleswitch-slider {
+            background: #3b82f6 !important;
+        }
+    }
+}
+
+.p-radiobutton-checked .p-radiobutton-box {
+    background: $color-primary !important;
+    border-color: $color-primary !important;
+}

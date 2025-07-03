@@ -115,7 +115,7 @@ export class RegisterEntrepriseComponent implements OnInit {
   register() {
     if (this.form.valid && this.matchPwd()) {
       this.spinner.show();
-      let entreprise = this.registerFormService.adaptFormToModelEntreprise(this.form);
+      let entreprise = this.registerFormService.adaptFormToModelEntreprise(this.form, this.country);
       this.registerEntrepriseService.register(entreprise).subscribe({
         next: (response) => {
           this.auth.saveMail(response.email);
