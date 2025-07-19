@@ -573,10 +573,140 @@
                         "notif": "Notifications",
                         "settings": "Paramètres et préférences"
                     }
+                },
+                "info-perso": {
+                    "title": "Informations personnelles",
+                    "form": {
+                        "general": {
+                            "title": "Informations générales",
+                            "fields": {
+                                "name": {
+                                    "label": "Prénom",
+                                    "placeholder": "Saisir le prénom"
+                                },
+                                "lastname": {
+                                    "label": "Nom",
+                                    "placeholder": "Saisir le nom"
+                                },
+                                "immatricule": {
+                                    "label": "Matricule employé"
+                                },
+                                "inscription": {
+                                    "label": "Date d'inscription"
+                                },
+                                "langue": {
+                                    "label": "Langues parlées",
+                                    "placeholder": "choisir une langue"
+                                },
+                                "horaire": {
+                                    "label": "Consulter mes horaires"
+                                }
+                            }
+                        },
+                        "coordinates": {
+                            "title": "Coordonnées et contact",
+                            "fields": {
+                                "mail": {
+                                    "label": "Email",
+                                    "placeholder": "Saisir l'email"
+                                },
+                                "phone": {
+                                    "label": "N° Telephone",
+                                    "placeholder": "Saisir le N°"
+                                },
+                                "adresse": {
+                                    "label": "Adresse",
+                                    "placeholder": "Saisir l'adresse"
+                                },
+                                "city": {
+                                    "label": "Ville",
+                                    "placeholder": "Saisir la ville"
+                                },
+                                "postal": {
+                                    "label": "Code postale",
+                                    "placeholder": "Saisir le code postale"
+                                }
+                            }
+                        },
+                        "vehicle": {
+                            "title": "Informations vehicule",
+                            "fields": {
+                                "matricule": {
+                                    "label": "Le N° de matricule",
+                                    "placeholder": "Saisir le matricule"
+                                },
+                                "type": {
+                                    "label": "Type de vehicule",
+                                    "placeholder": "Saisir le type"
+                                },
+                                "modele": {
+                                    "label": "Modèle de vehicule",
+                                    "placeholder": "Saisir le modèle"
+                                },
+                                "permis": {
+                                    "label": "Permis",
+                                    "placeholder": "Saisir ton permis"
+                                },
+                                "assurance": {
+                                    "label": "Justificatif d'assurance",
+                                    "placeholder": "Joindre un fichier"
+                                }
+                            }
+                        }
+                    }
+                },
+                "dispo": {
+                    "title": "Disponibilité"
+                },
+                "statistics": {
+                    "title": "Statistiques"
+                },
+                "historics": {
+                    "title": "Historiques"
+                },
+                "evals": {
+                    "title": "Evaluations et commentaires"
+                },
+                "settings": {
+                    "title": "Paramètres et préférences"
+                }
+            },
+            "notifications": {
+                "header": {
+                    "buttons": {
+                        "select": {
+                            "label": "Selectionner"
+                        },
+                        "sort": {
+                            "label": "Trier par date"
+                        },
+                        "readed": {
+                            "label": "Marquer Non Lu"
+                        },
+                        "favoris": {
+                            "label": "Épingler"
+                        },
+                        "delete": {
+                            "label": "Supprimer"
+                        }
+                    },
+                    "filter": {
+                        "label": "Filtrer par : "
+                    },
+                    "selections": "selectionné"
                 }
             }
         },
         "common": {
+            "components": {
+                "profile-img": {
+                    "change-img": "Changer l'image",
+                    "add": "Ajouter"
+                },
+                "attachement": {
+                    
+                }
+            },
             "buttons-label": {
                 "yes": "Oui",
                 "no": "Non",

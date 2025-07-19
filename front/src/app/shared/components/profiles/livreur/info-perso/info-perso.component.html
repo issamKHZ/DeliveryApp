@@ -1,0 +1,179 @@
+<p-confirmDialog [style]="{width: '350px'}" [baseZIndex]="10000" key="closeConfirmation">
+
+</p-confirmDialog>
+
+<div class="perso-container">
+    <div class="title pl-4 flex gap-2">
+        <i class="pi pi-list" style="font-size: 1.6rem"></i>
+        <span class="profile-section-title">{{'app.profil.livreur.info-perso.title' | translate}}</span>
+    </div>
+
+    <form [formGroup]="form" class="content">
+
+        <div class="edit-btn flex gap-2 mb-2">
+            <button pButton (click)="toggleEdit()" [icon]="editMode ? 'pi pi-check' : 'pi pi-pencil'">
+                {{ (editMode ? 'app.profil.entreprise.administratif.buttons.validate' :
+                'app.profil.entreprise.administratif.buttons.edit' )| translate }}
+            </button>
+            <button pButton *ngIf="editMode" class="cold-button" (click)="cancelEdit()" icon='pi pi-times'>
+                {{'app.common.buttons-label.cancel' | translate }}
+            </button>
+        </div>
+        <div class="section general-card grid m-0">
+            <div class="image-part mt-3 col-4">
+                <div class="profile-card">
+                    <app-profile-img [img]="livreur.img" [defaultImg]="persoDefaultImg" [canEdit]="editMode"
+                        (editMode)="onEditLivreurImg($event)"></app-profile-img>
+                    <div class="account-status">
+                        <app-custom-tag [type]="livreur.status.severity"
+                            [content]="livreur.status.content"></app-custom-tag>
+                    </div>
+                </div>
+            </div>
+            <div class="infos-part grid col-8">
+                <div class="field col-6">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.general.fields.name.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="name" fluid
+                        placeholder="{{'app.profil.livreur.info-perso.form.general.fields.name.placeholder' | translate}}" />
+                </div>
+                <div class="field col-6">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.general.fields.lastname.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="lastname" fluid
+                        placeholder="{{'app.profil.livreur.info-perso.form.general.fields.lastname.placeholder' | translate}}" />
+                </div>
+                <div class="field col-6">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.general.fields.immatricule.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="immatricule" fluid />
+                </div>
+
+                <div class="field col-6">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.general.fields.inscription.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="dateInscription" fluid />
+                </div>
+                <div class="field col-6">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.general.fields.langue.label' | translate}}
+                    </span>
+                    <p-multiselect class="mt-2 profil-disabled-select" [options]="languesOptions"
+                        formControlName="langue" optionLabel="label" display="chip"
+                        placeholder="{{'app.profil.livreur.info-perso.form.general.fields.langue.placeholder' | translate}}"
+                        [maxSelectedLabels]="3" styleClass="w-full md:w-80" />
+                </div>
+
+                <div class="field col-6">
+                    <span class="field-label" style="visibility: hidden;">
+                        empty
+                    </span>
+                    <button pButton pRipple class="mt-2 w-full custom-horaire"
+                        label="{{'app.profil.livreur.info-perso.form.general.fields.horaire.label' | translate}}"
+                        icon="pi pi-sort-down-fill" iconPos="right" (click)="toggleSchedulePanel()">
+                    </button>
+                    <div class="schedule-panel" *ngIf="isSchedulePanelOpen">
+                        <div class="schedule-day" *ngFor="let day of formattedSchedule">
+                            <div class="day-name">{{ day.day }}</div>
+                            <div [class]="'time-slots ' + ''">
+                                <span *ngFor="let slot of day.slots">{{ slot }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="section coordiantes-card grid m-0">
+            <div class="field col-6">
+                <span class="field-label">
+                    {{'app.profil.livreur.info-perso.form.coordinates.fields.mail.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="livMail" fluid
+                    placeholder="{{'app.profil.livreur.info-perso.form.coordinates.fields.mail.placeholder' | translate}}" />
+            </div>
+            <div class="field col-6">
+                <span class="field-label">
+                    {{'app.profil.livreur.info-perso.form.coordinates.fields.phone.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="livPhone" fluid
+                    placeholder="{{'app.profil.livreur.info-perso.form.coordinates.fields.phone.placeholder' | translate}}" />
+            </div>
+            <div class="field col-7">
+                <span class="field-label">
+                    {{'app.profil.livreur.info-perso.form.coordinates.fields.adresse.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="livAdresse" fluid
+                    placeholder="{{'app.profil.livreur.info-perso.form.coordinates.fields.adresse.placeholder' | translate}}" />
+            </div>
+            <div class="field col-3">
+                <span class="field-label">
+                    {{'app.profil.livreur.info-perso.form.coordinates.fields.city.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="ville" fluid
+                    placeholder="{{'app.profil.livreur.info-perso.form.coordinates.fields.city.placeholder' | translate}}" />
+            </div>
+            <div class="field col-2">
+                <span class="field-label">
+                    {{'app.profil.livreur.info-perso.form.coordinates.fields.postal.label' | translate}}
+                </span>
+                <input class="mt-2 profil-disabled-input" pInputText formControlName="codePostal" fluid
+                    placeholder="{{'app.profil.livreur.info-perso.form.coordinates.fields.postal.placeholder' | translate}}" />
+            </div>
+        </div>
+
+        <div class="section general-card grid m-0">
+            <div class="image-part col-3">
+                <div class="profile-card">
+                    <app-profile-img [img]="livreur.vImg" [defaultImg]="vehicleDefaultImg"
+                        (editMode)="onEditVehicleImg($event)"></app-profile-img>
+                </div>
+            </div>
+            <div class="infos-part grid col-9">
+                <div class="field col-4">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.vehicle.fields.matricule.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="vmatricule" fluid
+                        placeholder="{{'app.profil.livreur.info-perso.form.vehicle.fields.matricule.placeholder' | translate}}" />
+                </div>
+                <div class="field col-4">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.vehicle.fields.type.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="vType" fluid
+                        placeholder="{{'app.profil.livreur.info-perso.form.vehicle.fields.type.placeholder' | translate}}" />
+                </div>
+                <div class="field col-4">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.vehicle.fields.modele.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText formControlName="vmodele" fluid
+                        placeholder="{{'app.profil.livreur.info-perso.form.vehicle.fields.modele.placeholder' | translate}}" />
+                </div>
+
+                <div class="field col-6">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.vehicle.fields.permis.label' | translate}}
+                    </span>                    
+                    <app-attachment-field [editMode]="editMode" [fileUrl]="permisFileUrl"
+                        (file)="savePermisFile($event)"></app-attachment-field>
+                </div>
+                <div class="field col-6">
+                    <span class="field-label">
+                        {{'app.profil.livreur.info-perso.form.vehicle.fields.assurance.label' | translate}}
+                    </span>                    
+                    <app-attachment-field [editMode]="editMode" [fileUrl]="assuranceFileUrl"
+                        (file)="saveAssuranceFile($event)"></app-attachment-field>
+                </div>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>

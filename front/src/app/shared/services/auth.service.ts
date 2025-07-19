@@ -59,6 +59,8 @@ export class AuthService {
           this.cookieService.set(this.COOKIE_MAIL_KEY, user.email, expires, '/', '', true, "Strict");
 
           this.router.navigate([this.commonService.composeRoute([RoutesEnum.VALIDATION, RoutesEnum.MAIL])]);
+        } else {
+          this._showErrors.next(true);
         }
       }
     });

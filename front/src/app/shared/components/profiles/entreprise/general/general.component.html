@@ -6,17 +6,8 @@
     <div class="first-half">
         <div class="card-pic-div">
             <p-card [styleClass]="'card-pic p-dynamic-card'">
-                <div class="profile-card">
-                    <div class="profile-image-container" (click)="pic_overlay.click()">
-                        <p-avatar [image]="user.img || 'images/default-entreprise.png'" size="xlarge" shape="circle"
-                            class="profile-avatar">
-                        </p-avatar>
-
-                        <div #pic_overlay class="image-change-overlay" (click)="onUpload()">
-                            <i class="pi pi-camera"></i>
-                            <span>{{user.img ? "Changer l'image" : "Ajouter"}}</span>
-                        </div>
-                    </div>
+                <div class="profile-card">                    
+                    <app-profile-img [img]="user.img" [defaultImg]="'images/default-entreprise.png'" (editMode)="onEdit($event)"></app-profile-img>
 
                     <div class="profile-id flex px-2 py-1 mb-1">
                         <h4>

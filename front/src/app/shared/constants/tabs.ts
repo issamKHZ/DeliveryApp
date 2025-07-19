@@ -49,47 +49,47 @@ export const createEntrepSideBarTabs = (translate: TranslateService, tabsCodes: 
       }
 ];
 
-export const createLivreurSideBarTabs = (translate: TranslateService, tabsCodes: any) => [
+export const createLivreurSideBarTabs = (translate: TranslateService, tabsCodes: any, commonService: CommonService) => [
     {
         label: translate.instant('app.profil.livreur.side-bar.tabs.perso'),
         icon: "pi pi-list",
-        route: "",
+        route: commonService.composeRoute([RoutesEnum.PROFILE_LIVREUR, RoutesEnum.PERSO]),
         code: tabsCodes.PERSO
     },
     {
         label: translate.instant('app.profil.livreur.side-bar.tabs.dispo'),
         icon: "pi pi-calendar",
-        route: "",
+        route: commonService.composeRoute([RoutesEnum.PROFILE_LIVREUR, RoutesEnum.DISPO]),
         code: tabsCodes.DISPO
     },
     {
         label: translate.instant('app.profil.livreur.side-bar.tabs.statistics'),
         icon: "pi pi-chart-bar",
-        route: "",
+        route: commonService.composeRoute([RoutesEnum.PROFILE_LIVREUR, RoutesEnum.STATISTICS]),
         code: tabsCodes.STATS
     },
     {
         label: translate.instant('app.profil.livreur.side-bar.tabs.notif'),
         icon: "pi pi-bell",
-        route: "",
+        route: commonService.composeRoute([RoutesEnum.PROFILE_LIVREUR, RoutesEnum.NOTIFICATIONS]),
         code: tabsCodes.NOTIF
     },
     {
         label: translate.instant('app.profil.livreur.side-bar.tabs.historics'),
         icon: "pi pi-history",
-        route: "",
+        route: commonService.composeRoute([RoutesEnum.PROFILE_LIVREUR, RoutesEnum.HISTORICS]),
         code: tabsCodes.HISTO
     },
     {
         label: translate.instant('app.profil.livreur.side-bar.tabs.eval'),
         icon: "pi pi-star",
-        route: "",
+        route: commonService.composeRoute([RoutesEnum.PROFILE_LIVREUR, RoutesEnum.EVAL]),
         code: tabsCodes.EVAL
     },
     {
         label: translate.instant('app.profil.livreur.side-bar.tabs.settings'),
         icon: "pi pi-wrench",
-        route: "",
+        route: commonService.composeRoute([RoutesEnum.PROFILE_LIVREUR, RoutesEnum.SETTINGS]),
         code: tabsCodes.SETTINGS
     }
 ];

@@ -43,7 +43,7 @@ export class SideBarComponent implements OnInit {
       this.tabs = createEntrepSideBarTabs(this.translate, this.entrepTabsCode, this.commonService);
     } else if (this.component == this.componentKeys.LIVREUR_PROFILE) {
       this.role = this.roles.LIVREUR;
-      this.tabs = createLivreurSideBarTabs(this.translate, this.livrTabsCode);
+      this.tabs = createLivreurSideBarTabs(this.translate, this.livrTabsCode, this.commonService);
     }
   }
 }

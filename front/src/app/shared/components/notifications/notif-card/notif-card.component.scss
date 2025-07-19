@@ -14,13 +14,45 @@
         cursor: pointer;
 
         .title {
-            font-size: 14px;
             padding-left: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            padding-right: 0.5rem;
+        }
+
+        .title-small {
+            font-size: 14px;
+        }
+
+        .title-normal {
+            font-size: 16px;
+        }
+
+        .date-small {
+            font-size: 12px;
+        }
+
+        .date-normal {
+            font-size: 14px;
         }
 
         .message {
             padding-left: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            padding-right: 0.5rem;
+
+            .pi-flag-fill {
+                color: $color-error-primary;
+            }
+        }
+
+        .message-small {
             font-size: 11px;
+        }
+
+        .message-normal {
+            font-size: 14px;
         }
     }
 

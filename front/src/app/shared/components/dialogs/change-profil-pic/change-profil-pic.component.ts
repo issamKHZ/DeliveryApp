@@ -29,7 +29,7 @@ import { Message } from 'primeng/message';
 export class ChangeProfilPicComponent {
 
 
-  readonly defaultImage = 'images/default-entreprise.png';
+  defaultImage: string;
   image: string;
   emptyImage: boolean;
   hasChanges: boolean = false;
@@ -45,6 +45,7 @@ export class ChangeProfilPicComponent {
     private confirmationService: ConfirmationService
   ) {
     this.image = this.config.data?.image;
+    this.defaultImage = this.config.data?.defaultImage
     this.emptyImage = false;
 
     // Intercepter la méthode close originale
@@ -124,7 +125,7 @@ export class ChangeProfilPicComponent {
 
       setTimeout(() => {
         this.showInfoMessage = false;
-      }, 2000);
+      }, 4000);
     }, 200);
   }
 }

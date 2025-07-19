@@ -57,17 +57,17 @@ export class ProfilEntrepCommonService {
 
   adaptAdministratifInfoToForm(infos: AdminInfoEntreprise): UntypedFormGroup {
     return this.fb.group({
-      responsable: [infos.responsableName],
-      remail: [infos.responsableEmail],
-      rphone: [infos.responsablePhone],
-      eadresse: [infos.adress],
-      epostal: [infos.postalCode],
-      ecity: [infos.city],
-      ecountry: [infos.country],
-      justificatif: [infos.justificatifDomicil],
-      siret: [infos.siretNumber],
+      responsable: [infos?.responsableName],
+      remail: [infos?.responsableEmail],
+      rphone: [infos?.responsablePhone],
+      eadresse: [infos?.adress],
+      epostal: [infos?.postalCode],
+      ecity: [infos?.city],
+      ecountry: [infos?.country],
+      justificatif: [infos?.justificatifDomicil],
+      siret: [infos?.siretNumber],
       secteur: new FormControl<{ label: string, code: string }[] | null>(this.getSectorsByCodes(infos.activitySector)),
-      description: [infos.description]
+      description: [infos?.description]
     }, {
       updateOn: 'submit'
     });

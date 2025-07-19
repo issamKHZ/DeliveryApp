@@ -7,12 +7,13 @@
         <div class="actions-header">
             <ng-container *ngIf="!selectionMode">
                 <div class="options">
-                    <button pButton pRipple class="cold-button" label="Selectionner"></button>
-                    <button pButton pRipple [class]="sortClass" label="Trier par date" [icon]="sortIcon" iconPos="right"
+                    <button pButton pRipple class="cold-button" label="{{'app.profil.notifications.header.buttons.select.label' | translate}}"
+                        (click)="toggleSelection()"></button>
+                    <button pButton pRipple [class]="sortClass" label="{{'app.profil.notifications.header.buttons.sort.label' | translate}}" [icon]="sortIcon" iconPos="right"
                         (click)="sortNotifs()"></button>
                     <div class="ml-2">
                         <form class="filter" [formGroup]="filterForm">
-                            <span class="header-color">Filtrer par : </span>
+                            <span class="header-color">{{'app.profil.notifications.header.filter.label' | translate}}</span>
                             <p-select formControlName="type" [options]="typeOptions" [showClear]="true"
                                 placeholder="{{'app.profil.entreprise.sieges.table.content.filters.type' | translate}}"
                                 optionLabel="label" optionValue="code" [styleClass]="'w-select-full'" appendTo="body">
@@ -22,7 +23,6 @@
                             </p-datePicker>
                         </form>
                     </div>
-
                 </div>
 
                 <div class="search">
@@ -33,17 +33,48 @@
                 </div>
 
             </ng-container>
+
+            <ng-container *ngIf="selectionMode">
+                <div class="afterSelection">
+                    <button pButton pRipple class="cold-button" icon="pi pi-undo" (click)="toggleSelection()"></button>
+                    <div class="selections">
+                        <p-checkbox inputId="selectAll" [(ngModel)]="selectAllChecked" (onChange)="toggleSelectAll()"
+                            binary="true">
+                        </p-checkbox>
+                        <label for="selectAll" class="header-color ml-2"> {{selectedNotifCount}} /
+                            {{notifications.length}} {{'app.profil.notifications.header.selections' | translate}} </label>
+                    </div>
+
+                    <div class="selectionOptions ml-4" *ngIf="selectedNotifCount != 0">
+                        <button pButton pRipple class="cold-button" label="{{'app.profil.notifications.header.buttons.readed.label' | translate}}"></button>
+                        <button pButton pRipple class="cold-button" label="{{'app.profil.notifications.header.buttons.favoris.label' | translate}}"></button>
+                        <button pButton pRipple class="p-button-danger" label="{{'app.profil.notifications.header.buttons.delete.label' | translate}}"></button>
+                    </div>
+
+                </div>
+            </ng-container>
         </div>
 
         <div class="messages-display">
-            <p-splitter [panelSizes]="[40, 60]" [style]="{ height: '100%' }" styleClass="mb-8">
-                <ng-template pTemplate>
-                    <div>Panel 1</div>
-                </ng-template>
-                <ng-template pTemplate>
-                    <div>Panel 2</div>
-                </ng-template>
-            </p-splitter>
+
+            <div class="messages-container">
+                <div class="notification-popup-container px-1 pb-4">
+                    <app-notifications [items]="notifications" [isHeader]="false"></app-notifications>
+                </div>
+                <div class="empty-list" *ngIf="!notifications || notifications.length == 0">
+                    <div class="empty-state">
+                        <i class="pi pi-bell-slash blue" style="font-size: 3rem"></i>
+                        <h3 class="mb-1 blue">{{'app.header.notification.no-notif.title' | translate}}</h3>
+                        <p>{{'app.header.notification.no-notif.context' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-container">
+                <div class="no-message">
+                    <i class="pi pi-inbox" style="font-size: 14rem;"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>

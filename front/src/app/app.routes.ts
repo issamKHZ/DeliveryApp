@@ -121,7 +121,46 @@ export const routes: Routes = [
             import('./content/profile/profil-livreur/profil-livreur.component').then(m => m.ProfilLivreurComponent),
         canActivate: [AuthGuard],
         children: [
-
+            {
+                path: routesEndpoints.PERSO,
+                loadComponent: () =>
+                    import('./shared/components/profiles/livreur/info-perso/info-perso.component').then(m => m.InfoPersoComponent),
+            },
+            {
+                path: routesEndpoints.DISPO,
+                loadComponent: () =>
+                    import('./shared/components/profiles/livreur/disponibility/disponibility.component').then(m => m.DisponibilityComponent),
+            },
+            {
+                path: routesEndpoints.STATISTICS,
+                loadComponent: () =>
+                    import('./shared/components/profiles/livreur/statistics/statistics.component').then(m => m.StatisticsComponent),
+            },
+            {
+                path: routesEndpoints.NOTIFICATIONS,
+                loadComponent: () =>
+                    import('./shared/components/profiles/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent),
+            },
+            {
+                path: routesEndpoints.HISTORICS,
+                loadComponent: () =>
+                    import('./shared/components/profiles/livreur/historics/historics.component').then(m => m.HistoricsComponent),
+            },
+            {
+                path: routesEndpoints.EVAL,
+                loadComponent: () =>
+                    import('./shared/components/profiles/livreur/evaluations/evaluations.component').then(m => m.EvaluationsComponent),
+            },
+            {
+                path: routesEndpoints.SETTINGS,
+                loadComponent: () =>
+                    import('./shared/components/profiles/livreur/settings/settings.component').then(m => m.SettingsComponent),
+            },
+            {
+                path: '**',
+                redirectTo: routesEndpoints.PERSO,
+                pathMatch: 'full'
+            }
         ],
         data: { component: ComponentsKeyEnum.LIVREUR_PROFILE }
     },

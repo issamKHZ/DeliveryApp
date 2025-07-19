@@ -1,0 +1,26 @@
+<div class="custom-upload-container mt-2">
+
+    <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.jpg,.png" style="display: none;">
+
+    <div *ngIf="!selectedFileName" class="upload-state-empty">
+        <button pButton type="button" class="upload-button" (click)="fileInput.click()" [disabled]="!editMode">
+            <i class="pi pi-cloud-upload"></i>
+            <span>{{'app.profil.entreprise.administratif.form.justificatif.button.label' | translate }}</span>
+        </button>
+        <small class="file-size-warning">{{'app.profil.entreprise.administratif.form.justificatif.button.warning' |
+            translate }}</small>
+    </div>
+
+    <div *ngIf="selectedFileName" class="upload-state-filled">
+        <div class="file-display">
+            <i [ngClass]="fileIconClass"></i>
+            <a href="#" class="file-name" (click)="previewFile($event)">{{selectedFileName}}</a>
+        </div>
+        <div class="file-actions">
+            <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text edit-button"
+                (click)="fileInput.click()" [disabled]="!editMode"></button>
+            <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-text delete-button"
+                (click)="removeFile()" [disabled]="!editMode"></button>
+        </div>
+    </div>
+</div>

@@ -18,6 +18,7 @@ import { ComponentRoutageService } from '../../../../services/component-routage.
 import { EntrepSideBar } from '../../../../modele/enumerate/EntrepSideBar';
 import { ProfileEntrepriseService } from '../../../../services/profile/entreprise/profile-entreprise.service';
 import { LoadingService } from '../../../utils/spinner/loading.service';
+import { AttachmentFieldComponent } from "../../../utils/attachment-field/attachment-field.component";
 
 @Component({
   selector: 'app-info-administratif',
@@ -32,13 +33,13 @@ import { LoadingService } from '../../../utils/spinner/loading.service';
     MultiSelectModule,
     FileUploadModule,
     ConfirmDialogModule,
-    CommonModule
+    CommonModule,
+    AttachmentFieldComponent
   ],
   templateUrl: './info-administratif.component.html',
   styleUrl: './info-administratif.component.scss'
 })
 export class InfoAdministratifComponent extends SubscriptionManager implements OnInit, OnDestroy {
-
 
   secteursList: { label: string, code: string }[];
   form: UntypedFormGroup;
@@ -59,7 +60,6 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
     description: "Lorem upsum kdpc zpockzc pozckzlc oc,eocezc poc,pcezpc pz,cpez,cpz czpdc,pzc,z,"
   }
 
-  selectedFileName: string | null = null;
   fileUrl: string | ArrayBuffer | null = null;
 
 
@@ -73,7 +73,7 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
     super();
   }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.routageService.selectTab(EntrepSideBar.ADMIN);
     this.initForm();
     this.editorDisabled = true;
@@ -83,15 +83,7 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
   initForm(): void {
     this.form = this.commonService.adaptAdministratifInfoToForm(this.userInfos);
     this.fileUrl = this.form.get('justificatif')?.value;
-    this.selectedFileName = this.commonService.extractFilenameFromUrl(this.fileUrl);
     this.form.disable();
-  }
-
-  get fileIconClass() {
-    if (!this.selectedFileName) return 'pi pi-file';
-    if (this.selectedFileName.endsWith('.pdf')) return 'pi pi-file-pdf';
-    if (/\.(jpg|jpeg|png)$/i.test(this.selectedFileName)) return 'pi pi-image';
-    return 'pi pi-file';
   }
 
 
@@ -110,68 +102,8 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
     }
   }
 
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      const maxSizeInMB = 5;
-      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-
-      if (file.size > maxSizeInBytes) {
-        alert('Le fichier dépasse la taille maximale de 5 Mo.');
-        this.removeFile();
-        return;
-      }
-
-      this.selectedFileName = file.name;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.fileUrl = reader.result;
-        this.form.get('justificatif')?.setValue(this.fileUrl);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-
-  previewFile(event: Event) {
-    event.preventDefault();
-
-    if (!this.selectedFileName || !this.fileUrl) {
-      console.error('Aucun fichier à visualiser');
-      return;
-    }
-
-    const blob = this.dataURLtoBlob(this.fileUrl as string);
-    const blobUrl = URL.createObjectURL(blob);
-    window.open(blobUrl, '_blank');
-  }
-
-
-  private dataURLtoBlob(dataURL: string): Blob {
-    const parts = dataURL.split(',');
-    const mime = parts[0].match(/:(.*?);/)?.[1];
-    const bstr = atob(parts[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new Blob([u8arr], { type: mime });
-  }
-
-
-  removeFile() {
-    this.selectedFileName = null;
-    this.fileUrl = null;
-    this.form.get('justificatif')?.setValue(null);
-    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = '';
-    }
+  saveFile($event: any) {
+    this.form.get('justificatif')?.setValue($event);
   }
 
   private showCloseConfirmation(): void {

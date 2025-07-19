@@ -9,10 +9,17 @@
 // }
 
 ::ng-deep {
-    .notification-scroll-container {
-        height: 200px;
+    .notification-scroll-container {                
         overflow-y: auto;
         overscroll-behavior-y: contain;       
+    }
+
+    .isHeader {
+        height: 200px;
+    }
+
+    .isPage {
+        height: 100%;
     }
 
     // .notification-scroll-container::-webkit-scrollbar {

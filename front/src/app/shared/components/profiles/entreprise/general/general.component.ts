@@ -14,7 +14,7 @@ import { RippleModule } from 'primeng/ripple';
 import { ProfilEntrepCommonService } from '../../../../services/profile/entreprise/pEntrepCommon.service';
 import { PersonelInfosEntreprise } from '../../../../modele/entreprise/PersonelInfosEntreprise';
 import { TagSeverity, CustomTagComponent } from '../../../utils/custom-tag/custom-tag.component';
-import { OpenImageDialogService } from './open-image-dialog.service';
+import { OpenImageDialogService } from '../../../utils/profile-img/open-image-dialog.service';
 import { take } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SubscriptionManager } from '../../../../utils/subscription-manager';
@@ -23,6 +23,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { LoadingService } from '../../../utils/spinner/loading.service';
 import { EntrepSideBar } from '../../../../modele/enumerate/EntrepSideBar';
+import { ProfileImgComponent } from "../../../utils/profile-img/profile-img.component";
 
 export enum PersonelFieldsEnum {
   NAME = "Nom d'entreprise",
@@ -69,7 +70,8 @@ export interface PersonalInfosField {
     AutoFocusModule,
     AvatarModule,
     CustomTagComponent,
-    TranslateModule
+    TranslateModule,
+    ProfileImgComponent
   ],
   templateUrl: './general.component.html',
   styleUrl: './general.component.scss',
@@ -152,71 +154,41 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
   }
 
   saveField(field: PersonalInfosField): void {
-    let value =  field.control.value;
+    let value = field.control.value;
 
     if (value === '' || value === null || value == field.originalValue) {
       field.control.setValue(field.originalValue);
     } else {
-      if (field.code == PersonelFieldsEnum.DOC) {value = this.commonService.formatStringDDMMYYYY(value);}      
-      if (value !== field.originalValue) {        
+      if (field.code == PersonelFieldsEnum.DOC) { value = this.commonService.formatStringDDMMYYYY(value); }
+      if (value !== field.originalValue) {
         field.haschanged = true;
-      }      
+      }
       field.control.setValue(value);
     }
     field.editMode = false;
     this.checkCanEdit();
   }
 
-  onUpload() {
-    if (this.user.img) {
-      this.openImageService.openDialog(this.user.img)
-      this.register(
-        this.openImageService.ref.onClose.pipe(
-          take(1)
-        ).subscribe((result) => {      
-          if (result?.saved) {
-            if (result.emptyImage) {
-              this.user.img = null;              
-            } else {
-              this.user.img = result.image;
-            }
-            this.editMode = true;
-          } else if (result?.saved === false) {
-          }
-        })
-      )
-    } else {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.accept = 'image/*';
-      fileInput.onchange = (event) => {
-        const input = event.target as HTMLInputElement;
-        if (input.files?.[0]) {
-          const reader = new FileReader();
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-            this.user.img = e.target?.result as string;
-            this.editMode = true;
-          };
-          reader.readAsDataURL(input.files[0]);
-        }
-      };
-      fileInput.click();
-    }
+  onEdit(event: any) {
+    this.editMode = event.editMode;
+    this.user.img = event.img;
   }
 
-  reset() : void {
-    this.user.img = this.initialImage;
+  reset(): void {
+    this.user = { ...this.user, img: this.initialImage };
     this.fields.map(item => {
       item.control.setValue(item.firstValue);
       item.haschanged = false;
-      item.editMode = false;      
+      item.editMode = false;
     });
     this.editMode = false;
   }
 
   edit(): void {
     // check si tous les edit sont off (valdié) avant de commencer
-    
+
+
+    // apres edit tu dois changer le initial img
   }
 
   checkCanEdit(): void {

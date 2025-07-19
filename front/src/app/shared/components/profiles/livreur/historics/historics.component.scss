@@ -1,0 +1,21 @@
+@import '../../../../../../styles/variables.scss';
+
+::ng-deep {
+    .historics-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;    
+
+        .title {
+            margin-bottom: 0.5rem;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 3rem;
+
+            i {
+                color: $color-primary-darker;
+            }
+        }
+    }
+}

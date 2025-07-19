@@ -1,0 +1,9 @@
+<div class="profile-image-container" (click)="pic_overlay.click()">
+    <p-avatar [image]="img || defaultImg" size="xlarge" shape="circle" class="profile-avatar">
+    </p-avatar>
+
+    <div #pic_overlay class="image-change-overlay" [ngClass]="canEdit ? 'show-background' : 'hide-background'" (click)="onUpload()">
+        <i *ngIf="canEdit" class="pi pi-camera"></i>
+        <span *ngIf="canEdit">{{(img ? 'app.common.components.profile-img.change-img' : "app.common.components.profile-img.add") | translate}}</span>
+    </div>
+</div>

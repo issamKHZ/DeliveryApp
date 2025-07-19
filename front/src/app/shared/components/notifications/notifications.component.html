@@ -1,17 +1,6 @@
-<!-- <p-virtualscroller
-    [items]="items"
-    [itemSize]="50"
-    scrollHeight="200px"
-    styleClass="border border-surface"
-    [style]="{ height: '200px' }"
->   
-    <ng-template pTemplate="item" let-item let-options="options">
-        <app-notif-card [notif]="item"></app-notif-card>
-    </ng-template>
-</p-virtualscroller>
- -->
 
- <div class="notification-scroll-container">
+
+ <div class="notification-scroll-container" [ngClass]="isHeader ? 'isHeader' : 'isPage'">
   <div class="notification-list">
     <div *ngFor="let item of items" class="notification-item">
       <app-notif-card [notif]="item"></app-notif-card>

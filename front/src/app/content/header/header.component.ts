@@ -136,6 +136,64 @@ export class HeaderComponent extends SubscriptionManager implements OnInit, OnDe
       },
     ];
 
+
+     this.notifications = [{
+      title: 'title test',
+      subject: 'subject test',
+      message: 'mesage message test',
+      date: new Date(),
+      type: NotifType.ADMIN_RECLAMATION,
+      sub_type: "reclamation",
+      readed: false,
+    },
+
+
+    {
+      title: 'title test',
+      subject: 'subject test',
+      message: 'mesage message test',
+      date: new Date(),
+      type: NotifType.ADMIN_WARNING,
+      sub_type: "reclamation",
+      readed: false,
+    },
+    {
+      title: 'title test',
+      subject: 'subject test',
+      message: 'mesage message test',
+      date: new Date(),
+      type: NotifType.ADMIN_RECLAMATION,
+      sub_type: "reclamation",
+      readed: false,
+    },
+    {
+      title: 'title test',
+      subject: 'subject test',
+      message: 'mesage message test',
+      type: NotifType.INFO,
+      date: new Date(),
+      sub_type: "reclamation",
+      readed: false,
+    },
+    {
+      title: 'title test',
+      subject: 'subject test',
+      message: 'mesage message test',
+      date: new Date(),
+      type: NotifType.MESSAGE,
+      sub_type: "reclamation",
+      readed: false,
+    },
+    {
+      title: 'title test',
+      subject: 'subject test',
+      message: 'mesage message test',
+      date: new Date(),
+      type: NotifType.ADMIN_WARNING,
+      sub_type: "reclamation",
+      readed: false,
+    }]
+
     // Select unreaded notifications
     this.notificationsCount = this.notifService.getUnreadedNotif(this.notifications);
 

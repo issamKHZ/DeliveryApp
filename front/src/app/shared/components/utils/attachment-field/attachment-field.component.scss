@@ -1,0 +1,78 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+
+    .custom-upload-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .upload-state-empty {
+            .upload-button {
+                background-color: rgba(231, 231, 231, 0.71) !important;
+                border: 1px solid #ced4da !important;
+                border-bottom: 2px solid $color-primary-dark !important;
+                color: #495057 !important;
+                border-radius: 4 !important;
+                padding: 0.5rem 4rem 0.5rem 0.7rem !important;
+
+                &:hover {
+                    background-color: #c2c2c288 !important;
+                }
+
+                &:disabled {
+                    background-color: #e9ecef !important;
+                }
+
+            }
+
+            .file-size-warning {
+                display: block;
+                color: #6c757d;
+                margin-top: 0.25rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        .upload-state-filled {
+            display: flex;
+            align-items: center;
+
+            .file-display {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-grow: 1;
+
+                i {
+                    color: $color-primary;
+                    font-size: 1.25rem;
+                }
+
+                .file-name {
+                    color: $color-primary;
+                    text-decoration: none;
+                    cursor: pointer;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .file-actions {
+                display: flex;
+                gap: 0.25rem;
+
+                .edit-button {
+                    color: $color-primary-dark !important;
+                }
+
+                .delete-button {
+                    color: $color-error !important;
+                }
+            }
+        }
+    }
+
+}

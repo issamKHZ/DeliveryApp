@@ -28,13 +28,17 @@
             .actions-header {
                 border: 1px solid rgb(217, 229, 236);
                 border-radius: 8px;
-                box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
                 background-color: #eaf5ffa9;
                 height: 8%;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding: 0 1rem;
+
+                .header-color {
+                    color: #5f666e;
+                }
 
                 .options {
                     display: flex;
@@ -45,9 +49,27 @@
                         display: flex;
                         gap: 0.5rem;
                         align-items: center;
-                        .header-color {
-                            color: #5f666e;
-                        }
+                    }
+                }
+
+                .afterSelection {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    .selections {
+                        background-color: #ffffff;
+                        border: 1px solid #d2d7e0;
+                        border-radius: 6px;                    
+                        padding: 7px 7px;                        
+                        margin-left: 1rem;
+                    }
+
+                    .selectionOptions {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        
                     }
                 }
             }
@@ -55,8 +77,50 @@
             .messages-display {
                 border: 1px solid rgb(217, 229, 236);
                 border-radius: 8px;
-                box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
                 height: 80%;
+                display: flex;
+                position: relative;
+
+                .messages-container {
+                    width: 40%;
+                    overflow-y: auto;
+                    border-right: 0.3rem solid #e5e7eb;
+                    background: #f7fbff;
+                    box-shadow: 8px 0 3px -4px rgba(0, 0, 0, 0.2);
+                    z-index: 1;
+                    height: 98%;
+
+                    .empty-list {
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .empty-state {
+                        text-align: center;
+                        color: var(--text-color-secondary);
+                    }
+
+                    .blue {
+                        color: $color-primary-dark !important;
+                    }
+                }
+
+                .content-container {
+                    width: 60%;
+                    background: white;
+                    z-index: 0;
+
+                    .no-message {
+                        color: #adb0b465;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                    }
+                }
             }
         }
     }

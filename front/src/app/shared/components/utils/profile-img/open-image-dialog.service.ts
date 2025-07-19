@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ChangeProfilPicComponent } from '../../../dialogs/change-profil-pic/change-profil-pic.component';
-import { SubscriptionManager } from '../../../../utils/subscription-manager';
+import { ChangeProfilPicComponent } from '../../dialogs/change-profil-pic/change-profil-pic.component';
+import { SubscriptionManager } from '../../../utils/subscription-manager';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +15,7 @@ export class OpenImageDialogService extends SubscriptionManager implements OnDes
         super();
     }
 
-    openDialog(image: string): void {
+    openDialog(image: string, defaultImg: string): void {
         this.ref = this.dynamicDialog.open(ChangeProfilPicComponent, {
             width: '25vw',
             closable: true,
@@ -24,7 +24,8 @@ export class OpenImageDialogService extends SubscriptionManager implements OnDes
             closeOnEscape: false,
             dismissableMask: false,
             data: {
-                image: image                
+                image: image,
+                defaultImage: defaultImg     
             }
         });        
     }    

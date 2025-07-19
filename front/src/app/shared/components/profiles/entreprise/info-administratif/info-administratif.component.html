@@ -12,14 +12,11 @@
     <form [formGroup]="form" class="content">
 
         <div class="edit-btn flex gap-2 mb-2">
-            <button pButton (click)="toggleEdit()"
-                [icon]="editMode ? 'pi pi-check' : 'pi pi-pencil'">
+            <button pButton (click)="toggleEdit()" [icon]="editMode ? 'pi pi-check' : 'pi pi-pencil'">
                 {{ (editMode ? 'app.profil.entreprise.administratif.buttons.validate' :
                 'app.profil.entreprise.administratif.buttons.edit' )| translate }}
             </button>
-            <button pButton *ngIf="editMode" class="cold-button"
-            (click)="cancelEdit()"
-                icon='pi pi-times'>                
+            <button pButton *ngIf="editMode" class="cold-button" (click)="cancelEdit()" icon='pi pi-times'>
                 {{'app.common.buttons-label.cancel' | translate }}
             </button>
         </div>
@@ -36,36 +33,8 @@
                 <span class="field-label">
                     {{'app.profil.entreprise.administratif.form.justificatif.label' | translate}}
                 </span>
-
-                <div class="custom-upload-container mt-2">
-
-                    <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.jpg,.png"
-                        style="display: none;">
-
-                    <div *ngIf="!selectedFileName" class="upload-state-empty">
-                        <button pButton type="button" class="upload-button" (click)="fileInput.click()"
-                            [disabled]="!editMode">
-                            <i class="pi pi-cloud-upload"></i>
-                            <span>{{'app.profil.entreprise.administratif.form.justificatif.button.label' | translate }}</span>
-                        </button>
-                        <small class="file-size-warning">{{'app.profil.entreprise.administratif.form.justificatif.button.warning' | translate }}</small>
-                    </div>
-
-                    <div *ngIf="selectedFileName" class="upload-state-filled">
-                        <div class="file-display">
-                            <i [ngClass]="fileIconClass"></i>
-                            <a href="#" class="file-name" (click)="previewFile($event)">{{selectedFileName}}</a>
-                        </div>
-                        <div class="file-actions">
-                            <button pButton type="button" icon="pi pi-pencil"
-                                class="p-button-rounded p-button-text edit-button" (click)="fileInput.click()"
-                                [disabled]="!editMode"></button>
-                            <button pButton type="button" icon="pi pi-trash"
-                                class="p-button-rounded p-button-text delete-button" (click)="removeFile()"
-                                [disabled]="!editMode"></button>
-                        </div>
-                    </div>
-                </div>
+                <app-attachment-field [editMode]="editMode" [fileUrl]="fileUrl"
+                    (file)="saveFile($event)"></app-attachment-field>
             </div>
 
 

@@ -38,6 +38,11 @@ export enum RoutesEnum {
     PREFERENCES = "preferences",
     NOTIFICATIONS = "notifications",
 
+    PERSO = "personel",
+    DISPO = "disponibility",
+    HISTORICS = "historics",
+    EVAL = "eval",
+
 
     ERROR = "error",
     TEST = "test"

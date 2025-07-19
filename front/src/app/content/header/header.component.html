@@ -34,8 +34,7 @@
       <!--                   --------------------------                       -->
       <!--                   --------------------------                       -->
       <!--                   --------------------------                       -->
-
-
+      
       <p-menu #notif [model]="fictifItems" [popup]="true" [styleClass]="'custom-pmenu'" (onShow)="adjustNotif()">
         <ng-template pTemplate="popup">
           <div *ngIf="notifications && notifications.length != 0" class="w-64 notification-popup-container pb-4">
@@ -47,8 +46,8 @@
                 {{'app.header.notification.header.end' | translate}}
               </h4>
             </div>
-            <app-notifications [items]="notifications"></app-notifications>
-            <div class="notification-footer pt-2">
+            <app-notifications [items]="notifications" [isHeader]="true"></app-notifications>
+            <div class="notification-footer pt-1 pb-1">
               <a pRipple class="flex justify-content-center items-center cursor-pointer mt-1">
                 <span class="ssmall-text pr-1">{{'app.header.notification.footer' | translate}}</span>
               </a>
@@ -62,9 +61,9 @@
           </div>
         </ng-template>
       </p-menu>
-
+      
       <!-- Icône de cloche -->
-      <p-overlaybadge [value]="notificationsCount" [badgeSize]="'small'" [badgeDisabled]="notificationsCount == 0" *ngIf="isConnected">
+      <p-overlaybadge [value]="notificationsCount" [badgeSize]="'small'" [badgeDisabled]="notificationsCount == 0 || withSideBar || validationPages" *ngIf="isConnected">
         <i #bell (click)="notif.toggle($event)" *ngIf="!validationPages && !withSideBar"
           class="pi pi-bell bell ml-4 text-2xl cursor-pointer"></i>
       </p-overlaybadge>

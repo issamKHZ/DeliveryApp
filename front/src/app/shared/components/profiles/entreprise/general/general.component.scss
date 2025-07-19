@@ -169,49 +169,6 @@
         white-space: pre;
     }
 
-    .profile-image-container {
-        position: relative;
-        cursor: pointer;
-        border-radius: 50%;
-        width: 10rem;
-        height: 10rem;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &:hover .image-change-overlay {
-            opacity: 1;
-        }
-    }
-
-    .image-change-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 35%;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        border-bottom-left-radius: 50%;
-        border-bottom-right-radius: 50%;
-        pointer-events: none;
-
-        i {
-            font-size: 1.25rem;
-        }
-
-        span {
-            font-size: 0.75rem;
-        }
-    }
-
     .profile-name {
         margin: 0;
         font-weight: 500;
