@@ -1,9 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Notification } from '../../../modele/Notification';
 import { NotifType } from '../../../modele/enumerate/NotifType';
 import { CommonModule, NgClass, NgStyle } from '@angular/common';
 import { LargeContentFieldComponent } from '../../utils/large-content-field/large-content-field.component';
 import { NotificationsService } from '../service/notifications.service';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
+import { NotifCommunicationService } from '../../../services/notifications/notif-communication.service';
 
 const colors: { [key in NotifType]: string } = {
   [NotifType.ADMIN_RECLAMATION]: '#e02e2a',
@@ -15,7 +18,11 @@ const colors: { [key in NotifType]: string } = {
 @Component({
   selector: 'app-notif-card',
   standalone: true,
-  imports: [CommonModule, LargeContentFieldComponent],
+  imports: [
+    CommonModule,
+    CheckboxModule,
+    FormsModule,
+    LargeContentFieldComponent],
   templateUrl: './notif-card.component.html',
   styleUrl: './notif-card.component.scss'
 })
@@ -23,9 +30,15 @@ export class NotifCardComponent implements OnInit {
 
   @Input() notif: Notification;
   @Input() size: String;
+  @Input() selectionMode: boolean;
   currentCount: number;
+  // selectedClass: boolean;
 
-  get textSize () {
+  notifChecked: boolean;
+
+  @Output() selectedId = new EventEmitter<number>();
+
+  get textSize() {
     if (this.size == 'small') {
       return true;
     } else {
@@ -33,12 +46,14 @@ export class NotifCardComponent implements OnInit {
     }
   }
 
-  constructor(private notifService: NotificationsService) {
+  constructor(
+    private notifService: NotificationsService,
+    private notifCommunicationService: NotifCommunicationService
 
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.notifService.currentCount.subscribe(count => {
+    this.notifCommunicationService.currentCount.subscribe(count => {
       this.currentCount = count;
     });
 
@@ -49,11 +64,12 @@ export class NotifCardComponent implements OnInit {
   }
 
   readNotif($event: MouseEvent) {
+    this.selectNotif();
     $event.stopPropagation();
-    if (!this.notif.readed) {
+    if (!this.notif.readed && !this.selectionMode) {
       this.notif.readed = true;
       this.currentCount--;
-      this.notifService.updateCount(this.currentCount);
+      this.notifCommunicationService.updateCount(this.currentCount);
     }
   }
 
@@ -76,5 +92,16 @@ export class NotifCardComponent implements OnInit {
       const month = (notifDate.getMonth() + 1).toString().padStart(2, '0');
       return `${day}/${month} ${hours}:${minutes}`;
     }
+  }
+
+  selectNotif(): void {
+    this.selectedId.emit(this.notif.id);
+    if (!this.selectionMode) {
+      this.notif.opened = true;
+    }
+  }
+
+  checkNotif(): void {
+    this.notifCommunicationService.selectOneNotif(this.notif.selected);
   }
 }

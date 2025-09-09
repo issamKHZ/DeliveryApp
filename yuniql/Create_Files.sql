@@ -1,0 +1,8 @@
+CREATE TABLE DB_Files (
+    ID INT PRIMARY KEY IDENTITY,
+    Nom NVARCHAR(255) NOT NULL,
+    TypeMime NVARCHAR(100),
+    Donnees VARBINARY(MAX),
+    DateCreation DATETIME DEFAULT GETDATE(),
+    Taille BIGINT
+);

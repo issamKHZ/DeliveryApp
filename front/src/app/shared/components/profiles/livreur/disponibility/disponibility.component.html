@@ -3,4 +3,13 @@
         <i class="pi pi-calendar" style="font-size: 1.6rem"></i>
         <span class="profile-section-title">{{'app.profil.livreur.dispo.title' | translate}}</span>
     </div>
+
+    <div class="content">
+        <div class="calendar-c">
+            <app-schedule-calendar [indispoDays]="daysIndipo" [livreurID]="livreurID"></app-schedule-calendar>
+        </div>
+        <div class="day-schedule">
+            <app-day-scheduler [livreurID]="livreurID"></app-day-scheduler>
+        </div>
+    </div>
 </div>

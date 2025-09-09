@@ -9,16 +9,22 @@ import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { secteursList } from '../../../../constants/entrepConstants';
 import { AdminInfoEntreprise } from '../../../../modele/entreprise/AdminInfoEntreprise';
-import { FileSelectEvent, FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
-import { CommonModule, NgIf } from '@angular/common';
+import { FileUploadModule } from 'primeng/fileupload';
+import { CommonModule } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { SubscriptionManager } from '../../../../utils/subscription-manager';
 import { ComponentRoutageService } from '../../../../services/component-routage.service';
 import { EntrepSideBar } from '../../../../modele/enumerate/EntrepSideBar';
-import { ProfileEntrepriseService } from '../../../../services/profile/entreprise/profile-entreprise.service';
 import { LoadingService } from '../../../utils/spinner/loading.service';
 import { AttachmentFieldComponent } from "../../../utils/attachment-field/attachment-field.component";
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageModule } from 'primeng/message';
+import { ProfileEntrepriseService } from '../../../../services/profile/entreprise/profile-entreprise.service';
+import { CommonService } from '../../../../services/utils/common.service';
+import { FilesService } from '../../../../services/utils/files.service';
+import { PhoneNumberDirective } from '../../../../directives/phone-number.directive';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-info-administratif',
@@ -33,7 +39,9 @@ import { AttachmentFieldComponent } from "../../../utils/attachment-field/attach
     MultiSelectModule,
     FileUploadModule,
     ConfirmDialogModule,
+    MessageModule,
     CommonModule,
+    PhoneNumberDirective,
     AttachmentFieldComponent
   ],
   templateUrl: './info-administratif.component.html',
@@ -46,43 +54,71 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
   editorDisabled: boolean;
   editMode: boolean;
 
-  userInfos: AdminInfoEntreprise = {
-    responsableName: "hicham yahyaoui",
-    responsableEmail: "hicham.yahyaoui@gmail.com",
-    responsablePhone: "05 69 12 45 86",
-    adress: "182 rue jrada bensamin",
-    postalCode: "44000",
-    city: "Rabat",
-    country: "Maroc",
-    justificatifDomicil: null,
-    siretNumber: "458 744 254 25",
-    activitySector: ['coursiers', 'commerce', 'logistique'],
-    description: "Lorem upsum kdpc zpockzc pozckzlc oc,eocezc poc,pcezpc pz,cpez,cpz czpdc,pzc,z,"
-  }
+  userInfos: AdminInfoEntreprise;
 
   fileUrl: string | ArrayBuffer | null = null;
+  initialFile: any;
+  initialUrl: any;
 
 
 
   constructor(private fb: FormBuilder,
     private translate: TranslateService,
     private commonService: ProfilEntrepCommonService,
+    private appService: CommonService,
+    private fileService: FilesService,
+    private profileService: ProfileEntrepriseService,
     private routageService: ComponentRoutageService,
     private spinner: LoadingService,
-    private confirmationService: ConfirmationService) {
+    private message: MessageService,
+    private confirmationService: ConfirmationService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     super();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+    this.spinner.show();
     this.routageService.selectTab(EntrepSideBar.ADMIN);
-    this.initForm();
-    this.editorDisabled = true;
-    this.secteursList = secteursList;
+    this.register(
+
+      this.profileService.getSectorActivities().subscribe((response) => {
+        this.secteursList = response;
+        this.spinner.hide()
+      }),
+
+      this.commonService.getProfileData().subscribe(data => {
+        if (data) {
+          this.userInfos = this.commonService.adaptAdminDtoToModel(data);
+          this.fileUrl = this.userInfos.justificatifDomicil;
+          this.initialUrl = this.fileUrl;
+          if (this.fileUrl) {
+            this.userInfos.domicileFile = this.fileService.convertStringToFile(this.fileUrl, this.userInfos.fileDownloadName);
+          }
+        }
+        this.initForm();
+        this.editorDisabled = true;
+      })
+
+    )
+  }
+
+  get displayCompletingError() {
+    const requiredFields = ['responsable',
+      'remail',
+      'rphone',
+      'eadresse',
+      'epostal',
+      'ecity',
+      'ecountry',
+      'justificatif',
+      'siret'];
+    return !this.commonService.areRequiredFieldsFilled(this.form, requiredFields);
   }
 
   initForm(): void {
     this.form = this.commonService.adaptAdministratifInfoToForm(this.userInfos);
-    this.fileUrl = this.form.get('justificatif')?.value;
     this.form.disable();
   }
 
@@ -103,7 +139,14 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
   }
 
   saveFile($event: any) {
-    this.form.get('justificatif')?.setValue($event);
+    this.initialFile = this.userInfos.domicileFile;
+    this.initialUrl = this.userInfos.justificatifDomicil;
+    this.form.get('justificatif')?.setValue($event?.file);
+    if ($event == null) {
+      this.userInfos.domicileFile = null;
+      return;
+    }
+    this.userInfos.domicileFile = this.fileService.convertStringToFile($event.file, $event.name);
   }
 
   private showCloseConfirmation(): void {
@@ -129,12 +172,33 @@ export class InfoAdministratifComponent extends SubscriptionManager implements O
   cancelEdit() {
     this.editMode = false;
     this.editorDisabled = true;
+    this.userInfos.domicileFile = this.initialFile;
+    this.fileUrl = this.initialUrl;
     this.initForm();
   }
 
   onAccept(): void {
+    let data = this.commonService.adaptFormToAdministratifInfo(this.form, this.userInfos.iD, this.userInfos.domicileFile);
     this.register(
-
+      this.profileService.saveAdminInfos(data).subscribe({
+        next: (response) => {
+          this.userInfos = this.commonService.adaptAdminDtoToModel(response);
+          this.commonService.setProfileData(response);
+          this.message.add({
+            severity: 'success', summary: this.translate.instant('app.profil.entreprise.general.errors.success-edit.summary'),
+            detail: this.translate.instant('app.profil.entreprise.general.errors.success-edit.message'), life: 4000
+          })
+        },
+        error: (error) => {       
+          if (error.status == HttpStatusCode.BadRequest) {
+            this.message.add({
+              severity: 'error', summary: this.translate.instant('app.profil.entreprise.administratif.errors.responsable.summary'),
+              detail: this.translate.instant('app.profil.entreprise.administratif.errors.responsable.message'), life: 7000
+            })
+          }
+          this.initForm();
+        }
+      })
     );
     this.editMode = false;
     this.editorDisabled = true;

@@ -12,11 +12,10 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { siegesList, SiegesStatus, SiegesTypes } from '../../../../constants/entrepConstants';
 import { LargeContentFieldComponent } from "../../../utils/large-content-field/large-content-field.component";
 import { CustomTagComponent, TagSeverity } from "../../../utils/custom-tag/custom-tag.component";
 import { ButtonModule } from 'primeng/button';
-import { SortEvent } from 'primeng/api';
+import { MessageService, SortEvent } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DigitSpacerLimitedDirective } from '../../../../directives/digit-spacer-limited.directive';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -26,6 +25,15 @@ import { Sieges } from '../../../../modele/entreprise/Sieges';
 import { SubscriptionManager } from '../../../../utils/subscription-manager';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RippleModule } from 'primeng/ripple';
+import { SiegeHttpService } from '../../../../services/profile/entreprise/siege/siege.http.service';
+import { forkJoin, take } from 'rxjs';
+import { ProfilEntrepCommonService } from '../../../../services/profile/entreprise/pEntrepCommon.service';
+import { th } from 'date-fns/locale';
+import { HttpStatusCode } from '@angular/common/http';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { PhoneNumberDirective } from '../../../../directives/phone-number.directive';
+import { LoadingService } from '../../../utils/spinner/loading.service';
+import { CollectionItem } from '../../../../modele/CollectionItem';
 
 export enum SpeedDialActionsEnum {
   ADD,
@@ -70,7 +78,9 @@ export interface SpeedDialAction {
     DigitSpacerLimitedDirective,
     ButtonModule,
     CustomSpeedDialComponent,
-    RippleModule
+    ConfirmDialogModule,
+    RippleModule,
+    PhoneNumberDirective
   ],
   providers: []
 })
@@ -83,9 +93,10 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
   cancelRowEdit(_t178: any) {
     throw new Error('Method not implemented.');
   }
-  
 
-  checkedSiegeToEditId: string;
+  entrepriseId: string;
+
+  checkedSiegeToEditId: number;
 
   customers!: any[];
   sieges: Sieges[];
@@ -94,6 +105,7 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
   initialValue: any[];
   typesOptions!: any[];
   statusOptions!: any[];
+  cities!: any[];
   loading: boolean = true;
   activityValues: number[] = [0, 100];
 
@@ -113,10 +125,18 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
   deleteMode: boolean;
   editMode: boolean;
 
-  selectedSiege: any;
+  selectedSiege: Sieges;
   defaultFormModule: boolean = false;
 
-  constructor(private fb: FormBuilder, private translate: TranslateService, private siegeService: SiegeService) {
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService,
+    public siegeService: SiegeService,
+    private siegeHttpService: SiegeHttpService,
+    private entrepriseService: ProfilEntrepCommonService,
+    private message: MessageService,
+    private spinner: LoadingService
+  ) {
 
     super();
 
@@ -132,12 +152,25 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
     });
   }
   ngOnInit() {
-    this.loadSieges();
-    this.loading = false;
+    this.spinner.show();
     this.customers = [];
-    this.initialValue = [...this.sieges];
-    this.typesOptions = SiegesTypes;
-    this.statusOptions = SiegesStatus;
+
+    this.register(
+      this.entrepriseService.getProfileData().subscribe((data: any) => {
+        this.entrepriseId = data.id;
+        this.loadSieges();
+      }),
+
+      forkJoin([
+        this.siegeHttpService.getSitesTypes(),
+        this.siegeHttpService.getDisponilities(),
+        this.siegeHttpService.getCities()
+      ]).subscribe(([types, dispos, cities]) => {
+        this.typesOptions = types;
+        this.statusOptions = dispos;
+        this.cities = this.adaptCitiesOptions(cities);
+      }),
+    );
     this.toggleFilterDisabled = true;
 
     this.filterForm.valueChanges.subscribe(values => {
@@ -145,13 +178,38 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
     });
 
     this.actions = [
-      { code: SpeedDialActionsEnum.ADD, label: this.translate.instant('app.profil.entreprise.sieges.actions.add.label'), icon: 'pi pi-plus', tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.add.tooltip'), emptyCommand: () => { this.siegeService.openAddDialog() } },
-      { code: SpeedDialActionsEnum.EDIT, label: this.translate.instant('app.profil.entreprise.sieges.actions.edit.label'), icon: 'pi pi-pencil', tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.edit.tooltip'), emptyCommand: () => { } },
-      { code: SpeedDialActionsEnum.DELETE, label: this.translate.instant('app.profil.entreprise.sieges.actions.delete.label'), icon: 'pi pi-trash', tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.delete.tooltip'), command: (selectedSieges: Sieges[]) => { this.siegeService.deleteSelection(selectedSieges) } },
-      { code: SpeedDialActionsEnum.EXPORT, label: this.translate.instant('app.profil.entreprise.sieges.actions.export.label'), icon: 'pi pi-external-link', tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.export.tooltip'), emptyCommand: () => { } }
+      {
+        code: SpeedDialActionsEnum.ADD,
+        label: this.translate.instant('app.profil.entreprise.sieges.actions.add.label'),
+        icon: 'pi pi-plus',
+        tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.add.tooltip'),
+        emptyCommand: () => { this.siegeService.openAddDialog(this.entrepriseId) }
+      },
+      {
+        code: SpeedDialActionsEnum.EDIT,
+        label: this.translate.instant('app.profil.entreprise.sieges.actions.edit.label'),
+        icon: 'pi pi-pencil',
+        tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.edit.tooltip'),
+        emptyCommand: () => { }
+      },
+      {
+        code: SpeedDialActionsEnum.DELETE,
+        label: this.translate.instant('app.profil.entreprise.sieges.actions.delete.label'),
+        icon: 'pi pi-trash',
+        tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.delete.tooltip'),
+        command: (selectedSieges: Sieges[]) => { this.siegeService.deleteSelection(selectedSieges) }
+      },
+      {
+        code: SpeedDialActionsEnum.EXPORT,
+        label: this.translate.instant('app.profil.entreprise.sieges.actions.export.label'),
+        icon: 'pi pi-external-link',
+        tooltip: this.translate.instant('app.profil.entreprise.sieges.actions.export.tooltip'),
+        emptyCommand: () => { this.siegeService.exportToExcel(this.dt1, this.typesOptions, this.statusOptions) }
+      }
     ];
 
     this.register(
+
       this.siegeService.showSelection$.subscribe(
         res => {
           this.deleteMode = res
@@ -161,7 +219,8 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
 
       this.siegeService.closeSpeedDial$.subscribe(
         res => {
-          if (res) {
+          if (res && this.checkedSiegeToEditId) {
+
             let actualSiege = this.sieges.find(s => s.id == this.checkedSiegeToEditId);
             if (actualSiege) {
               actualSiege.editing = false;
@@ -179,7 +238,27 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
   }
 
   loadSieges(): void {
-    this.sieges = siegesList;
+    this.register(
+      this.siegeHttpService.getSites(this.entrepriseId).subscribe({
+        next: (response) => {
+          if (response) {
+            this.sieges = response;
+            this.loading = false;
+            this.sieges.map(s => s.editing = false);
+            this.initialValue = [...this.sieges];
+            this.spinner.hide();
+          }
+        },
+        error: (error) => {
+          if (error.status == HttpStatusCode.NotFound) {
+            this.message.add({
+              severity: 'warn', summary: this.translate.instant('app.profil.entreprise.sieges.errors.sites-not-found.summary'),
+              detail: this.translate.instant('app.profil.entreprise.sieges.errors.sites-not-found.detail'), life: 6000
+            });
+          }
+        }
+      })
+    );
   }
 
   applyFilters() {
@@ -191,16 +270,16 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
       this.dt1.clear();
 
       if (filters.filter_type) {
-        this.dt1.filter(filters.filter_type, 'type.code', 'equals');
+        this.dt1.filter(filters.filter_type, 'typeCode', 'equals');
       }
       if (filters.filter_adresse) {
         this.dt1.filter(filters.filter_adresse, 'adresse', 'contains');
       }
       if (filters.filter_villePays) {
-        this.dt1.filter(filters.filter_villePays, 'villePays', 'contains');
+        this.dt1.filter(filters.filter_villePays, 'city', 'contains');
       }
       if (filters.filter_status) {
-        this.dt1.filter(filters.filter_status, 'status.code', 'equals');
+        this.dt1.filter(filters.filter_status, 'dispoCode', 'equals');
       }
       if (filters.filter_email) {
         this.dt1.filter(filters.filter_email, 'email', 'contains');
@@ -293,28 +372,91 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
   }
 
   onItemClick(event: any) {
-    if (event.item.code == SpeedDialActionsEnum.DELETE) {      
-      
+    if (event.item.code == SpeedDialActionsEnum.DELETE) {
+
       this.deleteMode = true;
       if (!event.action) {
         this.selectedSieges = [];
       }
       if (event.action == 'Delete' && this.selectedSieges) {
         event.item.command(this.selectedSieges);
+        this.siegeService.deletedIds$.subscribe(ids => {
+          if (ids) {
+            this.message.add({
+              severity: 'success', summary: this.translate.instant('app.profil.entreprise.sieges.errors.delete-success.summary'),
+              detail: this.translate.instant('app.profil.entreprise.sieges.errors.delete-success.detail'), life: 4000
+            });
+            this.loadSieges();
+          }
+        })
       }
     }
     if (event.item.code == SpeedDialActionsEnum.EDIT) {
       this.editMode = true
-      this.selectedSieges = [];      
+      this.selectedSieges = [];
       if (event.action) {
         let motif = event.action;
-        console.log(this.selectedSiege);
-        
+        console.log("motif : ", motif);
+        console.log("siege : ", this.selectedSiege);
+        if (motif == 'reset') {
+          if (this.selectedSiege) {
+            const index = this.sieges.findIndex(s => s.id === this.selectedSiege.id);
+            if (index !== -1) {
+              this.sieges[index] = { ...this.selectedSiege.originalData };
+
+              this.sieges[index].originalData = null;
+              this.sieges[index].editing = false;              
+              this.sieges[index].editStorage = null;
+            }
+            this.selectedSiege = null;
+          } else {
+            this.message.add({
+              severity: 'warn', summary: this.translate.instant('app.profil.entreprise.sieges.errors.choose-reset.summary'),
+              detail: this.translate.instant('app.profil.entreprise.sieges.errors.choose-reset.detail'), life: 4000
+            });
+          }
+
+        } else if (motif == 'save') {
+          // filter only sites which they were changed
+          let siegesToEdit = this.sieges.filter(s => s.originalData != null);
+          // Add Entreprise ID to them
+          siegesToEdit.map(s => s.entrepriseId = this.entrepriseId);
+
+          if (!this.selectedSiege && siegesToEdit && siegesToEdit.length != 0) {
+            this.siegeHttpService.EditSites(siegesToEdit).subscribe({
+              next: () => {
+                this.loadSieges();
+                this.message.add({
+                  severity: 'success', summary: this.translate.instant('app.profil.entreprise.sieges.errors.edit.summary'),
+                  detail: this.translate.instant('app.profil.entreprise.sieges.errors.edit.detail'), life: 4000
+                });
+              },
+              error: () => {
+                this.message.add({
+                  severity: 'error', summary: this.translate.instant('app.profil.entreprise.sieges.errors.edit-error.summary'),
+                  detail: this.translate.instant('app.profil.entreprise.sieges.errors.edit-error.detail'), life: 4000
+                });
+              }
+            })
+          } else {
+            this.message.add({
+              severity: 'warn', summary: this.translate.instant('app.profil.entreprise.sieges.errors.edit-select.summary'),
+              detail: this.translate.instant('app.profil.entreprise.sieges.errors.edit-select.detail'), life: 4000
+            });
+          }
+        }
       }
-    }    
+    }
 
     if (event.item.emptyCommand) {
       event.item.emptyCommand();
+      this.siegeService.ref.onClose.pipe(
+        take(1)
+      ).subscribe((resp: Sieges) => {
+        if (resp) {
+          this.loadSieges();
+        }
+      });
     }
   }
 
@@ -334,34 +476,62 @@ export class SitesCoordinatesComponent extends SubscriptionManager implements On
     this.applyFilters();
   }
 
-  onRowSelect(siege: Sieges): void {
+  onRowSelect(siege: Sieges): void {     
+    if (this.selectedSiege?.id == siege.id) return;
     if (!this.editMode) return;
-
-    let actualSiege = this.sieges.find(s => s.id == this.checkedSiegeToEditId);
-    if (actualSiege) {
-      actualSiege.editing = false;
-      actualSiege.editStorage = null;
+    if (this.checkedSiegeToEditId) {
+      let actualSiege = this.sieges.find(s => s.id == this.checkedSiegeToEditId);
+      if (actualSiege) {
+        actualSiege.editing = false;
+        actualSiege.editStorage = null;
+      }
     }
-
     this.checkedSiegeToEditId = siege.id;
-    siege.editing = true;    
+    siege.editing = true;
+    siege.editStorage = true;
 
     // Créez une copie pour l'édition
-    siege.originalData = { ...siege };
+    if (!siege.originalData) {
+      siege.originalData = { ...siege };
+    }
 
     this.selectedSiege = siege;
   }
 
   saveRowEdit() {
+    console.log(this.checkedSiegeToEditId);
     let actualSiege = this.sieges.find(s => s.id == this.checkedSiegeToEditId);
-    if (actualSiege) {
+    if (actualSiege) {        
       actualSiege.editing = false;
-      actualSiege.editStorage = null;
+      actualSiege.editStorage = false;
     }
-    this.checkedSiegeToEditId = null;
+    this.checkedSiegeToEditId = null;  
+    this.selectedSiege = null;
+
   }
 
-  
+  getLabelByCollectionCode(code: string): string {
+    let subTypes = this.typesOptions.filter(t => t.code == code);
+    if (subTypes.length != 0) {
+      return subTypes[0].label;
+    } else {
+      return this.statusOptions.filter(t => t.code == code)[0].label;
+    }
+  }  
+
+  adaptCitiesOptions(data: { code: string, city: string, countryCode: string }[]): CollectionItem[] {
+    let trad: Record<string, string> = {
+      "Morocco": this.translate.instant('app.profil.entreprise.sieges.dialog.cities.morocco')
+    };
+    let result = data.map(i => {
+      return {
+        code: i.code,
+        label: i.city + ", " + trad[i.countryCode]
+      }
+    });
+    return result;
+  }
+
 
   ngOnDestroy(): void {
     this.clean();

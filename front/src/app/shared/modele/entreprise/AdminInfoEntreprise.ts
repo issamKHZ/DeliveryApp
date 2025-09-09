@@ -1,8 +1,9 @@
-export class AdminInfoEntreprise {    
+export class AdminInfoEntreprise { 
+    iD: string;   
     responsableName?: string;
     responsableEmail?: string;
     responsablePhone?: string;
-    adress?: string;
+    adresse?: string;
     postalCode?:string;
     city?: string;
     country?: string;
@@ -10,6 +11,8 @@ export class AdminInfoEntreprise {
     activitySector?: string[];
     description?: string;
     justificatifDomicil?: string;
+    domicileFile: File;
+    fileDownloadName?: string;
 
     public constructor(init?: Partial<AdminInfoEntreprise>) {
         Object.assign(this, init);

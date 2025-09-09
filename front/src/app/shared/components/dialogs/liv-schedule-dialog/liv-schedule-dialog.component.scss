@@ -1,0 +1,32 @@
+@import "../../../../../styles/variables.scss";
+
+::ng-deep {
+
+    .schedule-container {
+        overflow: hidden;
+
+        .headers {
+            .start, .end, .dispo {
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .schedule-line {
+            .day {
+                display: flex;
+                align-items: center;
+            }
+
+            .check {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .buttons {
+            justify-content: end;
+        }
+    }
+}

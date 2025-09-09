@@ -5,6 +5,8 @@ import { HeaderComponent } from "../../header/header.component";
 import { SideBarComponent } from "../../side-bar/side-bar.component";
 import { ProfilEntrepCommonService } from '../../../shared/services/profile/entreprise/pEntrepCommon.service';
 import { SubscriptionManager } from '../../../shared/utils/subscription-manager';
+import { AccountStatus } from '../../../shared/modele/AccountStatus';
+import { LoadingService } from '../../../shared/components/utils/spinner/loading.service';
 
 @Component({
   selector: 'app-profil-entreprise',
@@ -19,17 +21,27 @@ export class ProfilEntrepriseComponent extends SubscriptionManager implements On
   componentKeys = ComponentsKeyEnum;
   isSidebarVisible = false;
   
+  name: string;
+  status: AccountStatus;
 
   @ViewChild('sidebar') sidebarRef!: ElementRef;
   @ViewChild('hamburgerBtn') hamburgerBtnRef!: ElementRef;  
 
   @ViewChild('container', { read: ElementRef }) private container!: ElementRef<HTMLDivElement>;
 
-  constructor(private route: ActivatedRoute, private commonService: ProfilEntrepCommonService) {
+  constructor(
+    private route: ActivatedRoute, 
+    private commonService: ProfilEntrepCommonService,
+    private spinner: LoadingService
+  ) {
     super();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
+    const user = this.route.snapshot.data['profile'];
+    this.spinner.hide();
+    this.name = user.name;
+    this.status = user.status;
     this.component = this.route.snapshot.data['component'];
     this.register(
       this.commonService.showSideBar$.subscribe(value => {

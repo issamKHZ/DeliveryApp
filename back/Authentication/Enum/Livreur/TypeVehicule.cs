@@ -4,12 +4,12 @@ namespace Authentication.Enum.Entreprise
 {
     public enum TypeVehicule
     {
-        [Description("Velo")]
-        VELO,
+        [Description("Bike")]
+        BIKE,
         [Description("Moto")]
         MOTO,
-        [Description("Voiture")]
-        VOITURE,
+        [Description("Car")]
+        CAR,
         [Description("Camionnette")]
         CAMIONNETTE,
         [Description("Camion")]

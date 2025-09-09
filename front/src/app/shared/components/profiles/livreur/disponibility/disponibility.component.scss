@@ -4,17 +4,34 @@
     .dispo-container {
         height: 100%;
         display: flex;
-        flex-direction: column;
-        align-items: center;    
-
+        flex-direction: column;        
+        
         .title {
             margin-bottom: 0.5rem;
             align-items: center;
             width: 100%;
-            padding-bottom: 3rem;
+            padding-bottom: 1rem;
 
             i {
                 color: $color-primary-darker;
+            }
+        }
+
+        .content {        
+            flex-grow: 1;
+            margin: 2rem;
+            display: flex;
+            height: 80%;
+            gap: 4rem;            
+            .calendar-c {
+                width: 70%;    
+                height: 100%;                         
+            }
+
+            .day-schedule {
+                // flex-grow: 1;
+                width: 30%;
+                max-width: 30%; 
             }
         }
     }

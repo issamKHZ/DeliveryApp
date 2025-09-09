@@ -33,9 +33,7 @@ export class CustomPhoneInputComponent implements OnInit {
 
   constructor(private registerFormService: RegisterFormService) { }
 
-  ngOnInit() {
-    console.log("enter");
-    
+  ngOnInit() {    
     this.countries = countries;
     this.registerFormService.initIndicatif('MA', this.indicatif, this.countries);
     this.selectedCountry = this.indicatif?.value

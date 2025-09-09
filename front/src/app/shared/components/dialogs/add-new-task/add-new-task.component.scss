@@ -1,0 +1,40 @@
+@import '../../../../../styles/variables.scss';
+
+::ng-deep {
+
+    .p-dialog-header {
+        padding: 1rem 0 0.5rem 1.5rem !important;
+    }
+
+    .p-dialog-content {
+        padding-right: 5px !important;
+    }
+
+    .add-new-task {
+        width: 100%;
+
+        .new-task-container {
+            width: 100%;
+
+            .custom-label {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+
+            .save-button {
+                margin-right: 15px;
+            }
+        }
+    }
+
+    .error {
+        color: red;
+        font-size: 1rem;
+    }
+
+}

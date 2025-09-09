@@ -11,5 +11,7 @@ public partial class UserStatus
 
     public string Label { get; set; } = null!;
 
+    public string? Severity { get; set; }
+
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

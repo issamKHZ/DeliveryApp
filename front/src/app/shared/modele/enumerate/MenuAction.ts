@@ -6,4 +6,9 @@ export enum MenuAction {
     EN_COURS = "EN_COURS", 
     DISCUSSION = "DISCUSSION",
 
+    // PROFILE
+    PROFIL = "PROFIL",
+    DASHBOARD = "DASHBOARD",
+    SETTINGS = "SETTINGS"
+
 }

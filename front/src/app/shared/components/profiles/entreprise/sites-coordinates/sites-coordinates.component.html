@@ -1,3 +1,14 @@
+<p-confirmDialog [style]="{width: '350px'}" [baseZIndex]="10000" key="deleteConfirmation">
+    <!-- <ng-template pTemplate="footer">
+        <div class="flex gap-1">
+            <button pButton class="p-button-success" [style]="{}"
+                label="{{'app.common.buttons-label.yes' | translate }}"></button>
+            <button pButton class="p-button-danger" [style]="{'background-color': '$color-error !important'}"
+                label="{{'app.common.buttons-label.no' | translate }}"></button>        
+        </div>
+    </ng-template> -->
+</p-confirmDialog>
+
 <div class="sieges-container">
     <div class="title pl-4 mb-6 flex gap-2">
         <i class="pi pi-map-marker" style="font-size: 1.6rem"></i>
@@ -12,14 +23,13 @@
                 [rowHover]="true" [(selection)]="selectedSieges">
                 <ng-template pTemplate="caption">
                     <div class="flex mb-2">
-                        <p-button styleClass="cold-button" class="mr-4"
+                        <p-button styleClass="cold-button" class="mr-4" [disabled]="editMode"
                             label="{{'app.profil.entreprise.sieges.table.header.clear' | translate}}" [outlined]="true"
                             icon="pi pi-filter-slash" (click)="clear(dt1)" />
 
                         <app-speed-dial [items]="actions" [direction]="isMobile ? 'down' : 'right'" [radius]="20"
                             [visible]="visible" (visibleChange)="visible = $event"
-                            (onItemClick)="onItemClick($event)"
-                            ></app-speed-dial>
+                            (onItemClick)="onItemClick($event)"></app-speed-dial>
 
                         <p-iconfield iconPosition="left" class="ml-auto">
                             <p-inputicon>
@@ -42,21 +52,19 @@
                     <tr class="p-header-line">
                         <th *ngIf="deleteMode">
                             <p-tableHeaderCheckbox />
-                        </th>
-                        <th *ngIf="editMode">
-                        </th>
-                        <th pSortableColumn="type">
+                        </th>                
+                        <th pSortableColumn="typeCode">
                             {{'app.profil.entreprise.sieges.table.content.header.type' | translate}} <p-sortIcon
-                                field="type" /></th>
+                                field="typeCode" /></th>
                         <th pSortableColumn="adresse">
                             {{'app.profil.entreprise.sieges.table.content.header.adresse' | translate}} <p-sortIcon
                                 field="adresse" /></th>
-                        <th pSortableColumn="villePays">
+                        <th pSortableColumn="city">
                             {{'app.profil.entreprise.sieges.table.content.header.country' | translate}} <p-sortIcon
-                                field="villePays" /></th>
-                        <th pSortableColumn="status">
+                                field="city" /></th>
+                        <th pSortableColumn="dispoCode">
                             {{'app.profil.entreprise.sieges.table.content.header.dispo' | translate}} <p-sortIcon
-                                field="status" /></th>
+                                field="dispoCode" /></th>
                         <th pSortableColumn="email">
                             {{'app.profil.entreprise.sieges.table.content.header.email' | translate}} <p-sortIcon
                                 field="email" /></th>
@@ -69,10 +77,10 @@
                         </th>
                     </tr>
                     <tr [formGroup]="filterForm">
-                        <th *ngIf="deleteMode"></th>
-                        <th *ngIf="editMode"></th>
+                        <th *ngIf="deleteMode"></th>                        
                         <th>
-                            <p-columnFilter field="type" matchMode="equals" [showMenu]="false">
+                            <p-columnFilter field="typeCode" matchMode="equals" [showMenu]="false"
+                                [showClearButton]="false">
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                     <p-select formControlName="filter_type" [options]="typesOptions" [showClear]="true"
                                         placeholder="{{'app.profil.entreprise.sieges.table.content.filters.type' | translate}}"
@@ -86,21 +94,22 @@
                         <th>
                             <p-columnFilter type="text" field="adresse"
                                 placeholder="{{'app.profil.entreprise.sieges.table.content.filters.adresse' | translate}}"
-                                [showMenu]="false" matchMode="contains">
+                                [showMenu]="false" matchMode="contains" [showClearButton]="false">
                                 <input pInputText type="text" formControlName="filter_adresse">
                             </p-columnFilter>
                         </th>
 
                         <th>
-                            <p-columnFilter type="text" field="villePays"
+                            <p-columnFilter type="text" field="city"
                                 placeholder="{{'app.profil.entreprise.sieges.table.content.filters.country' | translate}}"
-                                [showMenu]="false" matchMode="contains">
+                                [showMenu]="false" matchMode="contains" [showClearButton]="false">
                                 <input pInputText type="text" formControlName="filter_villePays">
                             </p-columnFilter>
                         </th>
 
                         <th>
-                            <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                            <p-columnFilter field="dispoCode" matchMode="equals" [showMenu]="false"
+                                [showClearButton]="false">
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                     <p-select formControlName="filter_status" [options]="statusOptions"
                                         [showClear]="true"
@@ -115,7 +124,7 @@
                         <th>
                             <p-columnFilter type="text" field="email"
                                 placeholder="{{'app.profil.entreprise.sieges.table.content.filters.email' | translate}}"
-                                [showMenu]="false" matchMode="contains">
+                                [showMenu]="false" matchMode="contains" [showClearButton]="false">
                                 <input pInputText type="text" formControlName="filter_email">
                             </p-columnFilter>
                         </th>
@@ -123,8 +132,8 @@
                         <th>
                             <p-columnFilter type="text" field="phone"
                                 placeholder="{{'app.profil.entreprise.sieges.table.content.filters.phone' | translate}}"
-                                [showMenu]="false" matchMode="contains">
-                                <input pInputText appDigitSpacerLimited formControlName="filter_phone">
+                                [showMenu]="false" matchMode="contains" [showClearButton]="false">
+                                <input appPhoneNumber pInputText formControlName="filter_phone">
                             </p-columnFilter>
                         </th>
 
@@ -151,99 +160,113 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-siege>
-                    <tr>
-                        <td *ngIf="deleteMode">
-                            <p-tableCheckbox [value]="siege" />
+                    <tr *ngIf="loading || isFiltring; else loadedData">
+                        <td *ngFor="let col of [1,2,3,4,5,6,7]">
+                            <p-skeleton width="100%" height="1.2rem"></p-skeleton>
                         </td>
+                    </tr>
 
-                        <td *ngIf="editMode">
-                            <!-- <p-tableRadioButton [value]="siege" (onChange)="onRowSelect(siege)" /> -->
-                            <p-radioButton name="siegeSelection" [value]="siege.editing" [(ngModel)]="siege.editStorage"
-                                (onClick)="onRowSelect(siege)">
-                            </p-radioButton>
-                        </td>
+                    <ng-template #loadedData>
 
-                        <td>
-                            <ng-container *ngIf="siege.editing; else viewType">
-                                <p-select [options]="typesOptions" [(ngModel)]="siege.type" optionLabel="label"
-                                    [style]="{'width':'100%'}" [styleClass]="'w-select-full'" appendTo="body">
-                                </p-select>
-                            </ng-container>
-                            <ng-template #viewType>
-                                <app-large-content-field [content]="siege.type.label"></app-large-content-field>
-                            </ng-template>
-                        </td>
+                        <tr [ngClass]="{'selected-site': siege.originalData}">
+                            <td *ngIf="deleteMode">
+                                <p-tableCheckbox [value]="siege" />
+                            </td>
 
-                        <!-- Colonne Adresse -->
-                        <td>
-                            <ng-container *ngIf="siege.editing; else viewAdresse">
-                                <input pInputText type="text" [(ngModel)]="siege.adresse" style="width: 100%" />
-                            </ng-container>
-                            <ng-template #viewAdresse>
-                                <app-large-content-field [content]="siege.adresse"></app-large-content-field>
-                            </ng-template>
-                        </td>
+                            <!-- <td *ngIf="editMode">
+                                <p-radioButton name="siegeSelection" [value]="siege.editing"
+                                    [(ngModel)]="siege.editStorage" (onClick)="onRowSelect(siege)">
+                                </p-radioButton>
+                            </td> -->
 
-                        <!-- Colonne Ville/Pays -->
-                        <td>
-                            <ng-container *ngIf="siege.editing; else viewVillePays">
-                                <input pInputText type="text" [(ngModel)]="siege.villePays" style="width: 100%" />
-                            </ng-container>
-                            <ng-template #viewVillePays>
-                                <app-large-content-field [content]="siege.villePays"></app-large-content-field>
-                            </ng-template>
-                        </td>
+                            <td (click)="onRowSelect(siege)">
+                                <ng-container *ngIf="siege.editing; else viewType">
+                                    <p-select [options]="typesOptions" [(ngModel)]="siege.typeCode" optionLabel="label"
+                                        optionValue="code" [style]="{'width':'100%'}" [styleClass]="'w-select-full'"
+                                        appendTo="body">
+                                    </p-select>
+                                </ng-container>
+                                <ng-template #viewType>
+                                    <app-large-content-field
+                                        [content]="getLabelByCollectionCode(siege.typeCode)"></app-large-content-field>
+                                </ng-template>
+                            </td>
 
-                        <!-- Colonne Statut -->
-                        <td>
-                            <ng-container *ngIf="siege.editing; else viewStatus">
-                                <p-select [options]="statusOptions" [(ngModel)]="siege.status" optionLabel="label"
-                                    [style]="{'width':'100%'}" [styleClass]="'w-select-full'" appendTo="body">
-                                </p-select>
-                            </ng-container>
-                            <ng-template #viewStatus>
-                                <app-custom-tag [content]="siege.status.label"
-                                    [type]="getSeverity(siege.status.code)"></app-custom-tag>
-                            </ng-template>
-                        </td>
+                            <!-- Colonne Adresse -->
+                            <td (click)="onRowSelect(siege)">
+                                <ng-container *ngIf="siege.editing; else viewAdresse">
+                                    <input pInputText type="text" [(ngModel)]="siege.adresse" style="width: 100%" />
+                                </ng-container>
+                                <ng-template #viewAdresse>
+                                    <app-large-content-field [content]="siege.adresse"></app-large-content-field>
+                                </ng-template>
+                            </td>
 
-                        <!-- Colonne Email -->
-                        <td>
-                            <ng-container *ngIf="siege.editing; else viewEmail">
-                                <input pInputText type="email" [(ngModel)]="siege.email" style="width: 100%" />
-                            </ng-container>
-                            <ng-template #viewEmail>
-                                <app-large-content-field [content]="siege.email"></app-large-content-field>
-                            </ng-template>
-                        </td>
+                            <!-- Colonne Ville/Pays -->
+                            <td (click)="onRowSelect(siege)">
+                                <ng-container *ngIf="siege.editing; else viewCity">
+                                    <!-- <input pInputText type="text" [(ngModel)]="siege.city" style="width: 100%" /> -->
+                                    <p-select [options]="cities" [(ngModel)]="siege.city" optionLabel="label"
+                                        optionValue="code" [style]="{'width':'100%'}" [styleClass]="'w-select-full'"
+                                        appendTo="body">
+                                    </p-select>
+                                </ng-container>
+                                <ng-template #viewCity>
+                                    <app-large-content-field [content]="siegeService.getLocation(siege)"></app-large-content-field>
+                                </ng-template>
+                            </td>
 
-                        <!-- Colonne Téléphone -->
-                        <td>
-                            <ng-container *ngIf="siege.editing; else viewPhone">
-                                <input pInputText type="tel" [(ngModel)]="siege.phone" appDigitSpacerLimited
-                                    style="width: 100%" />
-                            </ng-container>
-                            <ng-template #viewPhone>
-                                <app-large-content-field [content]="siege.phone"></app-large-content-field>
-                            </ng-template>
-                        </td>
+                            <!-- Colonne Statut -->
+                            <td (click)="onRowSelect(siege)">
+                                <ng-container *ngIf="siege.editing; else viewStatus">
+                                    <p-select [options]="statusOptions" [(ngModel)]="siege.dispoCode"
+                                        optionLabel="label" optionValue="code" [style]="{'width':'100%'}"
+                                        [styleClass]="'w-select-full'" appendTo="body">
+                                    </p-select>
+                                </ng-container>
+                                <ng-template #viewStatus>
+                                    <app-custom-tag [content]="getLabelByCollectionCode(siege.dispoCode)"
+                                        [type]="getSeverity(siege.dispoCode)"></app-custom-tag>
+                                </ng-template>
+                            </td>
 
-                        <!-- Colonne Destinataire/Fournisseur -->
-                        <td style="text-align: center">
-                            <ng-container *ngIf="siege.editing; else viewDest">
-                                <p-toggleswitch styleClass="siege-table" [(ngModel)]="siege.isDest" />
-                            </ng-container>
-                            <ng-template #viewDest>
-                                <i class="pi" [ngClass]="{
+                            <!-- Colonne Email -->
+                            <td (click)="onRowSelect(siege)">
+                                <ng-container *ngIf="siege.editing; else viewEmail">
+                                    <input pInputText type="email" [(ngModel)]="siege.email" style="width: 100%" />
+                                </ng-container>
+                                <ng-template #viewEmail>
+                                    <app-large-content-field [content]="siege.email"></app-large-content-field>
+                                </ng-template>
+                            </td>
+
+                            <!-- Colonne Téléphone -->
+                            <td (click)="onRowSelect(siege)">
+                                <ng-container *ngIf="siege.editing; else viewPhone">
+                                    <input pInputText type="tel" [(ngModel)]="siege.phone" appDigitSpacerLimited
+                                        style="width: 100%" />
+                                </ng-container>
+                                <ng-template #viewPhone>
+                                    <app-large-content-field [content]="siege.phone"></app-large-content-field>
+                                </ng-template>
+                            </td>
+
+                            <!-- Colonne Destinataire/Fournisseur -->
+                            <td style="text-align: center" (click)="onRowSelect(siege)">
+                                <ng-container *ngIf="siege.editing; else viewDest">
+                                    <p-toggleswitch styleClass="siege-table" [(ngModel)]="siege.isDest" />
+                                </ng-container>
+                                <ng-template #viewDest>
+                                    <i class="pi" [ngClass]="{
                     'pi-truck text-blue-500': siege.isDest,
                     'pi-box text-orange-500': !siege.isDest
                 }"></i>
-                                <span class="ml-2">{{getDestMotif(siege.isDest)}}</span>
-                            </ng-template>
-                        </td>
+                                    <span class="ml-2">{{getDestMotif(siege.isDest)}}</span>
+                                </ng-template>
+                            </td>
 
-                        <!-- Colonne Actions (mode édition) -->
-                        <!-- <td *ngIf="editMode" style="text-align: center">
+                            <!-- Colonne Actions (mode édition) -->
+                            <!-- <td *ngIf="editMode" style="text-align: center">
                                 <ng-container *ngIf="siege.editing">
                                     <button pButton icon="pi pi-check" class="p-button-success p-button-sm mr-2"
                                         (click)="saveRowEdit(siege)" [disabled]="true"></button>
@@ -252,14 +275,16 @@
                                 </ng-container>
                             </td> -->
 
-                        <td *ngIf="editMode">
-                            <i pRipple *ngIf="siege.editing" class="pi pi-check custom-check-button" (click)="saveRowEdit()"></i>
-                        </td>
-                    </tr>
+                            <td *ngIf="editMode">
+                                <i pRipple *ngIf="siege.editing" class="pi pi-check custom-check-button"
+                                    (click)="saveRowEdit()"></i>
+                            </td>
+                        </tr>
+                    </ng-template>
                 </ng-template>
 
                 <ng-template pTemplate="emptymessage">
-                    <tr>
+                    <tr *ngIf="!loading">
                         <td colspan="7">{{'app.profil.entreprise.sieges.table.nosites' | translate}}</td>
                     </tr>
                 </ng-template>

@@ -71,6 +71,18 @@ input {
     border-color: $color-disabled-surface !important;
 }
 
+.p-inputnumber {
+    .profil-disabled-inputnumber {
+    .p-inputtext:disabled {
+        opacity: 1 !important;
+        color: #334155 !important;
+        background-color: rgba(199, 199, 199, 0.18) !important;
+        border-color: $color-disabled-surface !important;
+    }
+}
+}
+
+
 .profil-readonly-input:enabled:focus {
     border-color: $color-disabled-surface !important;
 }
@@ -79,6 +91,10 @@ input {
     .p-chip {
         background-color: #b2c1d17a !important;
     }
+}
+
+.p-textarea:enabled:focus {
+    border-color: $color-primary-hover !important;
 }
 
 //

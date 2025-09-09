@@ -1,6 +1,6 @@
 <div class="custom-upload-container mt-2">
 
-    <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.jpg,.png" style="display: none;">
+    <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.jpg,.png" style="display: none;">
 
     <div *ngIf="!selectedFileName" class="upload-state-empty">
         <button pButton type="button" class="upload-button" (click)="fileInput.click()" [disabled]="!editMode">
@@ -14,7 +14,10 @@
     <div *ngIf="selectedFileName" class="upload-state-filled">
         <div class="file-display">
             <i [ngClass]="fileIconClass"></i>
-            <a href="#" class="file-name" (click)="previewFile($event)">{{selectedFileName}}</a>
+            <a href="#" class="file-name" (click)="previewFile($event)">
+                <!-- {{selectedFileName}} -->
+                <app-large-content-field [content]="selectedFileName"></app-large-content-field>
+            </a>
         </div>
         <div class="file-actions">
             <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text edit-button"

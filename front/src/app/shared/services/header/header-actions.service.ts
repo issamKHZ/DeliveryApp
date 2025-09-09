@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { UserRoles } from '../../modele/enumerate/userRoles';
 import { MenuAction } from '../../modele/enumerate/MenuAction';
 import { ComponentsKeyEnum } from '../../modele/enumerate/ComponentsKey';
-import { CommonService } from '../../utils/common.service';
+import { CommonService } from '../utils/common.service';
 import { RoutesEnum } from '../../modele/enumerate/routes';
 import { ComponentRoutageService } from '../component-routage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class HeaderActionsService {
 
   constructor(
     private commonService: CommonService,
-    private routageService: ComponentRoutageService
+    private routageService: ComponentRoutageService,
+    private router: Router
   ) { }
 
   executeAction(action: MenuAction, role?: UserRoles) {
@@ -51,23 +53,55 @@ export class HeaderActionsService {
           this.discussionLivreur();
         }
         break;
+      case this.menuAction.PROFIL:
+        this.goToProfile(role);
+        break;
+      case this.menuAction.DASHBOARD:
+        this.goToDashboard(role);
+        break;
+      case this.menuAction.SETTINGS:
+        this.goToSettings(role);
+        break;
       default:
         this.returnToProfile();
         break;
     }
   }
 
+  goToProfile(role: UserRoles) {
+    if (role == this.roles.ENTREPRISE.toString().toUpperCase()) {
+      this.router.navigate([this.routes.PROFILE_ENTREPRISE])
+    } else if ((role == this.roles.LIVREUR.toString().toUpperCase())) {
+      this.router.navigate([this.routes.PROFILE_LIVREUR])
+    }
+  }
+
+  goToDashboard(role: UserRoles) {
+    if (role == this.roles.ENTREPRISE.toString().toUpperCase()) {
+      this.router.navigate([this.commonService.composeRoute([this.routes.PROFILE_ENTREPRISE, this.routes.STATISTICS])])
+    } else if ((role == this.roles.LIVREUR.toString().toUpperCase())) {
+      this.router.navigate([this.commonService.composeRoute([this.routes.PROFILE_LIVREUR, this.routes.STATISTICS])])
+    }
+  }
+  goToSettings(role: UserRoles) {
+    if (role == this.roles.ENTREPRISE.toString().toUpperCase()) {
+      this.router.navigate([this.commonService.composeRoute([this.routes.PROFILE_ENTREPRISE, this.routes.SETTINGS])])
+    } else if ((role == this.roles.LIVREUR.toString().toUpperCase())) {
+      this.router.navigate([this.commonService.composeRoute([this.routes.PROFILE_LIVREUR, this.routes.SETTINGS])])
+    }
+  }
+
   addNewOrder() {
-    
+
     // this.routageService.selectComponent(this.component.ENTREPRISE_PROFILE);
   }
 
-  goToLivreurs() {
-    this.routageService.selectComponent(this.component.ENTREPRISE_PROFILE);
+  goToLivreurs() {    
   }
 
-  orderEntreprise() {
-
+  orderEntreprise() {    
+    this.routageService.selectComponent(this.component.M_ORDERS_ENTREPRISE);
+    this.router.navigate([this.commonService.composeRoute([this.routes.ENTREPRISE, this.routes.COMMADES])]);
   }
 
   orderLivreurs() {

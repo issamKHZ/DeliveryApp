@@ -59,7 +59,7 @@
 
             <div class="messages-container">
                 <div class="notification-popup-container px-1 pb-4">
-                    <app-notifications [items]="notifications" [isHeader]="false"></app-notifications>
+                    <app-notifications [items]="notifications" [isHeader]="false" [selectionMode]="selectionMode"></app-notifications>
                 </div>
                 <div class="empty-list" *ngIf="!notifications || notifications.length == 0">
                     <div class="empty-state">

@@ -1,6 +1,6 @@
 <div class="profil-livreur-layout">
     <div class="profil-livreur-sidebar">
-        <app-side-bar [component]="component"></app-side-bar>
+        <app-side-bar [status]="status" [name]="fullname" [component]="component" (closeSidebar)="isSidebarVisible = false"></app-side-bar>
     </div>
 
     <div class="profil-livreur-main">

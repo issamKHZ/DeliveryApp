@@ -1,0 +1,289 @@
+<div class="orders-entreprise">
+    <div class="header">
+        <h1>
+            {{'app.entreprise.mes-commandes.header' | translate}}
+        </h1>
+    </div>
+    <div class="filters">
+        <p-panel [toggleable]="true">
+            <ng-template pTemplate="header">
+                <div class="flex items-center gap-2">
+                    <h2 class="panel-title">
+                        {{'app.entreprise.mes-commandes.filters.title' | translate}}
+                    </h2>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="icons">
+                <p-button icon="pi pi-refresh" severity="secondary" rounded text (click)="cleanFilters()"
+                    pTooltip="{{'app.entreprise.mes-commandes.filters.buttons.refresh.tooltip' | translate}}"
+                    tooltipPosition="bottom" />
+            </ng-template>
+            <div class="fields grid mt-1">
+                <div class="col-3">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.id.label' | translate}}
+                    </span>
+                    <input class="mt-2 profil-disabled-input" pInputText [(ngModel)]="searchID" fluid
+                        placeholder="{{'app.entreprise.mes-commandes.filters.form.id.placeholder' | translate}}" />
+                </div>
+                <div class="col-3">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.status.label' | translate}}
+                    </span>
+                    <p-select class="mt-2" [options]="orderStatusOptions" [(ngModel)]="searchStatus" optionLabel="label"
+                        display="chip" optionValue="code" styleClass="w-full md:w-80" />
+                </div>
+                <div class="col-3">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.date-publication.label' | translate}}
+                    </span>
+                    <p-datepicker [styleClass]="'mt-2'" [(ngModel)]="searchDatePub" [showButtonBar]="true"
+                        dateFormat="dd/mm/yy" placeholder="JJ/MM/AAAA" fluid />
+                </div>
+                <div class="col-3">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.date-livraison.label' | translate}}
+                    </span>
+                    <p-datepicker [styleClass]="'mt-2'" [(ngModel)]="searchDateLiv" [showButtonBar]="true"
+                        dateFormat="dd/mm/yy" placeholder="JJ/MM/AAAA" fluid />
+                </div>
+                <div class="col-3">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.site-retrait.label' | translate}}
+                    </span>
+                    <p-select [loading]="dataLoading" [options]="sites" [(ngModel)]="searchRetrait" optionLabel="id"
+                        [filter]="true" filterBy="name" [showClear]="true"
+                        placeholder="{{'app.entreprise.mes-commandes.filters.form.site-retrait.placeholder' | translate}}"
+                        class="w-full md:w-56 mt-2">
+                        <ng-template #selectedItem let-selectedOption>
+                            <div class="site-options-style flex w-full">
+                                <div class="site-option"><app-large-content-field
+                                        [content]="getLabelByCollectionCode(selectedOption.typeCode) + ', ' + siegeService.getPartialLocation(selectedOption.city, selectedOption.country)"></app-large-content-field>
+                                </div>
+                                <div class="site-options-style"><i class="pi "
+                                        [class]="siegeService.getDestIcon(selectedOption.isDest)"></i></div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-option #item>
+                            <div class="grid w-full">
+
+                                <div class="col-5 site-option"><app-large-content-field
+                                        [content]="getLabelByCollectionCode(option.typeCode)"></app-large-content-field>
+                                </div>
+                                <div class="col-5 site-option">
+                                    <app-large-content-field
+                                        [content]="siegeService.getPartialLocation(option.city, option.country)"></app-large-content-field>
+                                </div>
+                                <div class="col-2 site-options-icon"><i class="pi "
+                                        [class]="siegeService.getDestIcon(option.isDest)"></i></div>
+                            </div>
+                        </ng-template>
+                    </p-select>
+                </div>
+                <div class="col-3">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.ville-livraison.label' | translate}}
+                    </span>
+                    <p-select [loading]="dataLoading" class="mt-2" [options]="cities" [(ngModel)]="searchCityLiv"
+                        optionLabel="label" display="chip" optionValue="code"
+                        placeholder="{{'app.entreprise.mes-commandes.filters.form.ville-livraison.placeholder' | translate}}"
+                        styleClass="w-full md:w-80" />
+                </div>
+                <div class="col-2">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.mode-livraison.label' | translate}}
+                    </span>
+                    <p-select [loading]="dataLoading" class="mt-2" [options]="orderModesOptions"
+                        [(ngModel)]="searchModeLiv" optionLabel="label" display="chip" optionValue="code"
+                        placeholder="{{'app.entreprise.mes-commandes.filters.form.mode-livraison.placeholder' | translate}}"
+                        styleClass="w-full md:w-80" />
+                </div>
+                <div class="col-2">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.poids.label' | translate}}
+                    </span>
+                    <p-inputNumber class="mt-2" [(ngModel)]="searchWeight" suffix=" kg"
+                        placeholder="{{'app.entreprise.mes-commandes.filters.form.poids.placeholder' | translate}}"
+                        [minFractionDigits]="2" fluid />
+
+                </div>
+                <div class="col-2">
+                    <span class="field-label">
+                        {{'app.entreprise.mes-commandes.filters.form.nombre-colis.label' | translate}}
+                    </span>
+                    <div class="mt-2"></div>
+                    <p-inputnumber [(ngModel)]="searchNum" [showButtons]="true"
+                        placeholder="{{'app.entreprise.mes-commandes.filters.form.nombre-colis.placeholder' | translate}}"
+                        class="w-full" fluid />
+                </div>
+            </div>
+            <div class="buttons pt-1">
+                <button pButton pRipple label="Appliquer"></button>
+            </div>
+
+        </p-panel>
+    </div>
+    <div class="orders-table">
+        <p-table #dt1 [value]="[]" dataKey="id" editMode="row" [rows]="10" [rowsPerPageOptions]="[10, 15, 20]"
+            [paginator]="true" stripedRows (sortFunction)="customSort($event)" [scrollable]="true" [customSort]="true"
+            [rowHover]="true">
+            <ng-template pTemplate="header">
+                <tr class="p-header-line">
+                    <th pSortableColumn="id">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.id' | translate}} <p-sortIcon field="id" />
+                    </th>
+                    <th pSortableColumn="date-pub">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.date-pub' | translate}} <p-sortIcon
+                            field="date-pub" /></th>
+                    <th pSortableColumn="date-ret">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.date-ret' | translate}} <p-sortIcon
+                            field="date-ret" />
+                    </th>
+                    <th pSortableColumn="date-liv">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.date-liv' | translate}} <p-sortIcon
+                            field="date-liv" />
+                    </th>
+                    <th pSortableColumn="livreur">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.livreur' | translate}} <p-sortIcon
+                            field="livreur" />
+                    </th>
+                    <th pSortableColumn="status">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.status' | translate}} <p-sortIcon
+                            field="status" />
+                    </th>
+                    <th pSortableColumn="mode">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.mode' | translate}} <p-sortIcon
+                            field="mode" />
+                    </th>
+                    <th pSortableColumn="site-ret">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.site-ret' | translate}} <p-sortIcon
+                            field="site-ret" />
+                    </th>
+                    <th pSortableColumn="city-liv">
+                        {{'app.entreprise.mes-commandes.orders-table.headers.city-liv' | translate}} <p-sortIcon
+                            field="city-liv" />
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-siege>
+                <!-- <tr *ngIf="loading || isFiltring; else loadedData">
+                        <td *ngFor="let col of [1,2,3,4,5,6,7]">
+                            <p-skeleton width="100%" height="1.2rem"></p-skeleton>
+                        </td>
+                    </tr> -->
+
+                <ng-template #loadedData>
+
+                    <tr [ngClass]="{'selected-site': siege.originalData}">
+                        <!-- <td *ngIf="editMode">
+                                <p-radioButton name="siegeSelection" [value]="siege.editing"
+                                    [(ngModel)]="siege.editStorage" (onClick)="onRowSelect(siege)">
+                                </p-radioButton>
+                            </td> -->
+
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewType">
+                                <p-select [options]="[]" [(ngModel)]="siege.typeCode" optionLabel="label"
+                                    optionValue="code" [style]="{'width':'100%'}" [styleClass]="'w-select-full'"
+                                    appendTo="body">
+                                </p-select>
+                            </ng-container>
+                            <ng-template #viewType>
+                                <app-large-content-field
+                                    [content]="getLabelByCollectionCode(siege.typeCode)"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Adresse -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewAdresse">
+                                <input pInputText type="text" [(ngModel)]="siege.adresse" style="width: 100%" />
+                            </ng-container>
+                            <ng-template #viewAdresse>
+                                <app-large-content-field [content]="siege.adresse"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Ville/Pays -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewCity">
+                                <!-- <input pInputText type="text" [(ngModel)]="siege.city" style="width: 100%" /> -->
+                                <p-select [options]="cities" [(ngModel)]="siege.city" optionLabel="label"
+                                    optionValue="code" [style]="{'width':'100%'}" [styleClass]="'w-select-full'"
+                                    appendTo="body">
+                                </p-select>
+                            </ng-container>
+                            <ng-template #viewCity>
+                                <app-large-content-field
+                                    [content]="siegeService.getLocation(siege)"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Statut -->
+                        <td>
+                            <ng-container *ngIf="siege.editing">
+                                <p-select [options]="[]" [(ngModel)]="siege.dispoCode" optionLabel="label"
+                                    optionValue="code" [style]="{'width':'100%'}" [styleClass]="'w-select-full'"
+                                    appendTo="body">
+                                </p-select>
+                            </ng-container>
+                        </td>
+
+                        <!-- Colonne Email -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewEmail">
+                                <input pInputText type="email" [(ngModel)]="siege.email" style="width: 100%" />
+                            </ng-container>
+                            <ng-template #viewEmail>
+                                <app-large-content-field [content]="siege.email"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Téléphone -->
+                        <td>
+                            <ng-container *ngIf="siege.editing; else viewPhone">
+                                <input pInputText type="tel" [(ngModel)]="siege.phone" appDigitSpacerLimited
+                                    style="width: 100%" />
+                            </ng-container>
+                            <ng-template #viewPhone>
+                                <app-large-content-field [content]="siege.phone"></app-large-content-field>
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Destinataire/Fournisseur -->
+                        <td style="text-align: center">
+                            <ng-container *ngIf="siege.editing; else viewDest">
+                                <p-toggleswitch styleClass="siege-table" [(ngModel)]="siege.isDest" />
+                            </ng-container>
+                            <ng-template #viewDest>
+                                <i class="pi" [ngClass]="{
+                    'pi-truck text-blue-500': siege.isDest,
+                    'pi-box text-orange-500': !siege.isDest
+                }"></i>
+
+                            </ng-template>
+                        </td>
+
+                        <!-- Colonne Actions (mode édition) -->
+                        <!-- <td *ngIf="editMode" style="text-align: center">
+                                <ng-container *ngIf="siege.editing">
+                                    <button pButton icon="pi pi-check" class="p-button-success p-button-sm mr-2"
+                                        (click)="saveRowEdit(siege)" [disabled]="true"></button>
+                                    <button pButton icon="pi pi-times" class="p-button-danger p-button-sm"
+                                        (click)="cancelRowEdit(siege)"></button>
+                                </ng-container>
+                            </td> -->
+                    </tr>
+                </ng-template>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">{{'app.entreprise.mes-commandes.orders-table.messages.empty-orders' | translate}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

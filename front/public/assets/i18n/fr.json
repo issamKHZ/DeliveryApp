@@ -42,20 +42,20 @@
             "menu": {
                 "entreprise": {
                     "commandes": {
-                        "label": "Commandes",
-                        "create": "Publier une commande",
-                        "consult": "Mes commandes"
+                        "label": "Missions de livraison",
+                        "create": "Publier une annonce",
+                        "consult": "Mes Annonces"
                     },
                     "livreurs": "Livreurs",
                     "discussion": "Discussion"
                 },
                 "livreur": {
                     "commandes": {
-                        "label": "Commandes",
-                        "postuler": "Postuler",
-                        "mes-commandes ": "Mes commandes"
+                        "label": "Missions de livraison",
+                        "postuler": "Missions disponibles",
+                        "mycommandes": "Mes missions"
                     },
-                    "commande-lance": "Commande en cours",
+                    "commandelance": "Livraison en cours",
                     "discussion": "Discussion"
                 }
             }
@@ -389,6 +389,12 @@
                             "phone": "Nº Telephone : ",
                             "website": "Site Web : "
                         },
+                        "placeholders": {
+                            "name": "Saisir le nom",
+                            "mail": "Saisir l'email",
+                            "phone": "Saisir N° Telephone",
+                            "website": "Saisir le site web de l'entreprise"
+                        },
                         "buttons": {
                             "edit": "Modifier",
                             "reset": "Réinitialiser"
@@ -400,6 +406,16 @@
                     "image-dialog": {
                         "confirmDialog": {
                             "message": "Voulez vous enregistrer les modifications ?"
+                        }
+                    },
+                    "errors": {
+                        "cannot-edit": {
+                            "summary": "Attention !",
+                            "message": "Il faut valider tous les champs avant de modfier"
+                        },
+                        "success-edit": {
+                            "summary": "Modification",
+                            "message": "Les données ont mise à jour avec succes"
                         }
                     }
                 },
@@ -442,7 +458,7 @@
                             "placeholder": "Entrez le pays"
                         },
                         "siret": {
-                            "label": "Le N° de SIRET",
+                            "label": "L'Identifiant Fiscal (IF)",
                             "placeholder": "Entrez le numéro"
                         },
                         "secteur": {
@@ -459,6 +475,13 @@
                     },
                     "confirmDialog": {
                         "message": "Voulez vous enregistrer les modifications ?"
+                    },
+                    "errors": {
+                        "complete-infos": "Veuillez remplir tous les champs pour valider votre compte",
+                        "responsable": {
+                            "summary": "Champs Responsable",
+                            "message": "Tous les champs du responsable doivent être remplis ou tous vides."
+                        }
                     }
                 },
                 "sieges": {
@@ -487,13 +510,14 @@
                             "search": "Rechercher un siege",
                             "caption": {
                                 "delete": "Choisir un ou plusieurs sieges, puis cliquez sur le bouton supprimer",
-                                "edit": "Choisir les sieges à modifer un par un, puis cliquez sur le bouton Enregistrer"
+                                "edit": "cliquez sur la ligne de siege à modifer, validez le changement à droite, puis cliquez sur le bouton Enregistrer"
                             }
                         },
                         "content": {
                             "header": {
                                 "type": "Type",
                                 "adresse": "Adresse",
+                                "city": "Ville",
                                 "country": "Ville/Pays",
                                 "dispo": "Disponibilité",
                                 "email": "Email",
@@ -545,6 +569,67 @@
                         "dest-choices": {
                             "fournisseur": "Fournisseur",
                             "dest": "Destinatiare"
+                        },
+                        "cities": {
+                            "morocco": "Maroc"
+                        },
+                        "messages": {
+                            "add-success": {
+                                "summary": "Siege sauvegardé",
+                                "detail": "Un nouveau siege a été ajouté avec succes"
+                            },
+                            "add-error": {
+                                "summary": "Siege non sauvegardé",
+                                "detail": "Une erreur est survenue, veuillez réssayer plus tard"
+                            }
+                        }
+                    },
+                    "confirmDialog": {
+                        "message": "Voulez vous supprimer les sieges choisis ?"
+                    },
+                    "errors": {
+                        "sites-not-found": {
+                            "summary": "Attention !",
+                            "detail": "Aucun Siege n'est enregistré"
+                        },
+                        "choose-sites": {
+                            "summary": "Suppression des sieges",
+                            "detail": "Veuillez choisir au moin un siege"
+                        },
+                        "choose-reset": {
+                            "summary": "Modification des sieges",
+                            "detail": "Veuillez choisir le siege à rénitialiser"
+                        },
+                        "edit": {
+                            "summary": "Modification des sieges",
+                            "detail": "Les sièges ont été modifiés avec succès"
+                        },
+                        "edit-error": {
+                            "summary": "Modification des sieges",
+                            "detail": "Une erreur est survenue, un ou tout les siges n'ont pas été modifiés"
+                        },
+                        "edit-select": {
+                            "summary": "Modification des sieges",
+                            "detail": "Vous devez changer les sieges concernés avant de les enregister"
+                        },
+                        "error": {
+                            "summary": "Erreur de supression !",
+                            "detail": "Un erreur est servenue veuillez ressayer plutard"
+                        },
+                        "delete-success": {
+                            "summary": "Suppression des sieges",
+                            "detail": "Les sièges choisis ont été supprimés avec succès"
+                        }
+                    },
+                    "export": {
+                        "filename": "Liste_des_sites",
+                        "success": {
+                            "summary": "Export réussi",
+                            "detail": "Le fichier Excel a été généré avec succès"
+                        },
+                        "error": {
+                            "summary": "Erreur d'export",
+                            "detail": "Une erreur est survenue lors de la génération du fichier Excel"
                         }
                     }
                 },
@@ -576,6 +661,11 @@
                 },
                 "info-perso": {
                     "title": "Informations personnelles",
+                    "sections": {
+                        "infos": "Informations livreur",
+                        "contact": "Contacts",
+                        "vehicle": "Informations vehicule"
+                    },
                     "form": {
                         "general": {
                             "title": "Informations générales",
@@ -588,6 +678,9 @@
                                     "label": "Nom",
                                     "placeholder": "Saisir le nom"
                                 },
+                                "age": {
+                                    "label": "Age"
+                                },
                                 "immatricule": {
                                     "label": "Matricule employé"
                                 },
@@ -599,7 +692,13 @@
                                     "placeholder": "choisir une langue"
                                 },
                                 "horaire": {
-                                    "label": "Consulter mes horaires"
+                                    "label": "Consulter mes horaires",
+                                    "edit-label": "Modifier tes horaires"
+                                },
+                                "rib": {
+                                    "label": "RIB",
+                                    "placeholder": "Saisir votre RIB",
+                                    "error": "le RIB doit commencer par le code de pays, suivi par des chiffres"
                                 }
                             }
                         },
@@ -632,7 +731,7 @@
                             "title": "Informations vehicule",
                             "fields": {
                                 "matricule": {
-                                    "label": "Le N° de matricule",
+                                    "label": "La matricule",
                                     "placeholder": "Saisir le matricule"
                                 },
                                 "type": {
@@ -653,10 +752,87 @@
                                 }
                             }
                         }
+                    },
+                    "schedule": {
+                        "dispos": {
+                            "indispo": "Indisponible",
+                            "free": "Créneau libre"
+                        },
+                        "days": {
+                            "monday": "Lundi",
+                            "tuesday": "Mardi",
+                            "wednesday": "Mercredi",
+                            "thursday": "Jeudi",
+                            "friday": "Vendredi",
+                            "saturday": "Samedi",
+                            "sunday": "Dimanche"
+                        },
+                        "headers": {
+                            "start": "Début",
+                            "end": "Fin",
+                            "indispo": "Indispo"
+                        }
+                    },
+                    "errors": {
+                        "rib-not-valid": {
+                            "summary": "RIB Non Valide",
+                            "message": "Veuillez respecter le format de rib avant d'enregistrer"
+                        },
+                        "phone-required": {
+                            "summary": "N° de telephone non saisi",
+                            "message": "Veuillez Saisir un N° de telephone valide"
+                        },
+                        "fullname-required": {
+                            "summary": "Nom ou prénom non saisi",
+                            "message": "Veuillez Saisir votre nom et prénom"
+                        }
                     }
                 },
                 "dispo": {
-                    "title": "Disponibilité"
+                    "title": "Disponibilité",
+                    "buttons": {
+                        "indispo": "Marquer Indisponible",
+                        "dispo": "Marquer Disponible",
+                        "today": "Aujourd'hui"
+                    },
+                    "dialog": {
+                        "switch-period": {
+                            "message": "Voulez vous enregistrer les modifications avant de changer la periode ?"
+                        },
+                        "add.new-task": {
+                            "header": "Ajouter une nouvelle tâche",
+                            "form": {
+                                "title": {
+                                    "label": "Titre",
+                                    "placeholder": "Labelliser votre tâche",
+                                    "tooltip": "C'est mieux d'identifier le nom d'entreprise à laquelle vous livrez"                                    
+                                },
+                                "start": {
+                                    "label": "Heure de début"
+                                },
+                                "end": {
+                                    "label": "Heure de fin"
+                                },
+                                "description": {
+                                    "label": "Description"
+                                },
+                                "error": "Veuillez remplir les champs requis"
+                            }
+                        }                       
+                    },
+                    "daily-scheduler": {
+                        "empty-schedule": "Veuillez cliquer sur un jour de calendrier où vous êtes disponible"
+                    },
+                    "messages": {
+                        "edit-schedule-success": {
+                            "summary": "Modification des disponibilités",
+                            "detail": "Les nouvelles disponibilités ont été actualisé avec success"
+                        },
+                        "edit-schedule-error": {
+                            "summary": "Modification des disponibilités",
+                            "detail": "Les nouvelles disponibilités n'ont pas été sauvegardé"
+                        }
+                    }                    
                 },
                 "statistics": {
                     "title": "Statistiques"
@@ -669,6 +845,12 @@
                 },
                 "settings": {
                     "title": "Paramètres et préférences"
+                }
+            },
+            "common-errors": {
+                "edit-error": {
+                    "summary": "Erreur de modification",
+                    "message": "Un erreur est servenue veuillez ressayer plutard"
                 }
             },
             "notifications": {
@@ -697,15 +879,101 @@
                 }
             }
         },
+        "entreprise": {
+            "mes-commandes": {
+                "header": "Mes missions de livraison",
+                "filters": {
+                    "title": "Filtres",
+                    "buttons": {
+                        "refresh": {
+                            "tooltip": "Actualiser les filres"
+                        }
+                    },
+                    "form": {
+                        "id": {
+                            "label": "ID de mission",
+                            "placeholder": "Saisir l'ID de mission"
+                        },
+                        "status": {
+                            "label": "Status de livraison"                            
+                        },
+                        "date-publication": {
+                            "label": "Date de publication",
+                            "placeholder":"Choisir une date"
+                        },
+                        "date-livraison": {
+                            "label": "Date de livraison",
+                            "placeholder":"Choisir une date"
+                        },
+                        "ville-livraison": {
+                            "label": "Ville livraison",
+                            "placeholder":"Saisir la ville de livraison"
+                        },
+                        "site-retrait": {
+                            "label": "Site de retrait",
+                            "placeholder":"Saisir le site de retrait"
+                        },
+                        "mode-livraison": {
+                            "label": "Mode de livraison",
+                            "placeholder":"Choisir un mode"
+                        },
+                        "poids": {
+                            "label": "Poids des colis (Kg)",
+                            "placeholder":"Saisir un poids en kg"
+                        },
+                        "nombre-colis": {
+                            "label": "Nombre de colis",
+                            "placeholder":"Saisir le nombre de colis"
+                        }
+                    },
+
+                    "messages": {
+                        "header": "Un erreur est survenue",
+                        "global-error": "Les données de filtre n'ont pas été chargé avec succes"                        
+                    },
+
+                    "order.status": {
+                        "na": "Non affecté",
+                        "lec": "Livraison en cours",
+                        "as": "Assigné à un livreur",
+                        "lv": "Commande Livré",
+                        "ann": "Commande Annulé",
+                        "rat": "Commande En retard",
+                        "def": "Par défaut"                        
+                    },
+                    "order.mode": {
+                        "sc": "Même ville",
+                        "bc": "Entre villes"
+                    }
+                },
+                "orders-table": {
+                    "headers": {
+                        "id": "ID",
+                        "date-pub": "Date Publication",
+                        "date-ret": "Date Retrait",
+                        "date-liv": "Date Livraison",
+                        "livreur": "Livreur",
+                        "status": "Status",
+                        "mode": "Mode",
+                        "site-ret": "Siege Retrait",
+                        "city-liv": "Ville Livraison",
+                        "buttons": {
+                            
+                        }
+                    },
+                    "messages": {
+                        "empty-orders": "Aucunne livraison est disponible"
+                    }
+                }
+            }
+        },
         "common": {
             "components": {
                 "profile-img": {
                     "change-img": "Changer l'image",
                     "add": "Ajouter"
                 },
-                "attachement": {
-                    
-                }
+                "attachement": {}
             },
             "buttons-label": {
                 "yes": "Oui",
@@ -715,6 +983,10 @@
                 "delete": "Supprimer",
                 "submit": "Enregistrer"
             }
+        },
+        "not-allowed-page": {
+            "title": "Vous n'avez pas encore le statut nécessaire",
+            "summary": "Votre compte n'a pas encore le statut nécessaire pour accéder aux données disponibles dans cette page. Veuillez vérifier auprès de votre administrateur pour obtenir les autorisations requises."
         }
     }
 }

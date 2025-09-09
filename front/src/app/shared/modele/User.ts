@@ -1,13 +1,10 @@
 import { UserRoles } from "./enumerate/userRoles";
 
 export class User {    
-    mail!: string;
-    fullname!: string;
-    lastname!: string;
-    adresse!: string;
-    phone!: string;
+    mail?: string;
+    fullname?: string;
     img?: string;
-    role!: UserRoles;
+    role?: UserRoles;
     
 
     public constructor(init?: Partial<User>) {

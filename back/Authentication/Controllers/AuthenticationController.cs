@@ -26,11 +26,11 @@ namespace Authentication.Controllers
 
         [HttpPost]
         [Route("register")]
-        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(UserInvalidationDto), 200)]
         public virtual async Task<IActionResult> Register([FromBody][Required] RegistrationDto userDto)
         {
-            var email = await authService.Register(userDto);
-            return Ok(new { email });
+            var dto = await authService.Register(userDto);
+            return StatusCode(200, dto);
         }
 
         [HttpGet]
@@ -67,15 +67,33 @@ namespace Authentication.Controllers
         {
             var dto = await authService.SendRecover(email);
             return StatusCode(200, dto);
-        }  
+        }
 
         [HttpPost]
         [Route("reset-password")]
         [ProducesResponseType(typeof(bool), 200)]
-        public virtual async Task<IActionResult> resetPassword([FromBody][Required] ResetPwdDto data)
+        public virtual async Task<IActionResult> ResetPassword([FromBody][Required] ResetPwdDto data)
         {
             var dto = await authService.resetPassword(data);
             return StatusCode(200, dto);
-        }        
+        }
+
+        [HttpGet]
+        [Route("get-user")]
+        [ProducesResponseType(typeof(UserInvalidationDto), 200)]
+        public virtual async Task<IActionResult> GetPartielUser([FromQuery][Required] string email)
+        {
+            var dto = await authService.GetPartielUser(email);
+            return StatusCode(200, dto);
+        }      
+        
+        [HttpGet]
+        [Route("get-id")]
+        [ProducesResponseType(typeof(string), 200)]
+        public virtual async Task<IActionResult> GetUserID([FromQuery][Required] string email)
+        {
+            var dto = await authService.GetUserID(email);
+            return StatusCode(200, dto);
+        }     
     }
 }

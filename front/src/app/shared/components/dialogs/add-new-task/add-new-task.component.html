@@ -1,0 +1,48 @@
+<div class="add-new-task">
+    <form [formGroup]="form" (submit)="save()">
+        <div class="new-task-container grid">
+
+            <div class="field col-12">
+                <span class="field-label flex align-items-center gap-1">
+                    {{'app.profil.livreur.dispo.dialog.add.new-task.form.title.label' | translate}}
+                    <i class="pi pi-info-circle"
+                        pTooltip="{{'app.profil.livreur.dispo.dialog.add.new-task.form.title.tooltip' | translate}}"
+                        tooltipPosition="right"></i>
+                </span>
+                <input class="mt-2" pInputText formControlName="title" fluid
+                    placeholder="{{'app.profil.livreur.dispo.dialog.add.new-task.form.title.placeholder' | translate}}" />
+            </div>
+            <div class="field col-6">
+                <span class="field-label">
+                    {{'app.profil.livreur.dispo.dialog.add.new-task.form.start.label' | translate}}
+                </span>
+                <input class="mt-2" pInputText formControlName="startHour" style="width: 70%;" />
+            </div>
+            <div class="field custom-label col-6">
+                <span class="field-label">
+                    {{'app.profil.livreur.dispo.dialog.add.new-task.form.end.label' | translate}}
+                </span>
+                <p-select class="mt-2" formControlName="endHour" [options]="endHourOptions"
+                    [styleClass]="'w-select-full'" appendTo="body">
+                </p-select>
+            </div>
+            <div class="field col-12">
+                <span class="field-label">
+                    {{'app.profil.livreur.dispo.dialog.add.new-task.form.description.label' | translate}}
+                </span>
+                <textarea class="mt-2" rows="3" pTextarea formControlName="description" fluid></textarea>
+            </div>
+        </div>
+        <div *ngIf="(form.controls['title'].invalid && form.controls['title'].dirty) || (form.controls['endHour'].invalid && form.controls['endHour'].dirty)" class="mb-3 error">
+            <small>{{'app.profil.livreur.dispo.dialog.add.new-task.form.error' | translate}}</small>
+        </div>
+        <div class="action-buttons">
+            <button pButton class="cold-button" icon="pi pi-times"
+                label="{{'app.common.buttons-label.cancel' | translate}}" (click)="close()"></button>
+            <div class="save-button">
+                <button pButton type="submit" icon="pi pi-check"
+                    label="{{'app.common.buttons-label.submit' | translate}}"></button>
+            </div>
+        </div>
+    </form>
+</div>

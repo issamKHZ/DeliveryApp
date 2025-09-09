@@ -1,7 +1,7 @@
 import { NotifType } from "./enumerate/NotifType";
 
 export class Notification {    
-    
+    id: number;
     title: string;
     subject: string;
     date: Date;
@@ -13,6 +13,8 @@ export class Notification {
     style?: string;
     color?: string;
     isFavoris?: boolean;
+    selected?: boolean;
+    opened?: boolean;
 
     public constructor(init?: Partial<Notification>) {
         Object.assign(this, init);

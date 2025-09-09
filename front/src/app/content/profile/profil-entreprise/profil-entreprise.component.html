@@ -1,6 +1,6 @@
 <div class="profil-entrep-layout" (document:click)="onGlobalClick($event)">
   <div #sidebar class="profil-entrep-sidebar" [class.responsive-open]="isSidebarVisible">
-    <app-side-bar [component]="component" (closeSidebar)="isSidebarVisible = false"></app-side-bar>
+    <app-side-bar [status]="status" [name]="name" [component]="component" (closeSidebar)="isSidebarVisible = false"></app-side-bar>
   </div>
 
   <div class="profil-entrep-main">

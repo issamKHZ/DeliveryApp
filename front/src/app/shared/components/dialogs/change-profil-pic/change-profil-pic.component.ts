@@ -73,7 +73,6 @@ export class ChangeProfilPicComponent {
 
   }
   // handleDialogClose() {
-  //   console.log('enter');
   // }
 
   onAccept(): void {

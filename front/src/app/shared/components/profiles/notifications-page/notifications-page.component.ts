@@ -15,6 +15,7 @@ import { NotifType } from '../../../modele/enumerate/NotifType';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RippleModule } from 'primeng/ripple';
+import { NotifCommunicationService } from '../../../services/notifications/notif-communication.service';
 
 export enum SortStates {
   NEUTRE,
@@ -62,7 +63,10 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
 
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private notifCommunicationService: NotifCommunicationService
+  ) {
     super();
   }
 
@@ -91,6 +95,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
     this.selectedNotifCount = 0;
 
     this.notifications = [{
+      id: 0,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -103,6 +108,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
 
 
     {
+      id: 1,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -112,6 +118,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       readed: false,
     },
     {
+      id: 2,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -122,6 +129,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       isFavoris: true
     },
     {
+      id: 3,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -131,6 +139,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       readed: false,
     },
     {
+      id: 4,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -140,6 +149,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       readed: false,
     },
     {
+      id: 5,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -150,6 +160,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       isFavoris: true
     },
     {
+      id: 6,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -161,6 +172,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
 
 
     {
+      id: 7,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -170,6 +182,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       readed: false,
     },
     {
+      id: 8,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -179,6 +192,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       readed: false,
     },
     {
+      id: 9,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -188,6 +202,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       readed: false,
     },
     {
+      id: 10,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -197,6 +212,7 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       readed: false,
     },
     {
+      id: 11,
       title: 'title test',
       subject: 'subject test',
       message: 'mesage message test',
@@ -205,6 +221,11 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
       sub_type: "reclamation",
       readed: false,
     }]
+
+    this.notifCommunicationService.selectOneNotif$.subscribe(() => {
+      this.selectedNotifCount = this.notifications.filter(n => n.selected === true).length;
+      this.selectAllChecked = this.selectedNotifCount === this.notifications.length;      
+    });
   }
 
   sortNotifs(): void {
@@ -232,15 +253,19 @@ export class NotificationsPageComponent extends SubscriptionManager implements O
   toggleSelection() {
     this.selectionMode = !this.selectionMode;
     this.selectAllChecked = false;
+    this.notifications.map(n => n.selected = false);
+    this.selectedNotifCount = 0;
   }
 
   toggleSelectAll() {
     if (this.selectAllChecked) {
       this.selectedNotifCount = this.notifications.length;
+      this.notifCommunicationService.selectAll(true);
     } else {
       this.selectedNotifCount = 0;
+      this.notifCommunicationService.selectAll(false);
     }
-    
+
   }
 
 

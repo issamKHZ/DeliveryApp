@@ -11,7 +11,7 @@
                 </span>
                 <p-select formControlName="type" [options]="siegeTypes"
                     placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.type' | translate}}"
-                    optionLabel="label" [styleClass]="'mt-2 w-full'">
+                    optionLabel="label" optionValue="code" [styleClass]="'mt-2 w-full'">
                 </p-select>
             </div>
 
@@ -21,7 +21,7 @@
                 </span>
                 <p-select formControlName="dispo" [options]="disponibilities"
                     placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.dispo' | translate}}"
-                    optionLabel="label" [styleClass]="'mt-2 w-full'">
+                    optionLabel="label" optionValue="code" [styleClass]="'mt-2 w-full'">
                 </p-select>
             </div>
 
@@ -36,9 +36,11 @@
             <div class="col-6">
                 <span class="field-label">
                     {{'app.profil.entreprise.sieges.dialog.form.labels.country' | translate}}
-                </span>
-                <input class="mt-2" pInputText formControlName="country" fluid
-                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.country' | translate}}" />
+                </span>                
+                <p-select formControlName="country" [options]="cities"
+                    placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.country' | translate}}"
+                    optionLabel="label" optionValue="code" [styleClass]="'mt-2 w-full'">
+                </p-select>
             </div>
 
             <div class="col-6">
@@ -58,7 +60,7 @@
                 <span class="field-label">
                     {{'app.profil.entreprise.sieges.dialog.form.labels.phone' | translate}}
                 </span>
-                <input class="mt-2" pInputText formControlName="phone" fluid
+                <input appPhoneNumber class="mt-2" pInputText formControlName="phone" fluid
                     placeholder="{{'app.profil.entreprise.sieges.dialog.form.placeholders.phone' | translate}}" />
             </div>
 

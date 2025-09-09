@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from './Authentication/auth.service';
 import { UserRoles } from '../modele/enumerate/userRoles';
 import { RoutesEnum } from '../modele/enumerate/routes';
 

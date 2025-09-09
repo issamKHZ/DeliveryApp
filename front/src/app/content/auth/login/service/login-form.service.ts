@@ -12,7 +12,8 @@ export class LoginFormService {
   adaptFormToAuthUser(form: UntypedFormGroup) : AuthUser{
     return new AuthUser ({      
       email: form.get("email")?.value,
-      password: form.get("password")?.value
+      password: form.get("password")?.value,
+      remember: form.get("remember")?.value
     });
   }
 

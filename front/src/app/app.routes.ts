@@ -4,13 +4,19 @@ import { ComponentsKeyEnum } from './shared/modele/enumerate/ComponentsKey';
 import { NoAuthGuard } from './shared/guards/no-auth.guard';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { HomeRedirectGuard } from './shared/guards/home-redirect.guard';
+import { EntrepriseProfileResolver } from './shared/resolvers/profile.entreprise.resolver';
+import { LivreurProfileResolver } from './shared/resolvers/Livreur/profile.livreur.resolver';
+import { profileStatusEntrepGuard } from './shared/guards/profile.status.entrep.guard';
+import { profileStatusLivGuard } from './shared/guards/profile.status.liv.guard';
+import { DisponibilityResolver } from './shared/resolvers/Livreur/disponibility.resolver';
 
 
 const routesEndpoints = RoutesEnum;
 
 enum ComposedRoutes {
     VALIDATION_EMAIL = "validation/mail",
-    PROFILE_ENTREPRISE = "profile/entreprise"
+    PROFILE_ENTREPRISE = "profile/entreprise",
+    ENTREPRISE_COMMANDES = "entreprise/commandes"
 }
 
 export const routes: Routes = [
@@ -71,6 +77,9 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./content/profile/profil-entreprise/profil-entreprise.component').then(m => m.ProfilEntrepriseComponent),
         canActivate: [AuthGuard],
+        resolve: {
+            profile: EntrepriseProfileResolver,            
+        },
         children: [
             {
                 path: routesEndpoints.GENERAL,
@@ -86,26 +95,36 @@ export const routes: Routes = [
                 path: routesEndpoints.SIEGES,
                 loadComponent: () =>
                     import('./shared/components/profiles/entreprise/sites-coordinates/sites-coordinates.component').then(m => m.SitesCoordinatesComponent),
+                canActivate: [profileStatusEntrepGuard]
             },
             {
                 path: routesEndpoints.STATISTICS,
                 loadComponent: () =>
                     import('./shared/components/profiles/entreprise/statistics-histo/statistics-histo.component').then(m => m.StatisticsHistoComponent),
+                canActivate: [profileStatusEntrepGuard]
             },
             {
                 path: routesEndpoints.PREFERENCES,
                 loadComponent: () =>
                     import('./shared/components/profiles/entreprise/preferencies/preferencies.component').then(m => m.PreferenciesComponent),
+                canActivate: [profileStatusEntrepGuard]
             },
             {
                 path: routesEndpoints.NOTIFICATIONS,
                 loadComponent: () =>
                     import('./shared/components/profiles/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent),
+                canActivate: [profileStatusEntrepGuard]
             },
             {
                 path: routesEndpoints.SETTINGS,
                 loadComponent: () =>
                     import('./shared/components/profiles/entreprise/settings/settings.component').then(m => m.SettingsComponent),
+                canActivate: [profileStatusEntrepGuard]
+            },
+            {
+                path: routesEndpoints.NOTALLOWED,
+                loadComponent: () =>
+                    import('./shared/components/profiles/profile-not-accessible/profile-not-accessible.component').then(m => m.ProfileNotAccessibleComponent),
             },
             {
                 path: '**',
@@ -120,6 +139,9 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./content/profile/profil-livreur/profil-livreur.component').then(m => m.ProfilLivreurComponent),
         canActivate: [AuthGuard],
+        resolve: {
+            profile: LivreurProfileResolver
+        },
         children: [
             {
                 path: routesEndpoints.PERSO,
@@ -130,31 +152,45 @@ export const routes: Routes = [
                 path: routesEndpoints.DISPO,
                 loadComponent: () =>
                     import('./shared/components/profiles/livreur/disponibility/disponibility.component').then(m => m.DisponibilityComponent),
+                canActivate: [profileStatusLivGuard],
+                resolve: {
+                    disponibility: DisponibilityResolver
+                }
             },
             {
                 path: routesEndpoints.STATISTICS,
                 loadComponent: () =>
                     import('./shared/components/profiles/livreur/statistics/statistics.component').then(m => m.StatisticsComponent),
+                canActivate: [profileStatusLivGuard]
             },
             {
                 path: routesEndpoints.NOTIFICATIONS,
                 loadComponent: () =>
                     import('./shared/components/profiles/notifications-page/notifications-page.component').then(m => m.NotificationsPageComponent),
+                canActivate: [profileStatusLivGuard]
             },
             {
                 path: routesEndpoints.HISTORICS,
                 loadComponent: () =>
                     import('./shared/components/profiles/livreur/historics/historics.component').then(m => m.HistoricsComponent),
+                canActivate: [profileStatusLivGuard]
             },
             {
                 path: routesEndpoints.EVAL,
                 loadComponent: () =>
                     import('./shared/components/profiles/livreur/evaluations/evaluations.component').then(m => m.EvaluationsComponent),
+                canActivate: [profileStatusLivGuard]
             },
             {
                 path: routesEndpoints.SETTINGS,
                 loadComponent: () =>
                     import('./shared/components/profiles/livreur/settings/settings.component').then(m => m.SettingsComponent),
+                canActivate: [profileStatusLivGuard]
+            },
+            {
+                path: routesEndpoints.NOTALLOWED,
+                loadComponent: () =>
+                    import('./shared/components/profiles/profile-not-accessible/profile-not-accessible.component').then(m => m.ProfileNotAccessibleComponent),
             },
             {
                 path: '**',
@@ -163,6 +199,12 @@ export const routes: Routes = [
             }
         ],
         data: { component: ComponentsKeyEnum.LIVREUR_PROFILE }
+    },
+
+    {
+        path: ComposedRoutes.ENTREPRISE_COMMANDES,
+        loadComponent: () => 
+            import('./content/Entreprise/commandes.entreprise/commandes.entreprise.component').then(m => m.CommandesEntrepriseComponent),
     },
 
     {

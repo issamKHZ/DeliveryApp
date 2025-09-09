@@ -5,6 +5,7 @@ import { OpenImageDialogService } from './open-image-dialog.service';
 import { SubscriptionManager } from '../../../utils/subscription-manager';
 import { take } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile-img',

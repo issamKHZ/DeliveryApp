@@ -1,0 +1,46 @@
+<p-confirmDialog [style]="{width: '350px'}" [baseZIndex]="10000" key="closeConfirmation">
+
+</p-confirmDialog>
+<div class="scheduler-container" [class.full-height]="dailySchedule?.length > 10">
+    <div class="empty-schedule" *ngIf="!showDailyTasks; else dailyTasks">
+        {{'app.profil.livreur.dispo.daily-scheduler.empty-schedule' | translate}}
+    </div>
+
+    <ng-template #dailyTasks>
+        <div class="scheduler-header">
+            {{scheduleTitle}}
+        </div>
+        <div class="scheduler-column">
+            <div class="scheduler-cell" *ngFor="let timeSlot of dailySchedule" [class.has-task]="timeSlot.task"
+                [class.task-continuation]="timeSlot.task?.isContinuation"
+                [class.first-of-task]="timeSlot.task && !timeSlot.task?.isContinuation">
+                <div class="cell-date">
+                    {{ timeSlot.date | date:'HH\'h\'mm' }}
+                </div>
+                <div class="cell-content" (click)="openSlot(timeSlot)"
+                    [class.task-continuation]="timeSlot.task?.isContinuation">
+                    <div *ngIf="timeSlot.task && !timeSlot.task.isContinuation" class="task-info">
+                        <div class="task-title">
+                            <app-large-content-field [tooltipPosition]="'left'"
+                                [content]="timeSlot.task.title"></app-large-content-field>
+                        </div>
+                        <div class="task-time">
+                            {{ timeSlot.task.startHour | date:'HH\'h\'mm' }} -
+                            {{ timeSlot.task.endHour | date:'HH\'h\'mm' }}
+                        </div>
+                    </div>
+                    <div *ngIf="timeSlot.task?.isContinuation" class="task-continuation-indicator">
+                    </div>
+                    <div class="task-actions" *ngIf="timeSlot.task && !timeSlot.task.isContinuation">
+                        <button class="action-btn edit-btn" title="Modifier" (click)="edit($event, timeSlot)">
+                            <i class="pi pi-pencil"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Supprimer" (click)="delete($event, timeSlot.task)">
+                            <i class="pi pi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

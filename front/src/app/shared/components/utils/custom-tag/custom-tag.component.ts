@@ -22,8 +22,8 @@ export class CustomTagComponent implements OnInit {
 
   styleClass: string;
 
-  ngOnInit(): void {
-    switch (this.type) {
+  ngOnInit(): void {        
+    switch (this.type) {      
       case TagSeverity.SUCCESS:
         this.styleClass = 'tag-success';
         break;

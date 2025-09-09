@@ -35,14 +35,14 @@ namespace Authentication.Data
             {
                 Console.WriteLine("--> Seeding User Statuses...");
                 context.UserStatuses.AddRange(
-                    new UserStatus { Code = "EN_ATTENTE_VALIDATION", Label = "Att validation" },
-                    new UserStatus { Code = "ACTIF", Label = "Actif" },
-                    new UserStatus { Code = "SUSPENDU", Label = "Suspendu" },
-                    new UserStatus { Code = "INACTIF", Label = "Inactif" },
-                    new UserStatus { Code = "BLOQUE", Label = "Bloqué" },
-                    new UserStatus { Code = "EN_LIVRAISON", Label = "En livraison" },
-                    new UserStatus { Code = "DISPONIBLE", Label = "Disponible" },
-                    new UserStatus { Code = "RESERVED", Label = "Réservé" }
+                    new UserStatus { Code = "EN_ATTENTE_VALIDATION", Label = "Att validation", Severity = "WARN" },
+                    new UserStatus { Code = "ACTIF", Label = "Actif", Severity = "SUCCESS" },
+                    new UserStatus { Code = "SUSPENDU", Label = "Suspendu", Severity = "WARN"},
+                    new UserStatus { Code = "INACTIF", Label = "Inactif", Severity = "DANGER" },
+                    new UserStatus { Code = "BLOQUE", Label = "Bloqué", Severity = "DANGER" },
+                    new UserStatus { Code = "EN_LIVRAISON", Label = "En livraison", Severity = "INFO" },
+                    new UserStatus { Code = "DISPONIBLE", Label = "Disponible", Severity = "SUCCESS" },
+                    new UserStatus { Code = "RESERVED", Label = "Réservé", Severity = "WARN" }
                 );
             }
 

@@ -43,6 +43,15 @@ namespace Authentication.Data.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == mail);
         }
 
+        public async Task<User?> GetUserByID(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+            return await _context.Users.FirstOrDefaultAsync(u => u.AccountId == id);
+        }
+
         public async Task<User?> AddUserAsync(User user)
         {
             if (user != null)

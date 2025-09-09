@@ -1,6 +1,13 @@
 @import '../../../styles/variables.scss';
 
 ::ng-deep {
+
+    .zobob_lobob {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
     .error-container {
         display: flex;
         justify-content: center;

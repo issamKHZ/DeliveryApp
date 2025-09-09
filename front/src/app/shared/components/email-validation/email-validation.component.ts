@@ -6,13 +6,13 @@ import { SubscriptionManager } from '../../utils/subscription-manager';
 import { interval, Subscription } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmailValidationService } from '../../services/email-validation.service';
+import { EmailValidationService } from '../../services/Authentication/email-validation.service';
 import { LoadingService } from '../utils/spinner/loading.service';
 import { UserAfterValid } from '../../modele/UserAfterValid';
 import { MessageService } from 'primeng/api';
-import { CommonService } from '../../utils/common.service';
+import { CommonService } from '../../services/utils/common.service';
 import { RoutesEnum } from '../../modele/enumerate/routes';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/Authentication/auth.service';
 import { RedirectionService } from '../../services/redirection.service';
 
 @Component({
@@ -60,11 +60,8 @@ export class EmailValidationComponent extends SubscriptionManager implements OnI
         this.spinner.show();
         this.register(
           this.emailValidationService.validate(this.token).subscribe({
-            next: (response: UserAfterValid) => {
-              console.log(response);
-
-              if (response.redirectToLogin) {
-                console.log(response);
+            next: (response: UserAfterValid) => {            
+              if (response.redirectToLogin) {                
                 if (response.message == "wait for support") {
                   this.message.add({
                     severity: 'info', summary: this.translate.instant('app.email-validation.messages.wait-for-support.summary'),

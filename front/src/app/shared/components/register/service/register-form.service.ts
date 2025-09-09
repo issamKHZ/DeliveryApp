@@ -15,7 +15,7 @@ export class RegisterFormService {
   adaptFormToModelLivreur(form: UntypedFormGroup, country: Country): RegistrationInfos {
     return new RegistrationInfos({
       user: {
-        name: form.get('lname')?.value + form.get('llastname')?.value,
+        name: form.get('lname')?.value + ' ' + form.get('llastname')?.value,
         email: form.get('lemail')?.value,
         password: form.get('lpassword')?.value,
         phoneNumber: country?.indicatif + ' ' + form.get('lphone')?.value,
@@ -32,7 +32,6 @@ export class RegisterFormService {
   }
 
   adaptFormToModelEntreprise(form: UntypedFormGroup, country: Country): RegistrationInfos {
-    console.log(country);    
     return new RegistrationInfos({
       user: {
         name: form.get('ename')?.value,

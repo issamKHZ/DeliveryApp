@@ -6,8 +6,9 @@
     <div class="first-half">
         <div class="card-pic-div">
             <p-card [styleClass]="'card-pic p-dynamic-card'">
-                <div class="profile-card">                    
-                    <app-profile-img [img]="user.img" [defaultImg]="'images/default-entreprise.png'" (editMode)="onEdit($event)"></app-profile-img>
+                <div class="profile-card">
+                    <app-profile-img [img]="user.img" [defaultImg]="'images/default-entreprise.png'" [canEdit]="true"
+                        (editMode)="onEdit($event)"></app-profile-img>
 
                     <div class="profile-id flex px-2 py-1 mb-1">
                         <h4>
@@ -46,12 +47,13 @@
                                     </ng-container>
                                 </ng-container>
                                 <ng-template #readonlyField>
-                                    <input pInputText [formControl]="field.control" fluid readonly class="profil-readonly-input"/>
+                                    <input pInputText [formControl]="field.control" fluid readonly
+                                        class="profil-readonly-input" [placeholder]="field.placeholder"/>
                                 </ng-template>
 
                             </div>
                             <div class="button flex col-2">
-                                <button *ngIf="field.code != personelFieldsEnum.TYPE" pButton
+                                <button *ngIf="field.code != personelFieldsEnum.TYPE && field.code != personelFieldsEnum.DOC" pButton
                                     (click)="toggleEdit(field.code)"
                                     [icon]="field.editMode ? 'pi pi-check' : 'pi pi-pencil'"></button>
                             </div>
@@ -70,15 +72,19 @@
                     </span>
 
                     <div class="value col-8">
-                        <ng-container *ngIf="field.editMode; else readonlyField">
-                            <input pInputText [formControl]="field.control" fluid [pAutoFocus]="true" />
+                        <ng-container *ngIf="field.editMode; else readonlyField">                            
+                            <input *ngIf="field.code != personelFieldsEnum.PHONE; else phoneNumberTemplate" pInputText [formControl]="field.control" fluid [pAutoFocus]="true" />
+                            <ng-template #phoneNumberTemplate>
+                                <input pInputText appPhoneNumber [formControl]="field.control" fluid [pAutoFocus]="true" />
+                            </ng-template>
                         </ng-container>
                         <ng-template #readonlyField>
-                            <input pInputText [formControl]="field.control" fluid readonly class="profil-readonly-input"/>
+                            <input pInputText [formControl]="field.control" fluid readonly
+                                class="profil-readonly-input" [placeholder]="field.placeholder"/>
                         </ng-template>
                     </div>
                     <div class="value flex col-1">
-                        <button *ngIf="field.code != personelFieldsEnum.TYPE" pButton
+                        <button *ngIf="field.code != personelFieldsEnum.MAIL" pButton
                             [icon]="field.editMode ? 'pi pi-check' : 'pi pi-pencil'"
                             (click)="toggleEdit(field.code)"></button>
                     </div>
@@ -90,7 +96,7 @@
     <div class="edit-div" *ngIf="editMode" @fadeInOut>
         <button class="cold-button" pButton [icon]="'pi pi-undo'"
             (click)="reset()">{{'app.profil.entreprise.general.form.buttons.reset' | translate}}</button>
-        <button pButton [icon]="'pi pi-check'">{{'app.profil.entreprise.general.form.buttons.edit' |
+        <button pButton (click)="edit()" [icon]="'pi pi-check'">{{'app.profil.entreprise.general.form.buttons.edit' |
             translate}}</button>
     </div>
 </div>

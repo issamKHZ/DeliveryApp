@@ -21,13 +21,13 @@ import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { vehicles } from '../../../constants/vehicles';
 import { DigitSpacerLimitedDirective } from '../../../directives/digit-spacer-limited.directive';
-import { RegisterLivreurService } from '../../../services/register-livreur.service';
+import { RegisterLivreurService } from '../../../services/Authentication/register-livreur.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MessageService } from 'primeng/api';
-import { CommonService } from '../../../utils/common.service';
+import { CommonService } from '../../../services/utils/common.service';
 import { LoadingService } from '../../utils/spinner/loading.service';
 import { HttpStatusCode } from '@angular/common/http';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/Authentication/auth.service';
 
 @Component({
   selector: 'app-register-livreur',
@@ -107,7 +107,7 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
     this.vehicles = vehicles;
 
     this.countries = countries;
-    this.country = this.countries.find(c => c.code == 'FR');
+    this.country = this.countries.find(c => c.code == 'MA');
     this.registerFormService.initIndicatif('MA', this.form.get('indicatif') as UntypedFormControl, this.countries);
     this.selectedCountry = this.form.get('indicatif')?.value;
 
@@ -139,10 +139,9 @@ export class RegisterLivreurComponent implements OnInit, OnDestroy {
       this.spinner.show();
       let livreur = this.registerFormService.adaptFormToModelLivreur(this.form, this.country);
       this.registerService.register(livreur).subscribe({
-        next: (response) => {
-          console.log(response);
-          
+        next: (response) => {                   
           this.auth.saveMail(response.email);
+          this.auth.saveRegistrationInfos(response);
           this.router.navigate([this.emailValidationRoute]);
           this.spinner.hide();
           this.message.add({

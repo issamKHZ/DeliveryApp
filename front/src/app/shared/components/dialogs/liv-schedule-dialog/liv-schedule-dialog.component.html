@@ -1,0 +1,44 @@
+<div class="schedule-container">
+    <div class="headers grid mb-2">
+        <div class="empty col-5"></div>
+        <div class="start col-2">
+            <h2>{{'app.profil.livreur.info-perso.schedule.headers.start' | translate}}</h2>
+        </div>
+        <div class="end col-2">
+            <h2>{{'app.profil.livreur.info-perso.schedule.headers.end' | translate}}</h2>
+        </div>
+        <div class="dispo col-3">
+            <h2>{{'app.profil.livreur.info-perso.schedule.headers.indispo' | translate}}</h2>
+        </div>
+    </div>
+    <form [formGroup]="form" *ngIf="form">
+        <div formGroupName="days">
+            <div *ngFor="let day of daysList" class="schedule-line grid mb-3">
+                <div class="day col-5">
+                    <h3>{{ 'app.profil.livreur.info-perso.schedule.days.' + day | translate }}</h3>
+                </div>
+                <div class="start col-2" [formGroupName]="day">
+                    <p-datepicker inputId="{{day}}-start" formControlName="start" [timeOnly]="true" [showTime]="true"
+                        hourFormat="24" [stepMinute]="60" (onSelect)="updateValidation(day)"></p-datepicker>
+                </div>
+                <div class="end col-2" [formGroupName]="day">
+                    <p-datepicker inputId="{{day}}-end" formControlName="end" [timeOnly]="true" [showTime]="true"
+                        hourFormat="24" [stepMinute]="60" (onSelect)="updateValidation(day)"></p-datepicker>
+                </div>
+                <div class="check col-3" [formGroupName]="day">
+                    <p-checkbox [formControlName]="'indispo'" [binary]="true" inputId="{{day}}-indispo" 
+                        (onChange)="updateValidation(day)"></p-checkbox>
+                </div>
+                <div class="error col-12 mt-2" *ngIf="form.get('days').get(day)?.errors?.['incoherent']">
+                    <small class="p-error">
+                        L'heure de fin doit être après l'heure de début
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="buttons flex gap-2 mt-4">
+            <button pButton type="submit" label="Enregistrer" (click)="saveSchedule()"></button>
+            <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancel()"></button>
+        </div>
+    </form>
+</div>

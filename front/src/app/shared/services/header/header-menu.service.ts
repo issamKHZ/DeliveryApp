@@ -27,24 +27,24 @@ export class HeaderMenuService {
       {
         label: this.translate.instant('app.header.profil-items.profil.label'),
         icon: this.translate.instant('app.header.profil-items.profil.icon'),
-        command: () => {},        
+        command: () => this.actionService.executeAction(this.menuAction.PROFIL, user.role)  
       },
       {
         label: this.translate.instant('app.header.profil-items.dashboard.label'),
         icon: this.translate.instant('app.header.profil-items.dashboard.icon'),
-        command: () => {}
+        command: () => this.actionService.executeAction(this.menuAction.DASHBOARD, user.role)
       },
       {
         label: this.translate.instant('app.header.profil-items.settings.label'),
         icon: this.translate.instant('app.header.profil-items.settings.icon'),
-        command: () => {}
+        command: () => this.actionService.executeAction(this.menuAction.SETTINGS, user.role)
       }
     ];
   }
 
-  getMenuByRole(userRole: UserRoles) {
+  getMenuByRole(userRole: UserRoles) {          
     switch (userRole) {
-      case this.roles.ENTREPRISE:
+      case UserRoles.ENTREPRISE.toString().toUpperCase():
         this.menuItems = [
           {
             label: this.translate.instant('app.header.menu.entreprise.commandes.label'),
@@ -78,7 +78,7 @@ export class HeaderMenuService {
           }
         ];
         break;
-      case this.roles.LIVREUR:
+      case this.roles.LIVREUR.toString().toUpperCase():
         this.menuItems = [
           {
             label: this.translate.instant('app.header.menu.livreur.commandes.label'),
@@ -86,12 +86,12 @@ export class HeaderMenuService {
             items: [
               {
                 label: this.translate.instant('app.header.menu.livreur.commandes.postuler'),
-                icon: "pi-check-square",
+                icon: "pi pi-check-square",
                 command: () => this.actionService.executeAction(this.menuAction.POSTULER),
                 component: this.component.POSTULER_ORDER
               },
               {                
-                label: this.translate.instant('app.header.menu.livreur.commandes.mes-commandes'),
+                label: this.translate.instant('app.header.menu.livreur.commandes.mycommandes'),
                 icon: "pi pi-inbox",
                 command: () => this.actionService.executeAction(this.menuAction.MY_COMMANDS, this.roles.LIVREUR),
                 component: this.component.M_ORDERS_LIVREUR
@@ -99,20 +99,20 @@ export class HeaderMenuService {
             ]
           },
           {
-            label: this.translate.instant('app.header.menu.livreur.commandes.commande-lance'),
+            label: this.translate.instant('app.header.menu.livreur.commandelance'),
             icon: "pi pi-truck",
             command: () => this.actionService.executeAction(this.menuAction.EN_COURS),
             component: this.component.ORDER_RUNNING
           },
           {
-            label: this.translate.instant('app.header.menu.livreur.commandes.discussion'),
+            label: this.translate.instant('app.header.menu.livreur.discussion'),
             icon: "pi pi-comment",
             command: () => this.actionService.executeAction(this.menuAction.DISCUSSION, this.roles.LIVREUR),
             component: this.component.DISCUSSION_LIVREUR
           }
         ];
         break;
-      case this.roles.ADMIN:
+      case this.roles.ADMIN.toString().toUpperCase():
         this.menuItems = [];
         break;
       default:

@@ -1,5 +1,8 @@
+@import "../variables.scss";
+
 .p-dialog-header {
     padding: 0 !important;
+    color: $color-primary-mid-darker !important;
 }
 
 .p-confirmdialog-icon {

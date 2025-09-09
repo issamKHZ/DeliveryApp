@@ -37,6 +37,7 @@ export enum RoutesEnum {
     SETTINGS = "settings",
     PREFERENCES = "preferences",
     NOTIFICATIONS = "notifications",
+    NOTALLOWED = "notallowed",
 
     PERSO = "personel",
     DISPO = "disponibility",
@@ -45,6 +46,9 @@ export enum RoutesEnum {
 
 
     ERROR = "error",
-    TEST = "test"
+    TEST = "test",
+
+    /* PAGES CONTENT ENTREPRISE */
+    COMMADES = "commandes"
 
 }

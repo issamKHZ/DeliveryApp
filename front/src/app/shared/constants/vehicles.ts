@@ -1,7 +1,7 @@
 export const vehicles: any[] = [
     {
         name: "Vélo",
-        code: "Velo"
+        code: "Bike"
     },
     {
         name: "Moto",
@@ -9,7 +9,7 @@ export const vehicles: any[] = [
     },
     {
         name: "Voiture",
-        code: "Voiture"
+        code: "Car"
     },
     {
         name: "Camionnette",

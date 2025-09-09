@@ -1,16 +1,25 @@
-<div class="notif-container py-1" (click)="readNotif($event)" 
-    [ngClass]="{ 'lu': notif.readed, 'non-lu': !notif.readed}"
-    [ngStyle]="{ '--notif-color': notif.color }"
->
-    <div class="title">
-        <span [ngClass]="textSize ? 'title-small' : 'title-normal'">{{notif.title}}</span>
-        <span [ngClass]="textSize ? 'date-small' : 'date-normal'">{{ formatNotifDate(notif.date) }}</span>
+<div class="notif-container py-1" (click)="readNotif($event)"
+    [ngClass]="{ 'lu': notif.readed, 'non-lu': !notif.readed, 'opened': notif.opened}"
+    [ngStyle]="{ '--notif-color': notif.color }">
+
+    <div class="checkbox" *ngIf="selectionMode">
+        <p-checkbox inputId="selectAll" [(ngModel)]="notif.selected" (onChange)="checkNotif()" binary="true">
+        </p-checkbox>
     </div>
 
-    <div class="message">
-        <app-large-content-field [styleClass]="textSize ? 'message-small' : 'message-normal'" content="{{notif.subject}}"></app-large-content-field>
-        <i *ngIf="notif.isFavoris" class="pi pi-flag-fill"></i>
+    <div class="display">
+        <div class="title">
+            <span [ngClass]="textSize ? 'title-small' : 'title-normal'">{{notif.title}}</span>
+            <span [ngClass]="textSize ? 'date-small' : 'date-normal'">{{ formatNotifDate(notif.date) }}</span>
+        </div>
+
+        <div class="message">
+            <app-large-content-field [styleClass]="textSize ? 'message-small' : 'message-normal'"
+                content="{{notif.subject}}"></app-large-content-field>
+            <i *ngIf="notif.isFavoris" class="pi pi-flag-fill"></i>
+        </div>
     </div>
+
 </div>
 
 <!-- [ngStyle]="{ 'border-left': notif.style }" -->

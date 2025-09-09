@@ -50,4 +50,19 @@
     .hide-background {
         background: transparent;
     }   
+
+    .profile-avatar {
+        width: 11rem !important;
+        height: 11rem !important;
+
+        .p-avatar-image {
+            object-fit: cover;
+        }
+    }
+
+    .p-avatar {
+        background-color: transparent !important;
+        border: 2px solid #d2dde4;
+        cursor: pointer;
+    }
 }

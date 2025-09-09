@@ -91,14 +91,15 @@ export const countries: Country[] = [
     },
 ];
 
-export const villesFrance: string[] = [
-    'Aix-en-Provence', 'Amiens', 'Antibes', 'Argenteuil', 'Avignon',
-    'Bordeaux', 'Boulogne-Billancourt', 'Brest', 'Caen', 'Clermont-Ferrand',
-    'Colmar', 'Créteil', 'Dijon', 'Fort-de-France', 'La Rochelle',
-    'Lille', 'Limoges', 'Lyon', 'Marseille', 'Metz',
-    'Montpellier', 'Montreuil', 'Mulhouse', 'Nancy', 'Nantes',
-    'Nice', 'Orléans', 'Paris', 'Perpignan', 'Poitiers',
-    'Reims', 'Rennes', 'Rouen', 'Saint-Denis', 'Saint-Étienne',
-    'Saint-Paul', 'Strasbourg', 'Toulon', 'Toulouse', 'Tours',
-    'Le Havre', 'Le Mans', 'Tourcoing', 'Versailles', 'Villes diverses'
+export const villesMaroc: string[] = [
+    'Agadir', 'Al Hoceïma', 'Asilah', 'Azemmour', 'Azrou',
+    'Beni Mellal', 'Berkane', 'Berrechid', 'Boujdour', 'Casablanca',
+    'Chefchaouen', 'Dakhla', 'El Jadida', 'Errachidia', 'Essaouira',
+    'Fès', 'Figuig', 'Guelmim', 'Ifrane', 'Kenitra',
+    'Khemisset', 'Khenifra', 'Khouribga', 'Laâyoune', 'Larache',
+    'Marrakech', 'Meknès', 'Mohammédia', 'Nador', 'Ouarzazate',
+    'Oujda', 'Rabat', 'Safi', 'Salé', 'Sefrou',
+    'Settat', 'Sidi Ifni', 'Sidi Kacem', 'Tanger', 'Tan-Tan',
+    'Tarfaya', 'Taroudant', 'Taza', 'Témara', 'Tétouan',
+    'Tinghir', 'Tiznit', 'Youssoufia', 'Zagora', 'Autres villes'
 ];

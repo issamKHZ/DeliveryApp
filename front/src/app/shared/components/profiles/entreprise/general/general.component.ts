@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Type } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Type } from '@angular/core';
 import { ComponentRoutageService } from '../../../../services/component-routage.service';
 import { ComponentsKeyEnum } from '../../../../modele/enumerate/ComponentsKey';
 import { CardModule } from 'primeng/card';
@@ -16,7 +16,7 @@ import { PersonelInfosEntreprise } from '../../../../modele/entreprise/PersonelI
 import { TagSeverity, CustomTagComponent } from '../../../utils/custom-tag/custom-tag.component';
 import { OpenImageDialogService } from '../../../utils/profile-img/open-image-dialog.service';
 import { take } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SubscriptionManager } from '../../../../utils/subscription-manager';
 import { CalendarModule } from 'primeng/calendar';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -24,6 +24,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { LoadingService } from '../../../utils/spinner/loading.service';
 import { EntrepSideBar } from '../../../../modele/enumerate/EntrepSideBar';
 import { ProfileImgComponent } from "../../../utils/profile-img/profile-img.component";
+import { ActivatedRoute } from '@angular/router';
+import { ProfileEntrepriseService } from '../../../../services/profile/entreprise/profile-entreprise.service';
+import { SafeUrl } from '@angular/platform-browser';
+import { MessageService } from 'primeng/api';
+import { PhoneNumberDirective } from '../../../../directives/phone-number.directive';
+import { FilesService } from '../../../../services/utils/files.service';
 
 export enum PersonelFieldsEnum {
   NAME = "Nom d'entreprise",
@@ -42,6 +48,7 @@ export enum PersonelFieldGroup {
 export interface PersonalInfosField {
   label: string;
   control: FormControl;
+  placeholder?: string;
   haschanged: boolean;
   editMode: boolean;
   focus: boolean;
@@ -71,8 +78,9 @@ export interface PersonalInfosField {
     AvatarModule,
     CustomTagComponent,
     TranslateModule,
-    ProfileImgComponent
-  ],
+    ProfileImgComponent,
+    PhoneNumberDirective
+],
   templateUrl: './general.component.html',
   styleUrl: './general.component.scss',
   animations: [
@@ -97,18 +105,7 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
   personelFieldsEnum = PersonelFieldsEnum;
   component = ComponentsKeyEnum;
 
-
-  user: PersonelInfosEntreprise = {
-    ID: '340DF16',
-    img: null,
-    status: { severity: TagSeverity.INFO, content: "En cours" },
-    name: "Capgemini",
-    Type: "Entreprise",
-    doc: "28/09/2000",
-    mail: "cpgemini@gmail.com",
-    phone: "05 78 23 54 99",
-    website: "https://capgemini.com"
-  }
+  user: PersonelInfosEntreprise;
 
   fields: PersonalInfosField[];
   imageEdited: boolean;
@@ -117,8 +114,13 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
   constructor(
     private routageService: ComponentRoutageService,
     private commonService: ProfilEntrepCommonService,
+    private profileService: ProfileEntrepriseService,
     private openImageService: OpenImageDialogService,
-    private spinner: LoadingService
+    private spinner: LoadingService,
+    private route: ActivatedRoute,
+    private message: MessageService,
+    private translate: TranslateService,
+    private fileService: FilesService
   ) {
     super();
   }
@@ -126,9 +128,18 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
   ngOnInit(): void {
     this.routageService.selectTab(EntrepSideBar.GENERAL);
     this.spinner.hide();
-    this.initialImage = this.user.img;
     this.routageService.selectComponent(this.component.ENTREPRISE_PROFILE);
-    this.fields = this.commonService.adaptPersonalInfoToForm(this.user);
+
+    this.commonService.getProfileData().subscribe(data => {
+      if (data) {      
+        this.user = this.commonService.adaptGeneralDtoToModel(data);                
+        this.initialImage = this.user.img;
+        if (this.user.img != null) {
+          this.user.imgFile = this.fileService.convertStringToFile(this.user.img, "entreprise_img");
+        }
+        this.fields = this.commonService.adaptPersonalInfoToForm(this.user);
+      }
+    });
   }
 
   filterFields(group: PersonelFieldGroup): PersonalInfosField[] {
@@ -137,6 +148,12 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
 
   toggleEdit(code: PersonelFieldsEnum): void {
     const field = this.fields.find(f => f.code === code);
+    // if (code == PersonelFieldsEnum.PHONE) {
+    //   let value = field.control.value;
+    //   if (value.length > 20) {
+    //     field.control.setValue(value.substring(0, 20));
+    //   }
+    // }
     if (field) {
       this.fields.map(f => f.focus = false);
       if (!field.editMode) {
@@ -171,6 +188,11 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
 
   onEdit(event: any) {
     this.editMode = event.editMode;
+     if (!event.img) {
+      this.user.imgFile = null;
+      return;
+    }    
+    this.user.imgFile = this.fileService.convertStringToFile(event.img, "entreprise_img");
     this.user.img = event.img;
   }
 
@@ -185,10 +207,36 @@ export class GeneralComponent extends SubscriptionManager implements OnInit, OnD
   }
 
   edit(): void {
-    // check si tous les edit sont off (valdié) avant de commencer
-
-
-    // apres edit tu dois changer le initial img
+    if (!this.fields.reduce((acc, curr) => acc && !curr.editMode, true)) {
+      this.message.add({
+        severity: 'warn', summary: this.translate.instant('app.profil.entreprise.general.errors.cannot-edit.summary'),
+        detail: this.translate.instant('app.profil.entreprise.general.errors.cannot-edit.message'), life: 4000
+      });
+      return;
+    }
+    if (!this.user.img) {
+      this.user.imgFile = null;
+    }
+    const request = this.commonService.adaptGeneralFieldsToModel(this.fields, this.user.ID, this.user.imgFile);
+    this.spinner.show();
+    this.profileService.saveGeneralInfos(request).subscribe({
+      next: (response: any) => {
+        this.commonService.setProfileData(response);
+        this.commonService.setEntrepName(response.name);
+        this.editMode = false;
+        this.spinner.hide();
+        this.message.add({
+          severity: 'success', summary: this.translate.instant('app.profil.entreprise.general.errors.success-edit.summary'),
+          detail: this.translate.instant('app.profil.entreprise.general.errors.success-edit.message'), life: 4000
+        })
+      },
+      error: () => {
+        this.message.add({
+          severity: 'error', summary: this.translate.instant('app.profil.common-errors.edit-error.summary'),
+          detail: this.translate.instant('app.profil.common-errors.edit-error.message'), life: 4000
+        })
+      }
+    })
   }
 
   checkCanEdit(): void {

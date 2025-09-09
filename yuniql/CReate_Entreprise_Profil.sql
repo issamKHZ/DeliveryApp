@@ -1,0 +1,32 @@
+CREATE TABLE Entreprise (
+    ID NVARCHAR(50) PRIMARY KEY,
+	Name NVARCHAR(255) UNIQUE NOT NULL,
+	CreationDate DATETIME NOT NULL, 
+	Email NVARCHAR(255) UNIQUE NOT NULL,
+	Phone NVARCHAR(25) UNIQUE NOT NULL,
+	Web NVARCHAR(255) NULL,
+	ResponsableID INT NULL FOREIGN KEY REFERENCES Responsable(ID),
+	StatusID INT NOT NULL FOREIGN KEY REFERENCES UserStatus(Id),
+	Adresse NVARCHAR(255) NULL,
+	Postal NVARCHAR(255) NULL,
+	City NVARCHAR(100) NULL,
+	Country NVARCHAR(100) NULL,
+	Siret NVARCHAR(100) NULL,
+	LivraisonNotice NVARCHAR(MAX) NULL,
+	Img INT NULL FOREIGN KEY REFERENCES DB_Files(ID),
+	Domicilation INT NULL FOREIGN KEY REFERENCES DB_Files(ID),
+);
+
+
+CREATE TABLE EntrepriseSecteurs (
+    EntrepriseId NVARCHAR(50) NOT NULL,
+    CollectionItemId INT NOT NULL,
+    
+    PRIMARY KEY (EntrepriseId, CollectionItemId),
+    
+    FOREIGN KEY (EntrepriseId) REFERENCES Entreprise(ID)
+        ON DELETE CASCADE,
+        
+    FOREIGN KEY (CollectionItemId) REFERENCES Collection_Items(Id)
+        ON DELETE CASCADE
+);

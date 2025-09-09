@@ -2,17 +2,19 @@ import { TagSeverity } from "../../components/utils/custom-tag/custom-tag.compon
 
 
 export class Sieges {
-    id: string;
-    type: {label: string, code: string};
+    id: number;
+    typeCode: string;
     adresse: string;    
-    villePays: string;
-    status: {label: string, code: string};    
+    city: string;
+    country: string;
+    dispoCode: string;    
     email: string;
     phone: string;
     isDest: boolean;
     editing?: boolean;
     editStorage?: boolean;
     originalData?: Sieges;
+    entrepriseId?: string;
 
     public constructor(init?: Partial<Sieges>) {
         Object.assign(this, init);

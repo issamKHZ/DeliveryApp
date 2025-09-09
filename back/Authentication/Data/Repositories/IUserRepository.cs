@@ -11,6 +11,7 @@ namespace Authentication.Data.Repositories
         public bool UserExistsPhone(string phone);
         public bool UserExistsMail(string mail);
         public Task<User?> GetUserByMail(string mail);
+        public Task<User?> GetUserByID(string id);
         public Task<User?> AddUserAsync(User user);
         public Task<bool> SaveChanges();        
     }

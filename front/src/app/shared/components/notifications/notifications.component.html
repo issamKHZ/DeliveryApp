@@ -3,7 +3,7 @@
  <div class="notification-scroll-container" [ngClass]="isHeader ? 'isHeader' : 'isPage'">
   <div class="notification-list">
     <div *ngFor="let item of items" class="notification-item">
-      <app-notif-card [notif]="item"></app-notif-card>
+      <app-notif-card [notif]="item" (selectedId)="handleSelectedNotif($event)" [selectionMode] = "selectionMode"></app-notif-card>
     </div>
   </div>
 </div>

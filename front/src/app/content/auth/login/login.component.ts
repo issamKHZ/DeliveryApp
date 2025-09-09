@@ -13,12 +13,12 @@ import { Style } from '../../../shared/constants/styles';
 import { complexityPasswordValidator, customEmailValidator, minLengthPasswordValidator } from '../../../shared/utils/validators';
 import { RoutesEnum } from '../../../shared/modele/enumerate/routes';
 import { LoginFormService } from './service/login-form.service';
-import { AuthService } from '../../../shared/services/auth.service';
+import { AuthService } from '../../../shared/services/Authentication/auth.service';
 import { SubscriptionManager } from '../../../shared/utils/subscription-manager';
 import { LoadingService } from '../../../shared/components/utils/spinner/loading.service';
 import { RegisterFormService } from '../../../shared/components/register/service/register-form.service';
-import { CommonService } from '../../../shared/utils/common.service';
-import { LoginService } from '../../../shared/services/login.service';
+import { CommonService } from '../../../shared/services/utils/common.service';
+import { LoginService } from '../../../shared/services/Authentication/login.service';
 import { PasswordModule } from 'primeng/password';
 
 

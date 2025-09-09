@@ -2,8 +2,8 @@
     <div class="first-half">
         <div class="sidebar-title">
             <div class="entrep-name">
-                <h2> {{userName}} </h2>
-                <app-custom-tag [type]="accountStatus.severity" [content]="'Actif'"></app-custom-tag>
+                <h2 style="width: 45%;"> {{userName}} </h2>
+                <app-custom-tag [type]="accountStatus.severity" [content]="accountStatus.content"></app-custom-tag>
             </div>
             <div class="type mt-2">
                 <h3>{{role}}</h3>

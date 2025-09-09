@@ -1,0 +1,62 @@
+<p-confirmDialog [styleClass]="'custom-dialog'" (onHide)="onReject(pendingPeriod)" [style]="{width: '350px'}" [baseZIndex]="10000" key="periodSwitch">
+
+</p-confirmDialog>
+<div class="calendar-container">
+    <div class="actions">
+        <div class="flex gap-2">
+            <button pButton pRipple class="p-button-danger" label="{{'app.profil.livreur.dispo.buttons.indispo' | translate}}" [disabled]="!selectedDate()"
+                *ngIf="!selectedDate || !getSelectedDateUnavailability()" (click)="toggleAvailability()"></button>
+            <button pButton pRipple class="p-button-success" label="{{'app.profil.livreur.dispo.buttons.dispo' | translate}}" [disabled]="!selectedDate()"
+                *ngIf="getSelectedDateUnavailability()" (click)="toggleAvailability()"></button>
+            <button pButton pRipple class="light-button" label="{{'app.profil.livreur.dispo.buttons.today' | translate}}" icon="pi pi-history"
+                (click)="returnToActuelDay()">
+
+            </button>
+        </div>
+        <div class="save">
+            <button pButton pRipple label="{{'app.common.buttons-label.submit' | translate}}" icon="pi pi-check" (click)="saveSchedule()"></button>
+        </div>
+    </div>
+
+    <div class="calendar">
+
+        <div class="calendar-toolbar">
+            <div class="month-year">
+                <button pButton icon="pi pi-angle-double-left" class="mr-1" (click)="previousMonth()"></button>
+                <span class="month">{{ getMonthName() }}</span>
+                <button pButton icon="pi pi-angle-double-right" (click)="nextMonth()"></button>
+                <p-select [options]="getYears()" [(ngModel)]="selectedYear" (onChange)="setDateByYear()" />
+            </div>
+        </div>
+
+        <div class="weekdays-header">
+            <div *ngFor="let day of getWeekDays()" class="weekday">
+                {{ day }}
+            </div>
+        </div>
+
+        <div class="days-grid">
+            <div *ngFor="let day of getDays(); let i = index" class="day-cell" [class.empty]="day === null"
+                [class.today]="day !== null && isToday(day) && day.disponibility"
+                [class.todayUnavailable]="day !== null && isToday(day) && !day.disponibility"
+                [class.selected]="day !== null && isSelected(day) && day.disponibility"
+                [class.selectedUnavailable]="day !== null && isSelected(day) && !day.disponibility"
+                [class.unavailable]="day !== null && !isToday(day) && !day.disponibility"
+                (click)="day !== null && selectDate(day)">
+
+                <div *ngIf="day !== null" class="day-number">
+                    {{ day.date.getDate() }}
+                </div>
+
+                <div class="tasks-number" *ngIf="day?.tasks && day?.disponibility && day?.tasks.length != 0">
+                    <p-badge [value]="day?.tasks.length" class="custom-badge" />
+                </div>
+
+                <!-- <div *ngIf="day !== null && !day.disponibility" class="unavailable-overlay">
+                    <div class="diagonal-cross"></div>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+</div>

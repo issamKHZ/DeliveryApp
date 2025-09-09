@@ -12,7 +12,7 @@ namespace Authentication.Utils
 {
     public class tokenGenerator
     {
-        public static string GenerateJwtToken(string username, string role, IConfiguration configuration)
+        public static string GenerateJwtToken(string name, string username, string role, bool remember, IConfiguration configuration)
         {
             var section = configuration.GetSection("Jwt");
             var key = section["Key"] ?? throw new InvalidOperationException("JWT Key is missing in configuration.");
@@ -22,16 +22,17 @@ namespace Authentication.Utils
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-            {
-            new Claim(ClaimTypes.Name, username),
-            new Claim(ClaimTypes.Role, role)
-        };
+            {                
+                new Claim(ClaimTypes.NameIdentifier,name),
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, role)
+            };
 
             var token = new JwtSecurityToken(
                 issuer: configuration["Jwt:Issuer"],
                 audience: configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),                
+                expires: remember ? DateTime.UtcNow.AddMinutes(60) : DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

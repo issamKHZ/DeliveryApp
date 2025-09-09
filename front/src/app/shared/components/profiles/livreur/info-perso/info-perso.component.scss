@@ -4,6 +4,13 @@
     .perso-container {
         height: 100%;
 
+        .red-slot {
+            color: $color-error;
+        }
+
+        .green-slot {
+            color: $color-success;
+        }
 
         .title {
             margin-bottom: 0.5rem;
@@ -82,6 +89,21 @@
             flex-direction: column;
             gap: 1rem;
 
+            .p-fieldset {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+                border: 1px solid #e0e0e0 !important;
+            }
+
+            .p-fieldset-legend {
+                background: transparent;
+
+                .p-fieldset-legend-label {
+                    font-size: $section-title;
+                    color: $color-primary-dark;
+                }
+
+            }
+
             .section {
                 background-color: #ffffff;
                 border-radius: 8px;
@@ -89,10 +111,35 @@
                 padding: 0.5rem 1.5rem 1rem 1.5rem;
                 border: 1px solid #e0e0e0;
                 transition: box-shadow 0.3s ease;
+
+                .p-inputnumber-fluid {
+                    margin-top: 0.5rem !important;
+                }
+
+                .section:hover {
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+                }
+
+                .custom-horaire {
+                    justify-content: space-between !important;
+                }
+
+                .general-card {
+                    .infos-part {
+                        .p-multiselect.p-disabled {
+                            background-color: rgba(199, 199, 199, 0.18) !important;
+                        }
+
+                    }
+                }
             }
 
-            .section:hover {
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            .p-select.p-disabled {
+                background-color: rgba(199, 199, 199, 0.18) !important;
+
+                .p-select-label {
+                    color: #334155 !important;
+                }
             }
 
             .edit-btn {
@@ -100,77 +147,61 @@
                 justify-content: end;
             }
 
-            .custom-horaire {
-                justify-content: space-between !important;
+            .schedule-panel {
+                padding: 1rem;
+                background-color: #fff;
+                border-radius: 4px;
+                margin-top: 0.5rem;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
 
-            .general-card {
-                .infos-part {
-                    .p-multiselect.p-disabled {
-                        background-color: rgba(199, 199, 199, 0.18) !important;
-                    }
+            .schedule-day {
+                display: flex;
+                margin-bottom: 0.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 1px solid #eee;
+                width: 100%;
+
+                &:last-child {
+                    margin-bottom: 0;
+                    padding-bottom: 0;
+                    border-bottom: none;
                 }
             }
-        }
 
-        .schedule-panel {
-            padding: 1rem;
-            background-color: #fff;
-            border-radius: 4px;
-            margin-top: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .schedule-day {
-            display: flex;
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #eee;
-
-            &:last-child {
-                margin-bottom: 0;
-                padding-bottom: 0;
-                border-bottom: none;
+            .day-name {
+                font-weight: 500;
+                width: 100px;
             }
-        }
 
-        .day-name {
-            font-weight: 500;
-            width: 100px;
-        }
-
-        .time-slots {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .profile-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            width: 100%;
-        }
-
-        .profile-name {
-            margin: 0;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .profile-avatar {
-            width: 11rem !important;
-            height: 11rem !important;
-
-            .p-avatar-image {
-                object-fit: cover;
+            .time-slots {
+                display: flex;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
             }
-        }
 
-        .p-avatar {
-            background-color: transparent !important;
-            border: 2px solid #d2dde4;
-            cursor: pointer;
+            .profile-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                width: 100%;
+            }
+
+            .profile-name {
+                margin: 0;
+                font-weight: 500;
+                color: var(--text-color);
+            }
+
+            .profil-disabled-inputmask {
+                input {
+                    opacity: 1 !important;
+                    background-color: rgba(199, 199, 199, 0.18) !important;
+                    color: #334155 !important;
+                }
+            }
         }
     }
 }

@@ -1,0 +1,8 @@
+CREATE TABLE Livreur_Schedule (
+	ID INT PRIMARY KEY IDENTITY(1,1),	
+	Day INT NOT NULL,
+	Month INT NOT NULL,
+	Year INT NOT NULL,
+	Disponibility BIT NULL,
+	LivreurID NVARCHAR(25) NOT NULL,
+)

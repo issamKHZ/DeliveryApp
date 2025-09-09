@@ -1,0 +1,108 @@
+@import '../../../../styles/variables.scss';
+
+::ng-deep {
+
+    .orders-entreprise {
+        height: 100%;
+        width: 100%;
+        padding-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        .header {
+            border-bottom: 2px solid $color-primary-mid;
+            color: $color-primary-mid;
+            margin: 0 auto;
+            width: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.75rem;
+        }
+
+        .filters {
+            width: 90%;
+
+            .p-panel {
+                background: linear-gradient(135deg, rgba(239, 252, 255, 0.856) 0%, rgba(239, 252, 255, 0.719) 100%);
+                backdrop-filter: blur(10px) !important;
+                box-shadow: 0 4px 12px rgba(0, 183, 255, 0.1) !important;
+            }
+
+            .p-panel-header {
+                .p-button-text {
+                    color: $color-primary-mid-darker !important;
+                }
+            }
+
+            .panel-title {
+                font-weight: bold;
+                color: $color-primary-mid-darker;
+            }
+
+            input {
+                background-color: rgba(246, 253, 255, 0.952) !important;
+            }
+
+            .p-select {
+                background-color: rgba(246, 253, 255, 0.952) !important;
+            }
+
+            .p-select-label {
+                font-weight: 500;
+            }
+
+            .p-select-option {
+                font-weight: 500;
+            }
+
+            .buttons {
+                width: 100%;
+                display: flex;
+                justify-content: end;
+
+                .p-button {
+                    background-color: $color-primary !important;
+                    border-color: $color-primary !important;
+                }
+            }
+
+            .site-options-style {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .site-option {
+                display: flex;
+                align-items: center;
+            }
+
+            .site-options-icon {
+                display: flex;
+                align-items: center !important;
+                justify-content: end;
+            }
+
+            .pi {
+                padding-top: 3px;
+            }
+
+        }
+
+        .orders-table {
+            width: 90%;
+
+            .p-datatable table {
+                .p-header-line {
+                    background: $color-primary !important;
+                }
+            }
+
+            .p-datatable-thead>tr>th.p-datatable-column-sorted {
+                color: $color-primary-darker !important;
+            }
+        }
+    }
+}

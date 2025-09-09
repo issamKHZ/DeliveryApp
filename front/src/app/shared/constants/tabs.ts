@@ -1,7 +1,7 @@
 // Entreprise profile side bar tabs
 
 import { TranslateService } from "@ngx-translate/core";
-import { CommonService } from "../utils/common.service";
+import { CommonService } from "../services/utils/common.service";
 import { RoutesEnum } from "../modele/enumerate/routes";
 
 export const createEntrepSideBarTabs = (translate: TranslateService, tabsCodes: any, commonService: CommonService) => [

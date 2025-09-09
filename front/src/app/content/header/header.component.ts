@@ -28,9 +28,14 @@ import { HeaderMenuService } from '../../shared/services/header/header-menu.serv
 import { SubscriptionManager } from '../../shared/utils/subscription-manager';
 import { ComponentRoutageService } from '../../shared/services/component-routage.service';
 import { ComponentsKeyEnum } from '../../shared/modele/enumerate/ComponentsKey';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/Authentication/auth.service';
 import { Router } from '@angular/router';
 import { RoutesEnum } from '../../shared/modele/enumerate/routes';
+import { LoadingService } from '../../shared/components/utils/spinner/loading.service';
+import { CookieService } from 'ngx-cookie-service';
+import { NotifCommunicationService } from '../../shared/services/notifications/notif-communication.service';
+import { ProfileEntrepriseService } from '../../shared/services/profile/entreprise/profile-entreprise.service';
+import { CommonService } from '../../shared/services/utils/common.service';
 
 @Component({
   selector: 'app-header',
@@ -62,6 +67,8 @@ import { RoutesEnum } from '../../shared/modele/enumerate/routes';
 })
 export class HeaderComponent extends SubscriptionManager implements OnInit, OnDestroy {
 
+
+
   @ViewChild('profile') profileOp!: Popover;
   @ViewChild('notif', { read: ElementRef }) notif!: ElementRef;
   @ViewChild('avatar') avatarElement!: ElementRef;
@@ -77,7 +84,7 @@ export class HeaderComponent extends SubscriptionManager implements OnInit, OnDe
   fictifItems: MenuItem[];
   profileItems!: MenuItem[];
 
-  currentUser: User;
+  currentUser: User = new User();
 
   notifications: Notification[];
   notificationsCount: number;
@@ -99,9 +106,14 @@ export class HeaderComponent extends SubscriptionManager implements OnInit, OnDe
 
   constructor(
     private notifService: NotificationsService,
+    private notifCommunicationService: NotifCommunicationService,
     private menuService: HeaderMenuService,
     private routageService: ComponentRoutageService,
+    private profileService: ProfileEntrepriseService,
     private authService: AuthService,
+    private spinner: LoadingService,
+    private cookie: CookieService,
+    private commonService: CommonService,
     private router: Router
   ) {
     super();
@@ -112,18 +124,20 @@ export class HeaderComponent extends SubscriptionManager implements OnInit, OnDe
     this.isConnected = this.authService.isLoggedIn();
     this.isValidationPhase = this.authService.isValidationPhase();
 
-    this.currentUser = {
-      fullname: "issam elkharraz",
-      lastname: "elkharraz",
-      mail: "issam@g.com",
-      adresse: "17 b rue pierre",
-      phone: "07 82 39 65 72",
-      // img: "images/capgemini.jpg",
-      role: UserRoles.ENTREPRISE
+    if (this.isValidationPhase) {
+      this.currentUser.fullname = this.cookie.get('fullname');
+      this.currentUser.role = (this.cookie.get('role') == UserRoles.ENTREPRISE.toString().toUpperCase()) ? UserRoles.ENTREPRISE : UserRoles.LIVREUR;
+      this.currentUser.mail = this.cookie.get('mail');
+    } else {
+      const email = this.authService.getFullName();
+      this.currentUser.role = this.authService.getUserRole();
+      this.register(
+        this.profileService.getUserName(this.currentUser.role, email).subscribe(response => this.currentUser.fullname = response)
+      );
     }
 
-    // Recuperer le menu de header selon le role
-    this.menuService.getMenuByRole(UserRoles.ENTREPRISE);
+    // Recuperer le menu de header selon le role    
+    this.menuService.getMenuByRole(this.currentUser.role);
     this.items = this.menuService.menuItems;
 
     //Recuperer les items de profil de current user
@@ -137,78 +151,66 @@ export class HeaderComponent extends SubscriptionManager implements OnInit, OnDe
     ];
 
 
-     this.notifications = [{
-      title: 'title test',
-      subject: 'subject test',
-      message: 'mesage message test',
-      date: new Date(),
-      type: NotifType.ADMIN_RECLAMATION,
-      sub_type: "reclamation",
-      readed: false,
-    },
+    // this.notifications = [{
+    //   id: 0,
+    //   title: 'title test',
+    //   subject: 'subject test',
+    //   message: 'mesage message test',
+    //   date: new Date(),
+    //   type: NotifType.ADMIN_RECLAMATION,
+    //   sub_type: "reclamation",
+    //   readed: false,
+    //   isFavoris: true
+    // },
 
 
-    {
-      title: 'title test',
-      subject: 'subject test',
-      message: 'mesage message test',
-      date: new Date(),
-      type: NotifType.ADMIN_WARNING,
-      sub_type: "reclamation",
-      readed: false,
-    },
-    {
-      title: 'title test',
-      subject: 'subject test',
-      message: 'mesage message test',
-      date: new Date(),
-      type: NotifType.ADMIN_RECLAMATION,
-      sub_type: "reclamation",
-      readed: false,
-    },
-    {
-      title: 'title test',
-      subject: 'subject test',
-      message: 'mesage message test',
-      type: NotifType.INFO,
-      date: new Date(),
-      sub_type: "reclamation",
-      readed: false,
-    },
-    {
-      title: 'title test',
-      subject: 'subject test',
-      message: 'mesage message test',
-      date: new Date(),
-      type: NotifType.MESSAGE,
-      sub_type: "reclamation",
-      readed: false,
-    },
-    {
-      title: 'title test',
-      subject: 'subject test',
-      message: 'mesage message test',
-      date: new Date(),
-      type: NotifType.ADMIN_WARNING,
-      sub_type: "reclamation",
-      readed: false,
-    }]
+    // {
+    //   id: 1,
+    //   title: 'title test',
+    //   subject: 'subject test',
+    //   message: 'mesage message test',
+    //   date: new Date(),
+    //   type: NotifType.ADMIN_WARNING,
+    //   sub_type: "reclamation",
+    //   readed: false,
+    // },
+    // {
+    //   id: 2,
+    //   title: 'title test',
+    //   subject: 'subject test',
+    //   message: 'mesage message test',
+    //   date: new Date(),
+    //   type: NotifType.ADMIN_RECLAMATION,
+    //   sub_type: "reclamation",
+    //   readed: false,
+    //   isFavoris: true
+    // },
+    // {
+    //   id: 3,
+    //   title: 'title test',
+    //   subject: 'subject test',
+    //   message: 'mesage message test',
+    //   type: NotifType.INFO,
+    //   date: new Date(),
+    //   sub_type: "reclamation",
+    //   readed: false,
+    // }];
 
     // Select unreaded notifications
     this.notificationsCount = this.notifService.getUnreadedNotif(this.notifications);
 
     // update count in the service
-    this.notifService.updateCount(this.notificationsCount);
+    this.notifCommunicationService.updateCount(this.notificationsCount);
 
     // catch the count if it was changed in other component    
-    this.notifService.currentCount.subscribe((count) => {
+    this.notifCommunicationService.currentCount.subscribe((count) => {
       this.notificationsCount = count
     });
 
     // Recuperer la page actuelle
     this.routageService.currentComponent$.subscribe(activeCompo => {
       if (activeCompo) {
-        this.selectedMenuItem = this.routageService.findMenuItemByComponentKey(this.items, activeCompo);
+        this.selectedMenuItem = this.routageService.findMenuItemByComponentKey(this.items, activeCompo);                
         this.routageService.markActive(this.items, activeCompo);
       }
     })
@@ -216,6 +218,16 @@ export class HeaderComponent extends SubscriptionManager implements OnInit, OnDe
 
   ngAfterViewInit() {
     window.addEventListener('resize', this.closePopupsOnResize);
+  }
+
+  capitalize(name: string): string {
+    return this.commonService.capitalizeFirstLetter(name);
+  }
+
+  handleMenuItemClick(item: MenuItem) {
+    if (item.command) {
+      (item as any).command();
+    }
   }
 
   adjsutPop() {
@@ -242,13 +254,12 @@ export class HeaderComponent extends SubscriptionManager implements OnInit, OnDe
   }
 
   getUserInitials(): string {
-    if (!this.currentUser?.lastname) return '?';
-    return this.currentUser.lastname.slice(0, 2).toUpperCase();
+    return this.commonService.getInitials(this.currentUser.fullname);
   }
 
   deconnexion(): void {
     if (this.isValidationPhase) {
-      this.authService.removeMail();      
+      this.authService.removeMail();
     } else {
       this.authService.logout();
     }

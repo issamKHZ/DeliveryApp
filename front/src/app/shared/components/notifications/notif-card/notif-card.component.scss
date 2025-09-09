@@ -10,13 +10,25 @@
         padding-left: 1rem;
         border: 0.1rem solid #c5cfd9;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         cursor: pointer;
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            padding: 0 2px;
+        }
+
+        .display {
+            display: flex;
+            flex-direction: column;            
+            flex-grow: 1;
+        }
 
         .title {
             padding-left: 0.3rem;
-            display: flex;
-            justify-content: space-between;
+            display: flex;                      
+            justify-content: space-between !important;
             padding-right: 0.5rem;
         }
 
@@ -74,5 +86,9 @@
     .non-lu {
         background-color: $color-notif-non-lu;
         font-weight: bold;
+    }
+
+    .opened {
+        border: 2px solid $color-primary-mid-darker !important;
     }
 }

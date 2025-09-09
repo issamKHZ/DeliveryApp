@@ -47,6 +47,7 @@
 
                     // display: flex;
                     text-align: center;
+
                     .custom-toggle-th {
                         display: flex;
                         justify-content: center;
@@ -70,6 +71,8 @@
                     cursor: pointer;
                 }
 
+
+
             }
 
             .p-datatable-header {
@@ -78,6 +81,10 @@
 
             .p-inputtext {
                 width: 100%;
+            }
+
+            .selected-site {
+                background-color: #ffd29fbe !important;
             }
 
         }

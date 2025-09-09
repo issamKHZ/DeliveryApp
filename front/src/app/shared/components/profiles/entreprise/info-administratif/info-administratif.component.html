@@ -4,6 +4,7 @@
 
 
 <div #infoAdministContainer class="info-administ-container">
+    <p-message *ngIf="displayCompletingError" closable severity="error">{{'app.profil.entreprise.administratif.errors.complete-infos'| translate }}</p-message>
     <div class="title pl-4 flex gap-2">
         <i class="pi pi-building-columns" style="font-size: 1.6rem"></i>
         <span class="profile-section-title">{{'app.profil.entreprise.administratif.title' | translate}}</span>
@@ -33,7 +34,7 @@
                 <span class="field-label">
                     {{'app.profil.entreprise.administratif.form.justificatif.label' | translate}}
                 </span>
-                <app-attachment-field [editMode]="editMode" [fileUrl]="fileUrl"
+                <app-attachment-field [editMode]="editMode" [fileUrl]="fileUrl" [selectedFileName]="userInfos?.fileDownloadName"
                     (file)="saveFile($event)"></app-attachment-field>
             </div>
 
@@ -49,7 +50,7 @@
                 <span class="field-label">
                     {{'app.profil.entreprise.administratif.form.phone.label' | translate}}
                 </span>
-                <input class="mt-2 profil-disabled-input" pInputText formControlName="rphone" fluid
+                <input appPhoneNumber class="mt-2 profil-disabled-input" pInputText formControlName="rphone" fluid
                     placeholder="{{'app.profil.entreprise.administratif.form.phone.placeholder' | translate}}" />
             </div>
         </div>
@@ -99,6 +100,7 @@
                 </span>
                 <p-multiselect class="mt-2 profil-disabled-select" [options]="secteursList" formControlName="secteur"
                     optionLabel="label" display="chip"
+                    optionValue="code"
                     placeholder="{{'app.profil.entreprise.administratif.form.secteur.placeholder' | translate}}"
                     [maxSelectedLabels]="3" styleClass="w-full md:w-80" />
 

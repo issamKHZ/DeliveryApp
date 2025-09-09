@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Authentication.AsyncDataServices;
 using Authentication.Data;
 using Authentication.Data.Repositories;
 using Authentication.Dtos;
@@ -22,6 +24,7 @@ namespace Authentication.Services
     {
         private readonly IUserRepository userRepo;
         private readonly ITokenRepository tokenRepo;
+        private readonly IMessageBusClient messageBus;
         private readonly AppDbContext context;
         private readonly IMapper mapper;
         private readonly IEmailService emailService;
@@ -32,13 +35,15 @@ namespace Authentication.Services
                            IMapper _mapper,
                            IEmailService _emailService,
                            ITokenRepository _tokenRepo,
-                           IConfiguration configuration)
+                           IConfiguration configuration,
+                           IMessageBusClient _messageBus)
         {
             userRepo = _userRepo;
             context = _context;
             mapper = _mapper;
             emailService = _emailService;
             tokenRepo = _tokenRepo;
+            messageBus = _messageBus;
             _configuration = configuration;
         }
 
@@ -77,8 +82,8 @@ namespace Authentication.Services
                 throw new HttpRequestException("credentials", null, HttpStatusCode.Unauthorized);
             }
 
-            // Génération du token JWT
-            string token = tokenGenerator.GenerateJwtToken(user.Email, user.Role.Code, _configuration);
+            // Génération du token JWT            
+            string token = tokenGenerator.GenerateJwtToken(user.Name, user.Email, user.Role.Code, credentials.Remember, _configuration);
 
             return new LoginResultDto
             {
@@ -88,7 +93,7 @@ namespace Authentication.Services
         }
 
 
-        public async Task<string> Register(RegistrationDto userDto)
+        public async Task<UserInvalidationDto> Register(RegistrationDto userDto)
         {
             if (userRepo.UserExistsMail(userDto.User.Email))
             {
@@ -103,7 +108,7 @@ namespace Authentication.Services
             int statusId = (int)context.UserStatuses.FirstOrDefault(r => r.Code == Status.EN_ATTENTE_VALIDATION.ToString())?.Id!;
 
             User user = mapper.Map<User>(userDto.User);
-            user.AccountId = AccountIdGenerator.GenerateAccountId(userDto.User.Email, Roles.ENTREPRISE);
+            user.AccountId = AccountIdGenerator.GenerateAccountId(userDto.User.Email, userDto.User.Role);
             user.StatusId = statusId;
             user.RoleId = roleId;
             user.Validated = false;
@@ -135,7 +140,7 @@ namespace Authentication.Services
             }
         }
 
-        public async Task<string> RegisterEntreprise(RegistrationDto userDto, User user, string token)
+        public async Task<UserInvalidationDto> RegisterEntreprise(RegistrationDto userDto, User user, string token)
         {
 
             if (userDto.Entreprise != null)
@@ -149,10 +154,18 @@ namespace Authentication.Services
 
             context.SaveChanges();
             await composeMail(userDto.User.Email, token, false);
-            return userDto.User.Email;
+
+            UserInvalidationDto dto = new UserInvalidationDto
+            {
+                Email = userDto.User.Email,
+                Fullname = userDto.User.Name,
+                Role = userDto.User.Role.ToString()
+            };
+
+            return dto;
         }
 
-        public async Task<string> RegisterLivreur(RegistrationDto userDto, User user, string token)
+        public async Task<UserInvalidationDto> RegisterLivreur(RegistrationDto userDto, User user, string token)
         {
             if (userDto.Livreur != null)
             {
@@ -164,7 +177,15 @@ namespace Authentication.Services
 
             context.SaveChanges();
             await composeMail(userDto.User.Email, token, false);
-            return userDto.User.Email;
+
+            UserInvalidationDto dto = new UserInvalidationDto
+            {
+                Email = userDto.User.Email,
+                Fullname = userDto.User.Name,
+                Role = userDto.User.Role.ToString()
+            };
+
+            return dto;
         }
 
         public async Task sendValidationEmail(string email)
@@ -185,7 +206,7 @@ namespace Authentication.Services
             else if (tokenInfos.EmailValidationToken == null)
             {
                 //notifier support (admin)
-                throw new HttpRequestException("tokenValue", null, HttpStatusCode.NotFound); 
+                throw new HttpRequestException("tokenValue", null, HttpStatusCode.NotFound);
             }
             else
             {
@@ -241,6 +262,7 @@ namespace Authentication.Services
 
             var concernedUser = await context.Users
                 .Include(u => u.Role)
+                .Include(u => u.Status)
                 .FirstOrDefaultAsync(u => u.Id == tokenObject.UserId);
 
             if (concernedUser == null)
@@ -273,10 +295,18 @@ namespace Authentication.Services
             context.Users.Update(concernedUser);
 
             var loginToken = tokenGenerator.GenerateJwtToken(
+                concernedUser.Name,
                 concernedUser.Email,
                 concernedUser.Role.Code,
+                false,
                 _configuration
             );
+            Console.WriteLine("enter into rabbit");
+            // Send the entreprise to profil service
+
+            await SendProfilToService(concernedUser);
+
+            Console.WriteLine("enter into rabbit");
 
             tokenRepo.DeleteToken(token);
             await context.SaveChangesAsync();
@@ -314,7 +344,7 @@ namespace Authentication.Services
 
                 user.UserTokensValidation = userTokenEmail;
             }
-            
+
             context.SaveChanges();
             await composeMail(mail, user.UserTokensValidation.PasswordResetToken, true);
             return true;
@@ -345,7 +375,134 @@ namespace Authentication.Services
             await context.SaveChangesAsync();
 
             return true;
-            
+
+        }
+
+        public async Task SendProfilToService(User user)
+        {
+            try
+            {
+                if (user.Role.Code == Roles.ENTREPRISE.ToString())
+                {
+
+                    Entreprise? concernedEntreprise = await context.Entreprises.FirstOrDefaultAsync(e => e.Id == user.Id);
+                    EntreprisePublishedDto entreprisePublishedDto = mapper.Map<EntreprisePublishedDto>(user);
+                    StatusDto status = new StatusDto
+                    {
+                        Code = user.Status.Code,
+                        Severity = user.Status?.Severity
+                    };
+                    if (concernedEntreprise != null)
+                    {
+                        entreprisePublishedDto.CreationDate = concernedEntreprise.CreationDate;
+                        entreprisePublishedDto.Address = concernedEntreprise.Address;
+                        entreprisePublishedDto.City = concernedEntreprise.City;
+                        entreprisePublishedDto.PostalCode = concernedEntreprise.PostalCode;
+                        entreprisePublishedDto.Country = concernedEntreprise.Country;
+                        entreprisePublishedDto.Event = "Entreprise_Published";
+                        entreprisePublishedDto.StatusDto = status;
+                    }
+
+                    messageBus.PublishEntrepriseProfil(entreprisePublishedDto);
+                }
+
+                else if (user.Role.Code == Roles.LIVREUR.ToString())
+                {
+                    Livreur? concernedLivreur = await context.Livreurs.FirstOrDefaultAsync(e => e.Id == user.Id);
+                    LivreurPublishedDto livreurPublishedDto = mapper.Map<LivreurPublishedDto>(concernedLivreur);
+                    StatusDto status = new StatusDto
+                    {
+                        Code = user.Status.Code,
+                        Severity = user.Status?.Severity
+                    };
+                    if (concernedLivreur != null)
+                    {
+                        livreurPublishedDto.AccountId = user.AccountId;
+                        livreurPublishedDto.Email = user.Email;
+                        livreurPublishedDto.PhoneNumber = user.PhoneNumber;
+                        livreurPublishedDto.StatusDto = status;
+                        livreurPublishedDto.VehicleType = concernedLivreur.VehicleType;
+                        livreurPublishedDto.Event = "Livreur_Published";
+                    }
+                    messageBus.PublishLivreurProfil(livreurPublishedDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new HttpRequestException(ex.Message);
+            }
+        }
+
+        public async Task<UserInvalidationDto> GetPartielUser(string email)
+        {
+            if (!userRepo.UserExistsMail(email))
+            {
+                throw new HttpRequestException("user", null, HttpStatusCode.NotFound);
+            }
+
+            User? user = await context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                throw new HttpRequestException("user", null, HttpStatusCode.NotFound);
+            }
+
+            UserInvalidationDto dto = new UserInvalidationDto
+            {
+                Email = user.Email,
+                Fullname = user.Name,
+                Role = user.Role.Code.ToString()
+            };
+
+            return dto;
+        }
+
+        public async Task UpdateUserInfosFromProfile(UserInfosSubscibedDto dto)
+        {
+            if (dto.ID == null)
+            {
+                throw new HttpRequestException("", null, HttpStatusCode.BadRequest);
+            }
+
+            var account = await userRepo.GetUserByID(dto.ID);
+            if (account == null)
+            {
+                throw new HttpRequestException("", null, HttpStatusCode.NotFound);
+            }
+
+            if (dto.Name != null)
+            {
+                account.Name = dto.Name;
+            }
+
+            if (dto.PhoneNumber != null)
+            {
+                account.PhoneNumber = dto.PhoneNumber;
+            }
+
+
+
+            await userRepo.SaveChanges();
+        }
+
+        public async Task<string> GetUserID(string email)
+        {
+            if (!userRepo.UserExistsMail(email))
+            {
+                throw new HttpRequestException("user", null, HttpStatusCode.NotFound);
+            }
+
+            User? user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                throw new HttpRequestException("user", null, HttpStatusCode.NotFound);
+            }
+
+            return user.AccountId;
         }
     }
 }

@@ -13,7 +13,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider'
 import { SelectModule } from 'primeng/select';
-import { countries, villesFrance } from '../../../constants/countries';
+import { countries, villesMaroc } from '../../../constants/countries';
 import { RegisterFormService } from '../service/register-form.service';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -21,12 +21,12 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Country } from '../../../modele/Country';
 import { DigitSpacerLimitedDirective } from '../../../directives/digit-spacer-limited.directive';
-import { RegisterEntrepriseService } from '../../../services/register-entreprise.service';
+import { RegisterEntrepriseService } from '../../../services/Authentication/register-entreprise.service';
 import { MessageService } from 'primeng/api';
-import { CommonService } from '../../../utils/common.service';
+import { CommonService } from '../../../services/utils/common.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { LoadingService } from '../../utils/spinner/loading.service';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/Authentication/auth.service';
 
 @Component({
   selector: 'app-register-entreprise',
@@ -98,9 +98,9 @@ export class RegisterEntrepriseComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.villes = villesFrance;
+    this.villes = villesMaroc;
     this.countries = countries;
-    this.country = this.countries.find(c => c.code == 'FR');
+    this.country = this.countries.find(c => c.code == 'MA');
     this.form = this.registerFormService.initEntrepriseForm();
   }
 
@@ -119,35 +119,38 @@ export class RegisterEntrepriseComponent implements OnInit {
       this.registerEntrepriseService.register(entreprise).subscribe({
         next: (response) => {
           this.auth.saveMail(response.email);
+          this.auth.saveRegistrationInfos(response);
           this.router.navigate([this.emailValidationRoute]);
           this.spinner.hide();
           this.message.add({
-            severity: 'info', summary: this.translate.instant('app.auth.register.register-entreprise.messages.info.summary'),
-            detail: this.translate.instant('app.auth.register.register-entreprise.messages.info.detail'), life: 5000
+            severity: 'info',
+            summary: this.translate.instant('app.auth.register.register-entreprise.messages.info.summary'),
+            detail: this.translate.instant('app.auth.register.register-entreprise.messages.info.detail'),
+            life: 5000
           });
         },
-        error: (error) => {   
-          const errorParsed = this.commonService.parseJsonString(error.message);                    
+        error: (error) => {          
           this.spinner.hide();
-          if (errorParsed.status == HttpStatusCode.Conflict && errorParsed.error == "Email") {
+
+          if (error.error === "Email") {
             this.message.add({
-              severity: 'error', summary: this.translate.instant('app.auth.register.register-entreprise.messages.email-error.summary'),
-              detail: this.translate.instant('app.auth.register.register-entreprise.messages.email-error.detail'), life: 5000
+              severity: 'error',
+              summary: this.translate.instant('app.auth.register.register-entreprise.messages.email-error.summary'),
+              detail: this.translate.instant('app.auth.register.register-entreprise.messages.email-error.detail'),
+              life: 5000
             });
-          } else if (errorParsed.status == HttpStatusCode.Conflict && errorParsed.error == "PhoneNumber") {
+          } else if (error.error === "PhoneNumber") {
             this.message.add({
-              severity: 'error', summary: this.translate.instant('app.auth.register.register-entreprise.messages.phone-error.summary'),
-              detail: this.translate.instant('app.auth.register.register-entreprise.messages.phone-error.detail'), life: 5000
+              severity: 'error',
+              summary: this.translate.instant('app.auth.register.register-entreprise.messages.phone-error.summary'),
+              detail: this.translate.instant('app.auth.register.register-entreprise.messages.phone-error.detail'),
+              life: 5000
             });
           }
         }
       });
-    } else {
-      this.commonService.markAllFieldsAsDirty(this.form);
-      this.form.markAllAsTouched();
     }
   }
-
   get passwordControl() {
     return this.form.get('epassword') as FormControl;
   }

@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using Authentication.AsyncDataServices;
 using Authentication.Data;
 using Authentication.Data.Repositories;
 using Authentication.Mappers;
@@ -26,6 +27,9 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
+//Rabbit MQ Bus
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+builder.Services.AddHostedService<MessageBusSubscriber>();
 
 
 // Configure SQL Server
@@ -40,8 +44,11 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod();
-    });
+    });    
 });
+
+
+
 
 // Configure JWT Tokens
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -112,15 +119,4 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAngular");
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

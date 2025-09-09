@@ -26,7 +26,7 @@ namespace Authentication.Mappers
             // EntrepriseRegistrationDto → Entreprise
             CreateMap<EntrepriseRegistrationDto, Entreprise>()
                 .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => "France"))
+                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => "Maroc"))
                 .ForMember(dest => dest.PostalCode, opt => opt.MapFrom(src => src.PostalCode.ToString()))
                 .ForMember(dest => dest.IdNavigation, opt => opt.Ignore());
 
@@ -34,8 +34,14 @@ namespace Authentication.Mappers
             // LivreurRegistrationDto → Livreur (si tu as un modèle Livreur)
             CreateMap<LivreurRegistrationDto, Livreur>()
                 .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => "France"))
+                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => "Maroc"))
                 .ForMember(dest => dest.IdNavigation, opt => opt.Ignore());
+
+            // User → EntreprisePublishedDto
+            CreateMap<User, EntreprisePublishedDto>();                
+
+            //User → LivreurPublishedDto
+            CreateMap<Livreur, LivreurPublishedDto>();            
         }
     }
 }
